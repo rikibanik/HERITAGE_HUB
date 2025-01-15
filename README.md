@@ -1,4 +1,15 @@
+# HERITAGE HUB
+
 # API Documentation
+
+## Environment Variables
+
+The following environment variables are required for the application to run:
+
+
+- **DB_CONNECT**: The username for the database.
+- **JWT_SECRET**: The secret key for JWT token generation.
+- **PORT**: The port number on which the server runs.
 
 ## Admin Endpoints
 
@@ -64,6 +75,38 @@ Logs out an admin.
 
 #### Error Response
 - **message** *(String)*: Error message.
+
+---
+
+### Add a Slot
+**POST** `/admin/add-slot`
+
+Adds a new slot for a venue.
+
+#### Request Parameters
+- **venueId** *(String)*: ID of the venue.
+- **slot** *(Object)*:
+  - **date** *(String)*: Date of the slot (YYYY-MM-DD).
+  - **time** *(String)*: Time of the slot (HH:MM).
+  - **capacity** *(Number)*: Capacity of the slot.
+
+#### Success Response
+- **result** *(Object)*: The created slot object.
+
+#### Error Response
+- **errors** *(Object[])*: List of validation errors.
+
+#### Example Request
+```json
+{
+  "venueId": "12345",
+  "slot": {
+    "date": "2023-10-01",
+    "time": "10:00",
+    "capacity": 50
+  }
+}
+```
 
 ---
 

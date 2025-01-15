@@ -10,5 +10,5 @@ function connecttoDB(){
     .catch(err => console.log(err));
 
 }
-var a;
+
 module.exports= connecttoDB;

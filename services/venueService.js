@@ -17,12 +17,12 @@ module.exports.getAllVenue = async ()=>{
     }
 }
 
- module.exports.getVenuebyId = async (id)=>{
+ module.exports.getVenuebyCreatorId = async (id)=>{
     if(!id){
         return {error: 'Please provide all the details'};
     }
     try{
-        const venue = await venueModel.findById(id);
+        const venue = await venueModel.find({creatorId: id});
         console.log("Reached getVenues");
         return venue;
        

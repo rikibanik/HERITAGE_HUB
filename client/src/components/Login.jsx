@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useContext } from 'react'
 import { ContextData } from './context/context'
 // import { useNavigate } from 'react-router-dom'
-const Login = ({ status, setStatus, form, setForm }) => {
+const Login = ({ status, setStatus }) => {
     const { loginData, setLoginData } = useContext(ContextData)
     // console.log("sanu")
     const [LoginFrom, setLoginFrom] = useState({
@@ -13,7 +13,6 @@ const Login = ({ status, setStatus, form, setForm }) => {
     const handlechange = (event) => {
         setLoginFrom({ ...LoginFrom, [event.target.name]: event.target.value });
     }
-    // console.log(form)
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -36,7 +35,7 @@ const Login = ({ status, setStatus, form, setForm }) => {
             window.location.href = "http://localhost:5173/data"
         } catch (error) {
             console.error('Error:', error);
-        }   
+        }
     }
     // console.log(form)
     return (

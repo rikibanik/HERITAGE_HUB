@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useContext } from 'react'
 import { ContextData } from './context/context'
-const Register = ({ status, setStatus, form, setForm }) => {
+const Register = ({ status, setStatus }) => {
     const { loginData, setLoginData } = useContext(ContextData)
     const [registerForm, setRegisterForm] = useState(
         {
@@ -46,7 +46,6 @@ const Register = ({ status, setStatus, form, setForm }) => {
             console.error('Error:', error);
         }
     }
-    // console.log(form)
     return (
 
         <div id="AuthContainer" className="min-h-screen flex flex-col items-center justify-center bg-gray-50">

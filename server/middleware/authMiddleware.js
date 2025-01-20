@@ -1,6 +1,7 @@
 const adminModel = require('../db/models/adminModel');
 const jwt = require('jsonwebtoken');
 const blackList = require('../db/models/blacklistToken');
+const userModel = require('../db/models/userModel')
 // const captainModel = require('../db/models/captain.model');
 
 
@@ -18,8 +19,8 @@ module.exports.authAdmin = async (req, res, next) => {
     try {
         const decode = jwt.verify(token, process.env.JWT_SECRET);
        // id of the user is stored is decode._id
-       
-        const user = await adminModel.findById(decode._id);
+    //    console.log(decode)
+        const user = await userModel.findById(decode._id);
         if (!user) {
             return res.status(401).json({ message: `User not found ${decode._id}` });
         }

@@ -8,7 +8,6 @@ module.exports.addVenue = async (req,res)=>{
     if(!errors.isEmpty()){
         return res.status(400).json({errors: errors.array()});
     }
-  
     const venue = {
         typeofVenue: req.body.typeofVenue,
         name: req.body.name,
@@ -18,8 +17,8 @@ module.exports.addVenue = async (req,res)=>{
         workingHours: req.body.workingHours,
         workingDays: req.body.workingDays,
         imgLink: req.body.imgLink,
-        phNo: req.body.phNo,
-        creatorId: req.user._id
+        phNo: req.body.phNo
+
     };
     const result = await venueService.addVenue(venue);
 

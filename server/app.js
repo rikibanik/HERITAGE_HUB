@@ -8,7 +8,10 @@ const connecttoDB = require('./db/db');
 const venueRoutes = require('./routes/venueRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const userRoutes = require('./routes/userRoutes');
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173', // Your frontend's origin
+    credentials: true,              // Allow cookies
+  }));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieparser());

@@ -90,26 +90,20 @@ Adds a new venue.
 
 #### Request Parameters
 - **name** *(String)*: Name of the venue (minimum 5 characters).
-- **location** *(Object)*:
-  - **address** *(String)*: Address of the venue (minimum 5 characters).
-  - **city** *(String)*: City of the venue (minimum 3 characters).
-  - **state** *(String)*: State of the venue (minimum 3 characters).
-  - **pin** *(Number)*: Pin code of the venue (6 digits).
-- **description** *(Object)*:
-  - **line** *(String)*: Short description of the venue (minimum 5 characters).
-  - **elaborated** *(String)*: Detailed description of the venue (minimum 5 characters).
-- **fare** *(Object)*:
-  - **indianAdult** *(Number)*: Fare for Indian adults.
-  - **indianChild** *(Number)*: Fare for Indian children.
-  - **foreignAdult** *(Number)*: Fare for foreign adults.
-  - **foreignChild** *(Number)*: Fare for foreign children.
-- **workingHours** *(Object)*:
-  - **opening** *(Object)*:
-    - **hour** *(Number)*: Opening hour (0-23).
-    - **minute** *(Number)*: Opening minute (0-59).
-  - **closing** *(Object)*:
-    - **hour** *(Number)*: Closing hour (0-23).
-    - **minute** *(Number)*: Closing minute (0-59).
+- **address** *(String)*: Address of the venue (minimum 5 characters).
+- **city** *(String)*: City of the venue (minimum 3 characters).
+- **state** *(String)*: State of the venue (minimum 3 characters).
+- **pin** *(Number)*: Pin code of the venue (6 digits).
+- **line** *(String)*: Short description of the venue (minimum 5 characters).
+- **elaborated** *(String)*: Detailed description of the venue (minimum 5 characters).
+- **indianAdult** *(Number)*: Fare for Indian adults.
+- **indianChild** *(Number)*: Fare for Indian children.
+- **foreignAdult** *(Number)*: Fare for foreign adults.
+- **foreignChild** *(Number)*: Fare for foreign children.
+- **openingHours** *(Number)*: Opening hour (0-23).
+- **openingMinute** *(Number)*: Opening minute (0-59).
+- **closingHours** *(Number)*: Closing hour (0-23).
+- **closingMinute** *(Number)*: Closing minute (0-59).
 - **workingDays** *(String[])*: Working days of the venue (array of days).
 - **typeofVenue** *(String)*: Type of the venue (Museum, Monuments, Urban_Attraction).
 - **imgLink** *(String)*: Image link of the venue (must be a valid URL).
@@ -123,53 +117,31 @@ Adds a new venue.
 - **errors** *(Object[])*: List of validation errors.
 
 #### Example Request
+To add a new venue, you need to upload an image file along with the following JSON data:
+
 ```json
 {
   "name": "Heritage Museum",
-  "location": {
-    "address": "123 Heritage St",
-    "city": "Heritage City",
-    "state": "Heritage State",
-    "pin": 123456
-  },
-  "description": {
-    "line": "A short description",
-    "elaborated": "A detailed description"
-  },
-  "fare": {
-    "indianAdult": 100,
-    "indianChild": 50,
-    "foreignAdult": 200,
-    "foreignChild": 100
-  },
-  "workingHours": {
-    "opening": {
-      "hour": 9,
-      "minute": 0
-    },
-    "closing": {
-      "hour": 18,
-      "minute": 0
-    }
-  },
+  "address": "123 Heritage St",
+  "city": "Heritage City",
+  "state": "Heritage State",
+  "pin": 123456,
+  "line": "A short description",
+  "elaborated": "A detailed description",
+  "indianAdult": 100,
+  "indianChild": 50,
+  "foreignAdult": 200,
+  "foreignChild": 100,
+  "openingHours": 9,
+  "openingMinute": 0,
+  "closingHours": 9,
+  "closingMinute": 0,
   "workingDays": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
   "typeofVenue": "Museum",
-  "imgLink": "http://example.com/image.jpg",
   "phNo": "1234567890",
   "email": "contact@heritagemuseum.com"
 }
 ```
 
----
-
-### Get All Venues
-**GET** `/venue/get-entries`
-
-Retrieves all venues.
-
-#### Success Response
-- **result** *(Object[])*: List of all venues.
-
-#### Error Response
-- **message** *(String)*: Error message.
+The image file should be included in the request as a multipart/form-data field named `image`. The image will be uploaded directly to AWS.
 

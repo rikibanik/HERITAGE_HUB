@@ -140,12 +140,12 @@
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required>
 
-        <label for="imgLink">Image Link:</label>
-        <input type="text" id="imgLink" name="imgLink" required>
+        <label for="imgLink">Image </label>
+        <input type="file" id="imgdata" enctype="multipart/form-data" name="image" required>
 
         <h3>Types of Heritage</h3>
-        <label for="levelType">Select Types of Heritage:</label>
-        <select id="levelType" name="levelType" required>
+        <label for="typeofVenue">Select Types of Heritage:</label>
+        <select id="levelType" name="typeofVenue" required>
             <option value="Museum">Museum</option>
             <option value="Monuments">Monuments</option>
             <option value="Urban_Attraction">Urban Attraction</option>
@@ -156,65 +156,30 @@
 </div>
 
 <script>
-    document.getElementById('inputForm').addEventListener('submit', async function(event) {
-        event.preventDefault();
+document.getElementById('inputForm').addEventListener('submit', async function (event) {
+    event.preventDefault();
 
-        const formData = new FormData(event.target);
-        const heritageHub = {
-            typeofVenue: formData.get('levelType'),
-            name: formData.get('name'),
-            location: {
-                address: formData.get('address'),
-                city: formData.get('city'),
-                state: formData.get('state'),
-                pin: parseInt(formData.get('pin'))
-            },
-            description: {
-                line: formData.get('line'),
-                elaborated: formData.get('elaborated')
-            },
-            fare: {
-                indianAdult: parseInt(formData.get('indianAdult')),
-                indianChild: parseInt(formData.get('indianChild')),
-                foreignAdult: parseInt(formData.get('foreignAdult')),
-                foreignChild: parseInt(formData.get('foreignChild'))
-            },
-            workingHours: {
-                opening: {
-                    hour: parseInt(formData.get('openingHour')),
-                    minute: parseInt(formData.get('openingMinute'))
-                },
-                closing: {
-                    hour: parseInt(formData.get('closingHour')),
-                    minute: parseInt(formData.get('closingMinute'))
-                }
-            },
-            workingDays: Array.from(formData.getAll('workingDays')),
-            phNo: formData.get('phNo'),
-            email: formData.get('email'),
-            imgLink: formData.get('imgLink'),
-            levelType: formData.get('levelType')
-        };
+    const formData = new FormData(event.target);
+    console.log(formData.get('image')); // This should log the file object
 
-        try {
-            console.log(heritageHub);
-            const response = await fetch('/venue/add-entries', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(heritageHub)
-            });
+    try {
+        const response = await fetch('/venue/add-entries', {
+            method: 'POST',
+            body: formData // Automatically includes all fields, including the file
+        });
 
-            if (response.ok) {
-                alert('Form submitted successfully!');
-            } else {
-                alert('Error submitting the form.');
-            }
-        } catch (error) {
-            alert('An error occurred: ' + error.message);
+        if (response.ok) {
+            alert('Form submitted successfully!');
+        } else {
+            const errorData = await response.json();
+            alert('Error: ' + (errorData.message || 'Form submission failed.'));
         }
-    });
+    } catch (error) {
+        alert('An error occurred: ' + error.message);
+    }
+});
+
+
 </script>
 
 

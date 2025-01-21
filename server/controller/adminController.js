@@ -23,17 +23,30 @@ module.exports.loginAdmin = async (req,res)=>{
     const errors = validationResult(req);
     if(!errors.isEmpty()){
         console.log(">>");
-        return res.status(400).json({errors: errors.array()});
+        res.status(400).json({errors: errors.array()});
     }
     const admin = {
         email: req.body.email,
         password: req.body.password
     };
-   
-    const token = await adminService.loginAdmin(admin);
-
-    console.log(token);
-    res.cookie('token', token).status(201).redirect('/add-venue');
+    const isAdmin = adminModel.find({email: admin.email});
+    if(!isAdmin){
+        res.status(400).json("INVALID CREDENTIAL");
+    }
+    try{
+        const token = await adminService.loginAdmin(admin);
+    if(token){
+        console.log(token);
+        res.cookie('token', token).status(201).redirect('/add-venue');
+    }
+    else{
+        res.render('<script>INVALID</script>')
+    }
+    }catch(e){
+        res.status(400).json({error:e})
+    }
+    
+    
     
     
 }

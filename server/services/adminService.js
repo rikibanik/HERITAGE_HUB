@@ -26,7 +26,7 @@ module.exports.loginAdmin = async (obj) => {
     const passwordMatch = await admin.comparePassword(obj.password);
    
     if (!passwordMatch) {
-        return { error: 'Invalid password' };
+        throw new Error('Invalid password');
     }
     const token = await admin.generateAuthToken();
     

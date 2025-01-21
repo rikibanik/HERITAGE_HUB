@@ -19,13 +19,20 @@ connecttoDB();
 app.set('view engine', 'ejs');
 
 
+// ------------------------------------------
+//TOO BE REMOVED LATER
+const authMiddleware = require('./middleware/authMiddleware')
 app.get('/',(req,res)=>{
+    const token = req.cookies.token || (req.header('Authorization') && req.header('Authorization').split(' ')[1]);
+    if(token){
+        res.redirect('/add-venue')
+    }
     res.render('admin');
 });
-app.get('/add-venue',(req,res)=>{
+app.get('/add-venue',authMiddleware.authAdmin, (req,res)=>{
     res.render('index');
 });
-
+//-----------------------------------------
 app.use('/venue',venueRoutes);
 app.use('/admin',adminRoutes);
 app.use('/user',userRoutes);

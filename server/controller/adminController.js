@@ -17,43 +17,36 @@ module.exports.addAdmin = async (req,res)=>{
     };
     const result = await adminService.addAdmin(admin);
 
-    res.status(201).json({result})
+    res.status(201).redirect('/');
 }
 module.exports.loginAdmin = async (req,res)=>{
     const errors = validationResult(req);
     if(!errors.isEmpty()){
         console.log(">>");
-        res.status(400).json({errors: errors.array()});
+        return res.status(400).json({errors: errors.array()});
     }
     const admin = {
         email: req.body.email,
         password: req.body.password
     };
-    const isAdmin = adminModel.find({email: admin.email});
+    const isAdmin = await adminModel.findOne({email: admin.email}).select('+password');;
     if(!isAdmin){
-        res.status(400).json("INVALID CREDENTIAL");
+        return res.status(400).json("INVALID CREDENTIAL");
     }
-    try{
-        const token = await adminService.loginAdmin(admin);
-    if(token){
-        console.log(token);
-        res.cookie('token', token).status(201).redirect('/add-venue');
-    }
-    else{
-        res.render('<script>INVALID</script>')
-    }
-    }catch(e){
-        res.status(400).json({error:e})
+    console.log("here")
+    const isMatch = await isAdmin.comparePassword(admin.password);
+    if(!isMatch){
+        return res.status(400).json({message: 'Invalid details'});
     }
     
-    
-    
+    const token =await isAdmin.generateAuthToken();
+    res.cookie('token',token);
+    res.status(201).redirect('/add-venue');
     
 }
 module.exports.logoutAdmin = async (req,res)=>{
-    const token = req.token;
-    const blackListed = await blackList.create({token});
-
     res.clearCookie('token');
+    const token = req.cookies.token || (req.header('Authorization') && req.header('Authorization').split(' ')[1]);
+    await blackList.create({token});
     res.status(200).redirect('/');
 }

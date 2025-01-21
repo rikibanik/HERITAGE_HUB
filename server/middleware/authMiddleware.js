@@ -4,36 +4,43 @@ const blackList = require('../db/models/blacklistToken');
 const userModel = require('../db/models/userModel');
 // import captainModel = require('../db/models/captain.model';
 
-
 module.exports.authAdmin = async (req, res, next) => {
- 
-    const token = req.cookies.token || (req.header('Authorization') && req.header('Authorization').split(' ')[1]);
-    if (!token) {
-        return res.status(401).json({ message: 'No token provided' });
-    }
-    console.log(token)
-    
-    // const isBlackListed = await blackList.findOne({ token });
-    // if(isBlackListed){
-    //     return res.status(401).json({message: 'Unauthorized'});
-    // }
     try {
-        
-        console.log(token)
-        const decode = jwt.verify(token, process.env.JWT_SECRET);
-      
-
-        const user = await adminModel.findById(decode._id);
-
-        if (!user) {
-            return res.status(401).json({ message: `User not found ${decode._id}` });
+        // Extract token from cookies or Authorization header
+        const token = req.cookies.token || (req.header('Authorization') && req.header('Authorization').split(' ')[1]);
+        if (!token) {
+            return res.status(401).json({ message: 'No token provided' });
         }
-        req.user = user;
-        req.token = token;    // added to pass token to logout
-        next();
+
+        // Verify if the token is valid
+        const decode = jwt.verify(token, process.env.JWT_SECRET);
+
+        // Check if the token is blacklisted
+        const isBlackListed = await blackList.findOne({ token });
+        if (isBlackListed) {
+            return res.status(401).json({ message: 'Unauthorized: Token is blacklisted' });
+        }
+
+        // Fetch the admin from the database
+        const admin = await adminModel.findById(decode._id);
+        if (!admin) {
+            return res.status(401).json({ message: 'Unauthorized: Admin not found' });
+        }
+
+        // Attach admin and token to the request object
+        req.user = admin;
+        req.token = token;
+
+        next(); // Continue to the next middleware or route handler
     } catch (error) {
-        console.error('Token verification error:', error);
-        return res.status(401).json({ message: 'Invalid token' });
+        console.error('AuthAdmin Middleware Error:', error.message);
+        if (error.name === 'TokenExpiredError') {
+            return res.status(401).json({ message: 'Token expired. Please login again.' });
+        } else if (error.name === 'JsonWebTokenError') {
+            return res.status(401).json({ message: 'Invalid token: ' });
+        } else {
+            return res.status(500).json({ message: 'Internal server error' });
+        }
     }
 };
 

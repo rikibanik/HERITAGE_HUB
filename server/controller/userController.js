@@ -36,4 +36,9 @@ module.exports.loginUser = async (req, res) => {
     res.cookie('token', result.token)
     res.status(201).json({ result });
 }
-
+module.exports.logoutUser = async (req,res)=>{
+    res.clearCookie('token');
+    const token = req.cookies.token || (req.header('Authorization') && req.header('Authorization').split(' ')[1]);
+    await blackList.create({token});
+    res.status(200).redirect('/');
+}

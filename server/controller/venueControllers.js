@@ -62,7 +62,7 @@ module.exports.addVenue = async (req, res) => {
         };
 
         const result = await venueService.addVenue(venue);
-        res.status(201).json({ result });
+        res.status(201).json({result});
     } catch (error) {
         console.error("Error uploading venue:", error);
         res.status(500).json({ error: "Failed to upload venue" });

@@ -2,8 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { body } = require('express-validator');
 const userController = require('../controller/userController');
-const { model } = require('mongoose');
-const { authAdmin, authUser } = require('../middleware/authMiddleware');
+const { authUser } = require('../middleware/authMiddleware');
 const userModel = require('../db/models/userModel')
 // const { authAdmin } = require('../middleware/authMiddleware')
 
@@ -26,4 +25,6 @@ router.get('/', authUser, async (req, res) => {
     // console.log(userData)
     res.json(userData)
 })
+router.get('/logout',authMiddleware.authUser,userController.logoutUser);
+
 module.exports = router;

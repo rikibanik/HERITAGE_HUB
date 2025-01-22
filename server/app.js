@@ -32,6 +32,23 @@ app.get('/',(req,res)=>{
 app.get('/add-venue',authMiddleware.authAdmin, (req,res)=>{
     res.render('index');
 });
+const Venue = require('./db/models/venueModel');
+
+app.get('/list-venues', authMiddleware.authAdmin, async (req, res) => {
+    try {
+        // Fetch all venues from the database
+        const venues = await Venue.find();
+
+        // Render the EJS template and pass the venues data
+        res.render('list', { venues });
+    } catch (err) {
+        console.error('Error fetching venues:', err);
+
+        // Handle errors gracefully
+        res.status(500).json({ message: 'Server error while fetching venues' });
+    }
+});
+
 //-----------------------------------------
 app.use('/venue',venueRoutes);
 app.use('/admin',adminRoutes);

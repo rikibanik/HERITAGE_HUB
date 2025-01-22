@@ -11,7 +11,7 @@ import Footer from './Footer'
 import FeaturedEvents from './FeaturedEvents'
 import Categories from './Categories'
 
-const Navbar = () => {
+const Home = () => {
   const [resData, setResData] = useState(null)
   // console.log(resData)
   const getData = async () => {
@@ -108,4 +108,4 @@ const Navbar = () => {
   )
 }
 
-export default Navbar
+export default Home

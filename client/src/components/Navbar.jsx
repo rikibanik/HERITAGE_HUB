@@ -37,7 +37,6 @@ const Navbar = () => {
             {/* <!-- Logo --> */}
             <div className="flex-shrink-0 flex items-center flex-col">
               <h1 className="text-2xl font-bold text-indigo-600">HeritageHub</h1>
-              <p className='font-light text-sm'>AquaGuardians</p>
             </div>
 
             {/* <!-- Desktop Navigation --> */}
@@ -51,12 +50,26 @@ const Navbar = () => {
 
             {/* <!-- Right Side Icons --> */}
             <div className="flex items-center space-x-4">
+              {resData && resData.email ?
 
-              <RouterLink to={resData && resData.email ? '/dashboard' : '/user'}>
-                <button className="text-gray-700 hover:text-indigo-600 transition-colors duration-300">
-                  <i className="fas fa-user text-xl"></i>
-                </button>
-              </RouterLink>
+                <RouterLink to='/dashboard'>
+                  <img src="https://avatar.iran.liara.run/public" alt="User Avatar" className="rounded-full border bg-gray-600 object-cover w-10 h-10" />
+                </RouterLink> :
+
+                <div className='flex gap-4'>
+                  <RouterLink to='/register'>
+                    <button type="submit" className="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                      Register
+                    </button>
+                  </RouterLink>
+                  <RouterLink to='/login'>
+                    <button type="submit" className="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                      Login
+                    </button>
+                  </RouterLink>
+                </div>
+              }
+
             </div>
           </div>
 

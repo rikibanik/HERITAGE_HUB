@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-const Login = ({ status, setStatus }) => {
+import { Link as RouterLink } from 'react-router-dom'
+
+const Login = () => {
     const [LoginFrom, setLoginFrom] = useState({
         email: "",
         password: "",
@@ -24,7 +26,7 @@ const Login = ({ status, setStatus }) => {
             }
             const data = await response.json();
             // console.log('ResponseLogin:', data);
-            window.location.href = "http://localhost:5173/"
+            window.location.href = "/"
         } catch (error) {
             console.error('Error:', error);
         }
@@ -40,19 +42,45 @@ const Login = ({ status, setStatus }) => {
                 <div className="space-y-4">
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div>
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-                            <input value={LoginFrom.email} onChange={handlechange} type="email" id="email" name="email" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required />
+                            <label
+                                htmlFor="email"
+                                className="block text-sm font-medium text-gray-700">Email
+                                <span className='text-red-600'> *</span>
+                            </label>
+                            <input
+                                value={LoginFrom.email}
+                                onChange={handlechange}
+                                type="email" id="email"
+                                name="email"
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                required />
                         </div>
 
                         <div>
-                            <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
-                            <input value={LoginFrom.password} onChange={handlechange} type="password" id="password" name="password" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required />
+                            <label
+                                htmlFor="password"
+                                className="block text-sm font-medium text-gray-700">Password
+                                <span className='text-red-600'> *</span>
+                            </label>
+                            <input
+                                value={LoginFrom.password}
+                                onChange={handlechange}
+                                type="password" id="password"
+                                name="password"
+                                minLength={5}
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                required />
                         </div>
 
                         <div className="flex items-center justify-between">
                             <div className="flex items-center">
-                                <input type="checkbox" id="remember" name="remember" className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
-                                <label htmlFor="remember" className="ml-2 text-sm text-gray-700">Remember me</label>
+                                <input
+                                    type="checkbox"
+                                    id="remember"
+                                    name="remember"
+                                    className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
+                                <label
+                                    htmlFor="remember" className="ml-2 text-sm text-gray-700">Remember me</label>
                             </div>
                             <a href="#" className="text-sm text-blue-600 hover:text-blue-800">Forgot password?</a>
                         </div>
@@ -65,7 +93,10 @@ const Login = ({ status, setStatus }) => {
 
                 <p className="text-center text-sm text-gray-600">
                     Don't have an account?
-                    <button onClick={() => setStatus("Register")} className="ml-1 font-medium text-blue-600 hover:text-blue-800">Register</button>
+                    <RouterLink to='/register'>
+                        <button className="ml-1 font-medium text-blue-600 hover:text-blue-800">Register</button>
+                    </RouterLink>
+
                 </p>
             </div>
         </div>

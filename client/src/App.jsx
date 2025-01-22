@@ -1,25 +1,27 @@
-import { useState } from 'react'
 import './App.css'
-import User from './components/User'
-import { BrowserRouter, Routes, Router, Route } from 'react-router-dom'
-import Data from './components/Data'
-import { ContextData } from './components/context/context'
+import Navbar from './components/Navbar'
+import MyProfile from './components/dashboard/MyProfile'
+import MyTickets from './components/dashboard/MyTickets'
+import PurchaseHistory from './components/dashboard/PurchaseHistory'
+import UserDashBoard from './components/dashboard/UserDashBoard'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import User from './components/RegLog/User'
 
 function App() {
-  const [loginData, setLoginData] = useState(null)
 
   return (
     <>
-      <ContextData.Provider value={{ loginData, setLoginData }}>
-        <BrowserRouter>
-          <Routes>
-            <Route path='/data' element={<Data />}></Route>
-            <Route path='/' element={<User />}></Route>
-            {/* <Data/>
-            <User/> */}
-          </Routes>
-        </BrowserRouter>
-      </ContextData.Provider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Navbar />} />
+          <Route path="/dashboard" element={<UserDashBoard />} />
+          <Route path="/profile" element={<MyProfile />} />
+          <Route path="/tickets" element={<MyTickets />} />
+          <Route path="/history" element={<PurchaseHistory />} />
+          <Route path="/user" element={<User />} />
+        </Routes>
+      </BrowserRouter>
+
     </>
   )
 }

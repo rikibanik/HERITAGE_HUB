@@ -1,8 +1,5 @@
 import React, { useState } from 'react'
-import { useContext } from 'react'
-import { ContextData } from './context/context'
 const Register = ({ status, setStatus }) => {
-    const { loginData, setLoginData } = useContext(ContextData)
     const [registerForm, setRegisterForm] = useState(
         {
             name: { firstname: "", lastname: "" },
@@ -37,10 +34,8 @@ const Register = ({ status, setStatus }) => {
             }
 
             const data = await response.json();
-            setLoginData(data)
-            // localStorage.setItem("token", data.result.token)
-            console.log('Response:', data);
-            window.location.href = "http://localhost:5173/data"
+            // console.log('ResponseRegister:', data);
+            window.location.href = "http://localhost:5173/"
 
         } catch (error) {
             console.error('Error:', error);
@@ -95,7 +90,6 @@ const Register = ({ status, setStatus }) => {
                                 <input type="checkbox" id="remember" name="remember" className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
                                 <label htmlFor="remember" className="ml-2 text-sm text-gray-700">Remember me</label>
                             </div>
-                            {/* <a href="#" className="text-sm text-blue-600 hover:text-blue-800">Forgot password?</a> */}
                         </div>
 
                         <button type="submit" className="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">

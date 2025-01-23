@@ -10,6 +10,7 @@ import Contacts from './Contacts'
 import Footer from './Footer'
 import FeaturedEvents from './FeaturedEvents'
 import Categories from './Categories'
+import Dropdown from './Dropdown'
 
 const Home = () => {
   const [resData, setResData] = useState(null)
@@ -52,10 +53,10 @@ const Home = () => {
             <div className="flex items-center space-x-4">
               {resData && resData.email ?
 
-                <RouterLink to='/dashboard'>
-                  <img src="https://avatar.iran.liara.run/public" alt="User Avatar" className="rounded-full border bg-gray-600 object-cover w-10 h-10" />
-                </RouterLink> :
-
+                // <RouterLink to='/dashboard'>
+                //   <img src="https://avatar.iran.liara.run/public" alt="User Avatar" className="rounded-full border bg-gray-600 object-cover w-10 h-10" />
+                // </RouterLink> :
+                <Dropdown resData={resData} /> :
                 <div className='flex gap-4'>
                   <RouterLink to='/register'>
                     <button type="submit" className="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">

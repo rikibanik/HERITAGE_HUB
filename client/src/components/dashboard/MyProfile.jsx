@@ -100,7 +100,7 @@ const MyProfile = () => {
             />
             < div className="w-full min-h-[507.2px] flex justify-center items-center">
                 {resData && resData.email ?
-                    <div className="border border-gray-200 shadow-lg transition duration-300 flex flex-col items-center justify-center p-6 w-2/5 min-w-[220px] rounded-xl">
+                    <div className="border border-gray-200 shadow-lg transition duration-300 flex flex-col items-center justify-center p-6 w-2/5 min-w-[225px] rounded-xl">
                         {/* profile icon & username */}
                         <div className="flex flex-col items-center justify-center gap-2">
                             <img src="https://avatar.iran.liara.run/public" alt="User Avatar" className="w-16 h-16 rounded-full border overflow-hidden bg-gray-600 object-cover" />
@@ -114,25 +114,28 @@ const MyProfile = () => {
                                     {/* Name Field */}
                                     {editField ? (
                                         <div className="flex flex-col gap-4">
-                                            <div className="flex items-center gap-2">
-                                                <label className="font-medium text-gray-700">First Name:</label>
+                                            <div className="block">
+                                                <label className="font-medium text-gray-700 mr-2 text-wrap">First Name:</label>
                                                 <input
                                                     type="text"
                                                     value={profile.name.firstname}
                                                     onChange={(e) => handleChange(e, "firstname")}
-                                                    className="border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                                    className="border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring-2 focus:ring-indigo-500 w-20"
                                                 />
                                             </div>
-                                            <div className="flex items-center gap-2">
-                                                <label className="font-medium text-gray-700">Last Name:</label>
+                                            <div className="block">
+                                                <label className="font-medium text-gray-700 mr-2 text-wrap">Last Name:</label>
                                                 <input
                                                     type="text"
                                                     value={profile.name.lastname}
                                                     onChange={(e) => handleChange(e, "lastname")}
-                                                    className="border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                                    className="border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring-2 focus:ring-indigo-500 w-20"
                                                 />
                                             </div>
                                         </div>
+
+
+
                                     ) : (
                                         <span className="text-gray-800">Name: {resData.name.firstname + " " + resData.name.lastname}</span>
                                     )}
@@ -156,7 +159,7 @@ const MyProfile = () => {
                                     Edit
                                 </button> :
 
-                                <button className="flex-1 max-w-[5vw] bg-indigo-600 text-white px-2 py-1 rounded-lg hover:bg-indigo-700 transition duration-300" onClick={handleSave}>
+                                <button className="flex-1 min-w-fit max-w-[5vw] bg-indigo-600 text-white px-2 py-1 rounded-lg hover:bg-indigo-700 transition duration-300" onClick={handleSave}>
                                     Save
                                 </button>
                             }
@@ -165,7 +168,7 @@ const MyProfile = () => {
                                     <button onClick={handleLogout} className="flex-1 min-w-fit max-w-[5vw] bg-indigo-600 text-white px-2 py-1 rounded-lg hover:bg-indigo-700 transition duration-300">
                                         Logout
                                     </button> :
-                                    <button onClick={() => setEditField(false)} className="flex-1 max-w-[5vw] bg-indigo-600 text-white px-2 py-1 rounded-lg hover:bg-indigo-700 transition duration-300">
+                                    <button onClick={() => setEditField(false)} className="flex-1 min-w-fit max-w-[5vw] bg-indigo-600 text-white px-2 py-1 rounded-lg hover:bg-indigo-700 transition duration-300">
                                         Cancel
                                     </button>
                             }

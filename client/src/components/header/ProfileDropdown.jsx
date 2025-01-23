@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import PopUp from '../popup/PopUp';
 
-const Dropdown = ({ resData }) => {
+const ProfileDropdown = ({ resData }) => {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
 
@@ -35,7 +36,7 @@ const Dropdown = ({ resData }) => {
                     <div className="px-4 py-3 text-sm text-gray-900 break-words dark:text-white">
                         <div className="font-medium truncate">{resData.email}</div>
                     </div>
-                    <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownInformationButton">
+                    <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
                         <li>
                             <Link to={'/dashboard'} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</Link>
                         </li>
@@ -44,24 +45,12 @@ const Dropdown = ({ resData }) => {
                         </li>
                     </ul>
                     <div className="py-2">
-                        <Link onClick={async () => {
-                            const ask = confirm("Are you sure you want to logout?")
-                            if (ask) {
-                                await fetch('http://localhost:3000/user/logout',
-                                    {
-                                        method: "GET",
-                                        credentials: 'include',
-                                    }
-                                )
-                                window.location.href = '/'
-                            }
-                        }} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Log out</Link>
+                        <PopUp type={"prfDrpDwnLgt"} />
                     </div>
-
                 </div>
             )}
         </div>
     );
 };
 
-export default Dropdown;
+export default ProfileDropdown;

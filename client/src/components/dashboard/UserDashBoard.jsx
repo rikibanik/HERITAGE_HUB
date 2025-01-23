@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link as RouterLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import MyProfile from './MyProfile'
 import MyTickets from './MyTickets'
 import PurchaseHistory from './PurchaseHistory'
@@ -10,26 +10,50 @@ const UserDashBoard = () => {
   const [resData, setResData] = useState(null)
   // console.log("MyProfile", resData)
   const getData = async () => {
-
-    const res = await fetch('http://localhost:3000/user',
-      {
-        method: "GET",
-        credentials: 'include',
+    try {
+      const res = await fetch('http://localhost:3000/user',
+        {
+          method: "GET",
+          credentials: 'include',
+        }
+      )
+      if (!res.ok) {
+        window.location.href = "/";
+        throw new Error('Data could not be fetched!')
       }
-    )
-    const data = await res.json()
-    setResData(data)
-    // console.log(res)
-
-
+      const data = await res.json()
+      setResData(data)
+      // console.log(data)
+    } catch (error) {
+      console.error(error);
+    }
   }
   useEffect(() => {
     getData()
   }, [])
+
+  const DashNav = [
+    {
+      active: "profile",
+      icon: "fas fa-user",
+      name: "My Profile"
+    },
+    {
+      active: "tickets",
+      icon: "fas fa-ticket-alt",
+      name: "My Tickets"
+    },
+    {
+      active: "history",
+      icon: "fas fa-history",
+      name: "Purchase History"
+    },
+  ]
+
   return (
     <>
       {resData && resData.email ?
-        <section id="user-dashboard" className="py-16 bg-gray-100 h-[100vh] min-w-[260px]">
+        <section id="user-dashboard" className="py-16 bg-gray-100 h-[100vh] min-w-[300px]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
               <div className="flex flex-col md:flex-row">
@@ -42,23 +66,19 @@ const UserDashBoard = () => {
                     </div>
                   </div>
 
-                  <nav className="min-w-[200px] space-y-2">
-                    <button onClick={() => setActiveComponent('profile')} className={`flex items-center text-white ${activeComponent === 'profile' && "bg-gray-700"} hover:bg-gray-700 px-4 py-2 rounded-lg gap-2`}>
-                      <i className="fas fa-user text-xl w-6 flex justify-center items-center"></i>
-                      <span>My Profile</span>
-                    </button>
-                    <button onClick={() => setActiveComponent('tickets')} className={`flex items-center text-white ${activeComponent === 'tickets' && "bg-gray-600"} hover:bg-gray-600 px-4 py-2 rounded-lg gap-2`}>
-                      <i className="fas fa-ticket-alt w-6 flex justify-center items-center"></i>
-                      <span>My Tickets</span>
-                    </button>
-                    <button onClick={() => setActiveComponent('history')} className={`flex items-center text-gray-300 ${activeComponent === 'history' && "bg-gray-600"} hover:bg-gray-600 px-4 py-2 rounded-lg transition duration-300 gap-2`}>
-                      <i className="fas fa-history w-6 flex justify-center items-center"></i>
-                      <span>Purchase History</span>
-                    </button>
-                    <RouterLink to="/" className="flex items-center text-gray-300 hover:bg-gray-600 px-4 py-2 rounded-lg transition duration-300 gap-2">
+                  <nav className="min-w-[250px] space-y-2">
+                    {DashNav.map((items, index) => {
+                      return (
+                        <button key={index} onClick={() => setActiveComponent(items.active)} className={`flex items-center text-white ${activeComponent === items.active && "bg-gray-700"} hover:bg-gray-700 px-4 py-2 rounded-lg gap-2`}>
+                          <i className={`${items.icon} w-6 flex justify-center items-center`}></i>
+                          <span>{items.name}</span>
+                        </button>
+                      )
+                    })}
+                    <Link to="/" className="flex items-center text-gray-300 hover:bg-gray-600 px-4 py-2 rounded-lg transition duration-300 gap-2 w-fit">
                       <i className="fas fa-home w-6 flex justify-center items-center"></i>
                       <span>Back To Home</span>
-                    </RouterLink>
+                    </Link>
                   </nav>
                 </div>
                 {

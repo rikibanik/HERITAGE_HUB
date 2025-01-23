@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import Loading from "./Loading";
+import PopUp from "../popup/PopUp";
 
 const MyProfile = () => {
     const [resData, setResData] = useState(null)
@@ -18,35 +19,28 @@ const MyProfile = () => {
     };
 
     const getData = async () => {
-
-        const res = await fetch('http://localhost:3000/user',
-            {
-                method: "GET",
-                credentials: 'include',
-            }
-        )
-        const data = await res.json()
-        setResData(data)
-        setProfile({ ...profile, name: { ...profile.name, firstname: data.name.firstname, lastname: data.name.lastname } })
-        // console.log(data)
-    }
-
-    useEffect(() => {
-        getData()
-    }, [])
-
-    const handleLogout = async () => {
-        const ask = confirm("Are you sure you want to logout?")
-        if (ask) {
-            await fetch('http://localhost:3000/user/logout',
+        try {
+            const res = await fetch('http://localhost:3000/user',
                 {
                     method: "GET",
                     credentials: 'include',
                 }
             )
-            window.location.href = '/'
+            if (!res.ok) {
+                throw new Error('Data could not be fetched!')
+            }
+            const data = await res.json()
+            setResData(data)
+            setProfile({ ...profile, name: { ...profile.name, firstname: data.name.firstname, lastname: data.name.lastname } })
+            // console.log(data)
+        } catch (error) {
+            console.error(error);
         }
     }
+
+    useEffect(() => {
+        getData()
+    }, [])
 
     const handleSave = () => {
         console.log(profile)
@@ -165,9 +159,8 @@ const MyProfile = () => {
                             }
                             {
                                 !editField ?
-                                    <button onClick={handleLogout} className="flex-1 min-w-fit max-w-[5vw] bg-indigo-600 text-white px-2 py-1 rounded-lg hover:bg-indigo-700 transition duration-300">
-                                        Logout
-                                    </button> :
+                                    <PopUp type={"MyPrfLgt"} />
+                                    :
                                     <button onClick={() => setEditField(false)} className="flex-1 min-w-fit max-w-[5vw] bg-indigo-600 text-white px-2 py-1 rounded-lg hover:bg-indigo-700 transition duration-300">
                                         Cancel
                                     </button>

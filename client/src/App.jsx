@@ -6,7 +6,6 @@ import Login from './components/RegLog/Login'
 import Register from './components/RegLog/Register'
 
 function App() {
-
   return (
     <>
       <BrowserRouter>

@@ -9,6 +9,7 @@ const venueRoutes = require('./routes/venueRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const userRoutes = require('./routes/userRoutes');
 const authorRoutes = require('./routes/authorRoutes')
+const paymentRoutes = require('./routes/paymentRoutes');
 app.use(cors({
     origin: 'http://localhost:5173', // Your frontend's origin
     credentials: true,              // Allow cookies
@@ -58,4 +59,6 @@ app.use('/venue',venueRoutes);
 app.use('/admin',adminRoutes);
 app.use('/user',userRoutes);
 app.use('/author',authorRoutes);
+
+app.use('/api/payment', paymentRoutes);
 module.exports = app;

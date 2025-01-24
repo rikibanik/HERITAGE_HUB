@@ -97,11 +97,7 @@ const venueSchema = new mongoose.Schema({
         type: String,
         required: true
     }
-    // creatorId:{
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'User',
-    //     required: true
-    // }
+
 });
 venueSchema.statics.getVenue = async function(id){
     const venue = await Venue.findById(id);

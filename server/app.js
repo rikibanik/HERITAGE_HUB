@@ -8,6 +8,7 @@ const connecttoDB = require('./db/db');
 const venueRoutes = require('./routes/venueRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const userRoutes = require('./routes/userRoutes');
+const authorRoutes = require('./routes/authorRoutes')
 app.use(cors({
     origin: 'http://localhost:5173', // Your frontend's origin
     credentials: true,              // Allow cookies
@@ -50,7 +51,11 @@ app.get('/list-venues', authMiddleware.authAdmin, async (req, res) => {
 });
 
 //-----------------------------------------
+
+
+
 app.use('/venue',venueRoutes);
 app.use('/admin',adminRoutes);
 app.use('/user',userRoutes);
+app.use('/author',authorRoutes);
 module.exports = app;

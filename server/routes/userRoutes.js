@@ -4,7 +4,7 @@ const { body } = require('express-validator');
 const userController = require('../controller/userController');
 const { authUser } = require('../middleware/authMiddleware');
 const userModel = require('../db/models/userModel')
-// const { authAdmin } = require('../middleware/authMiddleware')
+const authMiddleware = require('../middleware/authMiddleware')
 
 const jwt = require('jsonwebtoken');
 

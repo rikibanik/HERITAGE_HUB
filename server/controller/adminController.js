@@ -2,6 +2,8 @@ const {validationResult} = require('express-validator');
 const adminService = require('../services/adminService');
 const adminModel = require('../db/models/adminModel');
 const blackList = require('../db/models/blacklistToken');
+const authorModel = require('../db/models/authorModel')
+const authorService = require('../services/authorService')
 
 
 module.exports.addAdmin = async (req,res)=>{
@@ -10,6 +12,10 @@ module.exports.addAdmin = async (req,res)=>{
     if(!errors.isEmpty()){
         return res.status(400).json({errors: errors.array()});
     }
+    const exist = await adminModel.findOne({email: req.body.email});
+    if(exist){
+        return res.status(401).json({errors: "user with this email exist"})
+    }
     const admin = {
         name: req.body.name,
         email: req.body.email,
@@ -17,7 +23,7 @@ module.exports.addAdmin = async (req,res)=>{
     };
     const result = await adminService.addAdmin(admin);
 
-    res.status(201).redirect('/');
+    res.status(201).redirect('/'); //change to json later
 }
 module.exports.loginAdmin = async (req,res)=>{
     const errors = validationResult(req);
@@ -29,11 +35,12 @@ module.exports.loginAdmin = async (req,res)=>{
         email: req.body.email,
         password: req.body.password
     };
-    const isAdmin = await adminModel.findOne({email: admin.email}).select('+password');;
+    const isAdmin = await adminModel.findOne({email: admin.email}).select('+password');
+
     if(!isAdmin){
         return res.status(400).json("INVALID CREDENTIAL");
     }
-    console.log("here")
+   
     const isMatch = await isAdmin.comparePassword(admin.password);
     if(!isMatch){
         return res.status(400).json({message: 'Invalid details'});
@@ -43,6 +50,26 @@ module.exports.loginAdmin = async (req,res)=>{
     res.cookie('token',token);
     res.status(201).redirect('/add-venue');
     
+}
+module.exports.addAuthor = async (req,res)=>{
+    const errors = validationResult(req);
+    console.log("Add author")
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors: errors.array()});
+    }
+    const exist = await authorModel.findOne({email: req.body.email});
+    if(exist){
+        return res.status(401).json({errors: "author with this email exist"})
+    }
+    const author ={
+        name: req.body.name,
+        email: req.body.email,
+        password: await authorModel.hashPassword(req.body.password),
+        venueId: req.body.venueId,
+        permissions: req.body.permissions
+    }
+    const result = await authorService.addAuthor(author);
+    res.status(201).json({result});
 }
 module.exports.logoutAdmin = async (req,res)=>{
     res.clearCookie('token');

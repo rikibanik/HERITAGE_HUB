@@ -4,7 +4,7 @@ const {s3Uploadv3} = require('../services/s3service');
 
 
 module.exports.addVenue = async (req, res) => {
-    console.log("Uploaded File:", req.body);
+
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -58,7 +58,8 @@ module.exports.addVenue = async (req, res) => {
             workingsDays: req.body.workingDays,
             phNo: req.body.phNo,
             email: req.body.email,
-            imgLink: imgLink, // Use the correct field from S3
+            imgLink: imgLink
+             // Use the correct field from S3
         };
 
         const result = await venueService.addVenue(venue);

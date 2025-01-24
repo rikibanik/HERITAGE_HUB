@@ -5,15 +5,14 @@ const slotSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Venue',
         required: true,
-        ref: 'Venue',
-        required: true
+
     },
     date: {
         type: Date,
         required: true,
         
     },
-    slots: [
+    slots: 
         {
             startTime: {
                 hour: { type: Number, required: true },
@@ -24,7 +23,7 @@ const slotSchema = new mongoose.Schema({
                 minute: { type: Number, required: true }
             }
         }
-    ]
+    
     ,
             maxCapacity: {
                 type: Number,

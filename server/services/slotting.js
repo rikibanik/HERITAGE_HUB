@@ -28,3 +28,26 @@ module.exports.createSlot = async (obj) => {
         return { error: 'An error occurred while creating the slot' };
     }
 };
+
+// Here we need to ad function to manage crowd if booking is more than max cap
+module.exports.checkAvailabilty = async (slotId) => {
+    if (!slotId) {
+        throw new Error('No slot ID provided.');
+    }
+    try {
+        const slot = await slotModel.findOne({ _id: slotId });
+        if (!slot) {
+            throw new Error('Slot not found.');
+        }
+
+        const { maxCapacity, currentBookings } = slot;
+        if (currentBookings >= maxCapacity) {
+            return false;
+        }
+        return true;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
+

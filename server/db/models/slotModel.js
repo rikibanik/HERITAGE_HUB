@@ -22,7 +22,10 @@ const slotSchema = new mongoose.Schema({
             endTime: {
                 hour: { type: Number, required: true },
                 minute: { type: Number, required: true }
-            },
+            }
+        }
+    ]
+    ,
             maxCapacity: {
                 type: Number,
                 required: true
@@ -35,8 +38,6 @@ const slotSchema = new mongoose.Schema({
                 type: Number,
                 default: 0
             }
-        }
-    ]
 });
 
 const Slot = mongoose.model('Slot', slotSchema);

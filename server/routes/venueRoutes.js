@@ -45,7 +45,7 @@ router.post('/add-entries', upload.single('image'), [
 ], authMiddleware.authAdmin, venueControllers.addVenue);
 
 
-router.get('/get-entries',[],authMiddleware.authAdmin,venueControllers.getAllVenue);
-router.post('/login',(req,res)=>{});
+router.get('/get-entries',venueControllers.getAllVenue);
+
 
 module.exports = router;

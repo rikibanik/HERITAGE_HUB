@@ -2,7 +2,7 @@ const { validationResult, ExpressValidator } = require('express-validator');
 const authorModel = require('../db/models/authorModel');
 const blackList = require('../db/models/blacklistToken');
 const authorService = require('../services/authorService');
-
+const slotting = require('../services/slotting')
 
 module.exports.loginAuthor = async (req,res)=>{
     const errors = validationResult(req);
@@ -25,4 +25,26 @@ module.exports.loginAuthor = async (req,res)=>{
     res.cookie('token',token);
     res.status(201).redirect('/author/dashboard')
 
+}
+module.exports.addSlot = async (req,res)=>{
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors: errors.array()});
+    }
+    console.log(req.body);
+    const slot = {
+        venueId: req.user.venueId,
+        date: req.body.date,
+        slots: req.body.slots,
+        maxCapacity: req.body.maxCapacity,
+        elasticCapacity: req.body.elasticCapacity
+    }
+    try{
+        const add = slotting.createSlot(slot)
+        res.redirect('/author/dashboard')
+    }catch(e){
+        return res.status(400).json({message: e.message})
+    }
+    // res.json({slot})
+    
 }

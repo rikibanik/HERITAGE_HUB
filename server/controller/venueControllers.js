@@ -94,3 +94,18 @@ module.exports.getAllVenue = async (req, res) => {
         }
     }
 };
+module.exports.getVenue = async (req,res)=>{
+    const venueId = req.params.id;
+    try{
+        const venue=  await venueService.getVenuebyId(venueId)
+        if(!venue){
+            throw new Error("Doesnot exist");
+            
+        }
+        res.status(201).json({venue})
+    }
+    catch(e){
+        return res.status(401).json({error: e.message})
+    }
+
+}

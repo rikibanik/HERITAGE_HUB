@@ -26,17 +26,17 @@ router.post('/login', [
 ], authorController.loginAuthor);
 router.post('/add-slot',[
 
-    body('date').isDate().withMessage('Date must be a valid date'),
+    // body('date').isDate().withMessage('Date must be a valid date'),
 
-    body('slots').withMessage('Slots must be an array').custom((slots) => {
-        return slots.length > 0;
-    }),
+    // body('slots').withMessage('Slots must be an array').custom((slots) => {
+    //     return slots.length > 0;
+    // }),
 
-    // Validate 'maxCapacity' (must be a positive integer)
-    body('maxCapacity').isInt({ min: 1 }).withMessage('Max capacity must be a positive integer'),
+    // // Validate 'maxCapacity' (must be a positive integer)
+    // body('maxCapacity').isInt({ min: 1 }).withMessage('Max capacity must be a positive integer'),
 
-    // Validate 'elasticCapacity' (must be a positive integer)
-    body('elasticCapacity').isInt({ min: 1 }).withMessage('Elastic capacity must be a positive integer'),
+    // // Validate 'elasticCapacity' (must be a positive integer)
+    // body('elasticCapacity').isInt({ min: 1 }).withMessage('Elastic capacity must be a positive integer'),
 
     
 

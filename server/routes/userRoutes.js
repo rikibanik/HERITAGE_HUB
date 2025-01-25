@@ -25,6 +25,7 @@ router.get('/', authUser, async (req, res) => {
     // console.log(userData)
     res.json(userData)
 })
+
 router.get('/logout',authMiddleware.authUser,userController.logoutUser);
 
 module.exports = router;

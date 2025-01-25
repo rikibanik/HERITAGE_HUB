@@ -46,6 +46,6 @@ router.post('/add-entries', upload.single('image'), [
 
 
 router.get('/get-entries',venueControllers.getAllVenue);
-
+router.get('/museum/:id',venueControllers.getVenue);
 
 module.exports = router;

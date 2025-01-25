@@ -11,7 +11,8 @@ module.exports.createSlot = async (obj) => {
         // Step 1: Query existing slots for the same date and venueId
         const existingSlots = await slotModel.find({
             venueId: venueId,
-            date: date
+            date: date,
+            slots: slots
         });
 
         if(existingSlots){

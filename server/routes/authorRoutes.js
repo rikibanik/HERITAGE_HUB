@@ -28,22 +28,8 @@ router.post('/add-slot',[
 
     body('date').isDate().withMessage('Date must be a valid date'),
 
-    body('slots').isArray().withMessage('Slots must be an array').custom((slots) => {
-        for (let i = 0; i < slots.length; i++) {
-            for (let j = i + 1; j < slots.length; j++) {
-                const slotA = slots[i];
-                const slotB = slots[j];
-                const startA = new Date(0, 0, 0, slotA.startTime.hour, slotA.startTime.minute);
-                const endA = new Date(0, 0, 0, slotA.endTime.hour, slotA.endTime.minute);
-                const startB = new Date(0, 0, 0, slotB.startTime.hour, slotB.startTime.minute);
-                const endB = new Date(0, 0, 0, slotB.endTime.hour, slotB.endTime.minute);
-
-                if (startA < endB && endA > startB) {
-                    throw new Error('Slots cannot overlap. Please choose different time frames.');
-                }
-            }
-        }
-        return true;
+    body('slots').withMessage('Slots must be an array').custom((slots) => {
+        return slots.length > 0;
     }),
 
     // Validate 'maxCapacity' (must be a positive integer)

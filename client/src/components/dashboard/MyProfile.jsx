@@ -43,7 +43,7 @@ const MyProfile = () => {
     }, [])
 
     const handleSave = () => {
-        console.log(profile)
+        // console.log(profile)
         const fname = profile.name.firstname;
         const lname = profile.name.lastname;
         if (fname.length < 3 || lname.length < 3) {

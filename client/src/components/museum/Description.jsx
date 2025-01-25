@@ -6,7 +6,7 @@ import Loading from '../dashboard/Loading';
 const Description = () => {
 
     const { MuseumData, setMuseumData } = useContext(ContextMuseum)
-    console.log(MuseumData);
+    // console.log(MuseumData);
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
 

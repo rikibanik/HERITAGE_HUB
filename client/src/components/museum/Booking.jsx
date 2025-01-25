@@ -2,7 +2,7 @@ import React from 'react'
 
 const Booking = () => {
     const handleChange = ()=>{
-        console.log("changed");
+        // console.log("changed");
     }
     return (
         <section id="BookingForm" className="py-20 bg-neutral-900">

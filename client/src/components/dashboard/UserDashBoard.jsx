@@ -18,7 +18,7 @@ const UserDashBoard = () => {
         }
       )
       if (!res.ok) {
-        window.location.href = "/";
+        window.location.href = "/register";
         throw new Error('Data could not be fetched!')
       }
       const data = await res.json()

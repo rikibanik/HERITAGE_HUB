@@ -1,2 +1,2 @@
 import { createContext } from "react";
-export const ContextPopup = createContext()
+export const ContextMuseum = createContext()

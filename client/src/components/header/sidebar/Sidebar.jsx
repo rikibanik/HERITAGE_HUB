@@ -46,7 +46,7 @@ export default function Sidebar() {
                                 <li key={index} className={item.cName}>
                                     <Link to={item.to} smooth={true} duration={500}>
                                         {item.icon}
-                                        <span>{item.title}</span>
+                                        <span className="ml-4">{item.title}</span>
                                     </Link>
                                 </li>
                             );

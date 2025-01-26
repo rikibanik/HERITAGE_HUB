@@ -30,7 +30,8 @@ module.exports.loginUser = async (obj) => {
         return {user, token};
     }
     catch (err) {
-        console.log(">>"); 
-        return { error: err.message };
+   
+        throw new Error("server errors");
+        
     }
 }

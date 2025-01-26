@@ -9,7 +9,7 @@ router.get('/login',(req,res)=>{
     res.render('authorlogin')
 })
 
-//.........................
+
 router.get('/dashboard',authMiddleware.authAuthor, async (req,res)=>{
     const venue = await venueService.getVenuebyId(req.user.venueId)
     const details ={
@@ -20,10 +20,14 @@ router.get('/dashboard',authMiddleware.authAuthor, async (req,res)=>{
     // res.render('authordashboard',{venue}) //Change later
      res.status(201).json({details})
 })
+
+//.........................
 router.post('/login', [
     body('email').isEmail().withMessage("Email must be a valid email"),
         body('password').isLength({min:5}).withMessage("Password must be atleast 5 characters long")
 ], authorController.loginAuthor);
+
+
 router.post('/add-slot',[
 
     // body('date').isDate().withMessage('Date must be a valid date'),
@@ -43,4 +47,6 @@ router.post('/add-slot',[
 
     
 ],authMiddleware.authAuthor, authorController.addSlot);
+
+router.get('/get-all-slots',authMiddleware.authAuthor,authorController.getSlots)
 module.exports = router;

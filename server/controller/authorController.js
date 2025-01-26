@@ -1,6 +1,4 @@
 const { validationResult, ExpressValidator } = require('express-validator');
-const authorModel = require('../db/models/authorModel');
-const blackList = require('../db/models/blacklistToken');
 const authorService = require('../services/authorService');
 const slotting = require('../services/slotting')
 
@@ -13,18 +11,9 @@ module.exports.loginAuthor = async (req,res)=>{
         email: req.body.email,
         password: req.body.password
     }
-    const isAuthor = await authorModel.findOne({email: author.email}).select('+password');
-    if(!isAuthor){
-        return res.status(400).json("INVALID CREDENTIAL");
-    }
-    const isMatch = await isAuthor.comparePassword(author.password);
-    if(!isMatch){
-        return res.status(400).json("INVALID CREDENTIAL");
-    }
-    const token = await isAuthor.generateAuthToken();
-    res.cookie('token',token);
-    res.status(201).redirect('/author/dashboard')
-
+    const result = await authorService.loginAuthor(author);
+    res.cookie('token', result.token)
+    res.status(201).json({ result });
 }
 module.exports.addSlot = async (req,res)=>{
     const errors = validationResult(req);
@@ -46,5 +35,20 @@ module.exports.addSlot = async (req,res)=>{
         return res.status(400).json({message: e.message})
     }
     // res.json({slot})
+    
+}
+module.exports.getSlots = async(req,res)=>{
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors: errors.array()});
+    }
+    const user= req.user;
+    const venueId = user.venueId;
+    try{
+        const slots = await slotting.getSlotsbyAuthor(venueId);
+        res.status(201).json({slots});
+    }catch(e){
+        res.status(400).json({message: e.message})
+    }
     
 }

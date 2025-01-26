@@ -52,3 +52,20 @@ module.exports.checkAvailabilty = async (slotId) => {
     }
 };
 
+module.exports.getSlotsbyAuthor = async (venueId) =>{
+    if(!venueId){
+        throw new Error("invalid input");
+        
+    }try{
+        const slots = await slotModel.findOne({venueId: venueId});
+        if(!slots){
+            throw new Error("slot with this venue dne");
+            
+        }
+        return slots;
+    }catch (error) {
+        console.error(error);
+        throw error;
+    }
+    
+}

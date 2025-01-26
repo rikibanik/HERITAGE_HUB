@@ -72,12 +72,28 @@ module.exports.addVenue = async (req, res) => {
 
 module.exports.getAllVenue = async (req, res) => {
 
+    const { name } = req.query;
+
+    if (name) {
+        try {
+            const entries = await venueService.findByKeyword(name);
+
+            if (entries.length === 0) {
+                return res.status(404).json({ message: 'No entries found for the given name.' });
+            }
+
+            return res.status(200).json(entries);
+        } catch (err) {
+            return res.status(500).json({ error: err.message });
+        }
+    } else {
         try {
             const result = await venueService.getAllVenue();
             return res.status(200).json(result);
         } catch (err) {
             return res.status(500).json({ error: err.message });
         }
+    }
 
 };
 module.exports.getVenue = async (req,res)=>{
@@ -88,6 +104,7 @@ module.exports.getVenue = async (req,res)=>{
             throw new Error("Doesnot exist");
             
         }
+        
         res.status(201).json({venue})
     }
     catch(e){

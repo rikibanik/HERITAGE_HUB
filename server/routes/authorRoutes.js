@@ -17,8 +17,8 @@ router.get('/dashboard',authMiddleware.authAuthor, async (req,res)=>{
         location: venue.location,
         imgLink: venue.imgLink
     }
-    res.render('authordashboard',{details}) //Change later
-    // res.status(201).json({details})
+    // res.render('authordashboard',{venue}) //Change later
+     res.status(201).json({details})
 })
 router.post('/login', [
     body('email').isEmail().withMessage("Email must be a valid email"),

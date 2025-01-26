@@ -24,6 +24,8 @@ router.post('/login', [
     body('email').isEmail().withMessage("Email must be a valid email"),
         body('password').isLength({min:5}).withMessage("Password must be atleast 5 characters long")
 ], authorController.loginAuthor);
+
+
 router.post('/add-slot',[
 
     // body('date').isDate().withMessage('Date must be a valid date'),

@@ -37,3 +37,18 @@ module.exports.addSlot = async (req,res)=>{
     // res.json({slot})
     
 }
+module.exports.getSlots = async(req,res)=>{
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors: errors.array()});
+    }
+    const user= req.user;
+    const venueId = user.venueId;
+    try{
+        const slots = await slotting.getSlotsbyAuthor(venueId);
+        res.status(201).json({slots});
+    }catch(e){
+        res.status(400).json({message: e.message})
+    }
+    
+}

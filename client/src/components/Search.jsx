@@ -2,6 +2,7 @@ import React from "react";
 import { AsyncPaginate } from "react-select-async-paginate";
 import { useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Search = () => {
     const navigate = useNavigate();
@@ -25,6 +26,7 @@ const Search = () => {
                                     <div className="font-bold">{museum.name}</div>
                                     <div className="text-sm text-gray-500">{museum.location.address}</div>
                                 </div>
+
                             </div>
                         ),
                         details: museum,
@@ -36,7 +38,7 @@ const Search = () => {
     const handleOnChange = async (searchData) => {
         if (searchData && searchData.details) {
             const { _id, name } = searchData.details;
-            navigate(`/museum?name=${encodeURIComponent(name)}&id=${encodeURIComponent(_id)}`);
+            window.location.href = `/museum?name=${encodeURIComponent(name)}&id=${encodeURIComponent(_id)}`;
         }
     };
 

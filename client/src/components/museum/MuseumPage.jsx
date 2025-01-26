@@ -11,7 +11,8 @@ import { Element } from 'react-scroll'
 
 // MuseumList
 const MuseumPage = () => {
-    const [MuseumData, setMuseumData] = useState(null)
+    const [MuseumData, setMuseumData] = useState(null);
+    document.title = MuseumData ? `${MuseumData.venue.name} | HeritageHub` : "HeritageHub";
     return (
         <>
             <ContextMuseum.Provider value={{ MuseumData, setMuseumData }}>

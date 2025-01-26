@@ -1,48 +1,70 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import ProfileDropdown from '../header/ProfileDropdown'
 
-const Navbar = () => {
+const Header = () => {
+
+    const [resData, setResData] = useState(null)
+    // console.log(resData)
+    const getData = async () => {
+        try {
+            const res = await fetch('http://localhost:3000/user',
+                {
+                    method: "GET",
+                    credentials: 'include',
+                }
+            )
+            if (!res.ok) {
+                throw new Error('user not logged in!')
+            }
+            const data = await res.json()
+            setResData(data)
+            // console.log(data)
+        } catch (error) {
+            console.error(error);
+        }
+
+    }
+    useEffect(() => {
+        getData()
+    }, [])
+
     return (
-        <nav id="Navbar" className="fixed w-full bg-neutral-900 text-white z-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-16">
-                    <div className="flex items-center">
-                        <div className="flex-shrink-0">
-                            <h1 className="text-xl font-bold">Sarnath Museum</h1>
-                        </div>
+        <header id="header" className="fixed top-0 left-0 w-full bg-white shadow-md z-50">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6">
+                <div className="flex justify-between items-center h-16">
+
+                    <div className="flex-shrink-0 flex items-center flex-col">
+                        <h1 className="text-2xl font-bold text-indigo-600">HeritageHub</h1>
                     </div>
-                    <div className="hidden md:block">
-                        <div className="ml-10 flex items-baseline space-x-4">
-                            <a href="#Hero" className="hover:bg-neutral-700 px-3 py-2 rounded-md text-sm font-medium">Home</a>
-                            <a href="#About" className="hover:bg-neutral-700 px-3 py-2 rounded-md text-sm font-medium">About</a>
-                            <a href="#Collections" className="hover:bg-neutral-700 px-3 py-2 rounded-md text-sm font-medium">Collections</a>
-                            <a href="#VisitingInfo" className="hover:bg-neutral-700 px-3 py-2 rounded-md text-sm font-medium">Visit</a>
-                            <a href="#BookingForm" className="hover:bg-neutral-700 px-3 py-2 rounded-md text-sm font-medium">Book Tickets</a>
-                            <a href="#Gallery" className="hover:bg-neutral-700 px-3 py-2 rounded-md text-sm font-medium">Gallery</a>
-                            <a href="#Contact" className="hover:bg-neutral-700 px-3 py-2 rounded-md text-sm font-medium">Contact</a>
-                        </div>
-                    </div>
-                    <div className="md:hidden">
-                        <button id="mobile-menu-button" className="inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-neutral-700 focus:outline-none">
-                            <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                                <path className="block" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-                            </svg>
-                        </button>
+
+                    {/* <!-- Right Side Icons --> */}
+                    <div className="flex items-center space-x-4">
+                        {resData && resData.email ?
+
+                            <ProfileDropdown resData={resData} /> :
+
+                            <div className='flex gap-4'>
+                                <Link to='/register'>
+                                    <button type="submit" className="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                                        Register
+                                    </button>
+                                </Link>
+                                <Link to='/login'>
+                                    <button type="submit" className="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                                        Login
+                                    </button>
+                                </Link>
+                            </div>
+                        }
                     </div>
                 </div>
+
+
             </div>
-            <div id="mobile-menu" className="hidden md:hidden bg-neutral-900">
-                <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                    <a href="#Hero" className="block hover:bg-neutral-700 px-3 py-2 rounded-md text-sm font-medium">Home</a>
-                    <a href="#About" className="block hover:bg-neutral-700 px-3 py-2 rounded-md text-sm font-medium">About</a>
-                    <a href="#Collections" className="block hover:bg-neutral-700 px-3 py-2 rounded-md text-sm font-medium">Collections</a>
-                    <a href="#VisitingInfo" className="block hover:bg-neutral-700 px-3 py-2 rounded-md text-sm font-medium">Visit</a>
-                    <a href="#BookingForm" className="block hover:bg-neutral-700 px-3 py-2 rounded-md text-sm font-medium">Book Tickets</a>
-                    <a href="#Gallery" className="block hover:bg-neutral-700 px-3 py-2 rounded-md text-sm font-medium">Gallery</a>
-                    <a href="#Contact" className="block hover:bg-neutral-700 px-3 py-2 rounded-md text-sm font-medium">Contact</a>
-                </div>
-            </div>
-        </nav>
+        </header>
+
     )
 }
 
-export default Navbar
+export default Header

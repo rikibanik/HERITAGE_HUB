@@ -17,23 +17,8 @@ const Events = () => {
                         </p>
 
                         {/* <!-- Search Box --> */}
-                        <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-xl p-2 mb-8">
+                        <div className="max-w-xl mx-auto bg-white rounded-xl shadow-xl p-2 mb-8">
                             <Search />
-                            {/* <div className="flex flex-col md:flex-row gap-2">
-                                <div className="flex-1">
-                                    <div className="relative">
-                                        <i className="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                                        <input type="text" placeholder="Search events..." className="w-full pl-10 pr-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600" />
-                                    </div>
-                                </div>
-                                <div className="flex-1 md:flex-initial">
-                                    <button className="w-full md:w-auto bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-lg transition duration-300 flex items-center justify-center">
-                                        <i className="fas fa-ticket-alt mr-2"></i>
-                                        Find Tickets
-                                    </button>
-                                </div>
-                            </div> */}
-
                         </div>
 
                         {/* <!-- Quick Stats --> */}

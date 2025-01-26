@@ -27,7 +27,7 @@ const MyProfile = () => {
                 }
             )
             if (!res.ok) {
-                throw new Error('Data could not be fetched!')
+                throw new Error('user not logged in!')
             }
             const data = await res.json()
             setResData(data)

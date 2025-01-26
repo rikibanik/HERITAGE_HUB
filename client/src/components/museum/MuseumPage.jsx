@@ -7,6 +7,7 @@ import Booking from './Booking'
 import Gallery from './Gallery'
 import Footer from '../Footer'
 import { ContextMuseum } from '../context/context'
+import { Element } from 'react-scroll'
 
 // MuseumList
 const MuseumPage = () => {
@@ -15,12 +16,19 @@ const MuseumPage = () => {
         <>
             <ContextMuseum.Provider value={{ MuseumData, setMuseumData }}>
                 <Navbar />
+                {/* <Header/> */}
                 <Description />
                 {MuseumData &&
                     <main>
-                        <VisitingInfo />
-                        <Booking />
-                        <Gallery />
+                        <Element name='visitinginfo'>
+                            <VisitingInfo />
+                        </Element>
+                        <Element name='booking'>
+                            <Booking />
+                        </Element>
+                        <Element name='gallery'>
+                            <Gallery />
+                        </Element>
                         <Collections />
                         <Footer />
                     </main>

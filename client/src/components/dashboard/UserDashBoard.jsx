@@ -4,8 +4,10 @@ import MyProfile from './MyProfile'
 import MyTickets from './MyTickets'
 import PurchaseHistory from './PurchaseHistory'
 import Loading from './Loading'
+import { useNavigate } from 'react-router-dom'
 
 const UserDashBoard = () => {
+  const navigate = useNavigate();
   const [activeComponent, setActiveComponent] = useState('profile'); // Default to 'MyProfile'
   const [resData, setResData] = useState(null)
   // console.log("MyProfile", resData)
@@ -19,7 +21,7 @@ const UserDashBoard = () => {
       )
       if (!res.ok) {
         window.location.href = "/register";
-        throw new Error('Data could not be fetched!')
+        throw new Error('user not logged in!')
       }
       const data = await res.json()
       setResData(data)
@@ -75,10 +77,10 @@ const UserDashBoard = () => {
                         </button>
                       )
                     })}
-                    <Link to="/" className="flex items-center text-gray-300 hover:bg-gray-600 px-4 py-2 rounded-lg transition duration-300 gap-2 w-fit">
+                    <button onClick={() => navigate(-1)} className="flex items-center text-gray-300 hover:bg-gray-600 px-4 py-2 rounded-lg transition duration-300 gap-2 w-fit">
                       <i className="fas fa-home w-6 flex justify-center items-center"></i>
                       <span>Back To Home</span>
-                    </Link>
+                    </button>
                   </nav>
                 </div>
                 {

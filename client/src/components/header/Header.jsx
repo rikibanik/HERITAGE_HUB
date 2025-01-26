@@ -18,11 +18,11 @@ const Header = () => {
                 }
             )
             if (!res.ok) {
-                throw new Error('Data could not be fetched!')
+                throw new Error('user not logged in!')
             }
             const data = await res.json()
             setResData(data)
-            setProfile({ ...profile, name: { ...profile.name, firstname: data.name.firstname, lastname: data.name.lastname } })
+            // setProfile({ ...profile, name: { ...profile.name, firstname: data.name.firstname, lastname: data.name.lastname } })
             // console.log(data)
         } catch (error) {
             console.error(error);

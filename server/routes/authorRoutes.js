@@ -11,14 +11,15 @@ router.get('/login',(req,res)=>{
 
 
 router.get('/dashboard',authMiddleware.authAuthor, async (req,res)=>{
-    const venue = await venueService.getVenuebyId(req.user.venueId)
+    const venue = await venueService.getVenuebyId(req.user.venueId);
+
     const details ={
-        name: venue.name,
+        user: req.user,
+        venueName: venue.name,
         location: venue.location,
         imgLink: venue.imgLink
     }
-    // res.render('authordashboard',{venue}) //Change later
-     res.status(201).json({details})
+    res.status(201).json({details})
 })
 
 //.........................

@@ -13,7 +13,7 @@ module.exports.loginAuthor = async (req,res)=>{
     }
     const result = await authorService.loginAuthor(author);
     res.cookie('token', result.token)
-    res.status(201).json({ result });
+    res.status(201).json({ message: "Successfully logged in" });
 }
 module.exports.addSlot = async (req,res)=>{
     const errors = validationResult(req);
@@ -30,7 +30,7 @@ module.exports.addSlot = async (req,res)=>{
     }
     try{
         const add = slotting.createSlot(slot)
-        res.redirect('/author/dashboard')
+        res.status(201).json("Slot Created")
     }catch(e){
         return res.status(400).json({message: e.message})
     }
@@ -45,8 +45,8 @@ module.exports.getSlots = async(req,res)=>{
     const user= req.user;
     const venueId = user.venueId;
     try{
-        const slots = await slotting.getSlotsbyAuthor(venueId);
-        res.status(201).json({slots});
+        const slotList = await slotting.getSlotsbyAuthor(venueId);
+        res.status(201).json({slotList});
     }catch(e){
         res.status(400).json({message: e.message})
     }

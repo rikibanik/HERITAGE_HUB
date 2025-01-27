@@ -8,19 +8,51 @@ module.exports.createSlot = async (obj) => {
 
         const { venueId, date, slots } = obj;
 
-        // Step 1: Query existing slots for the same date and venueId
-        const existingSlots = await slotModel.find({
+        // Convert the start and end time to comparable minute values
+        const startMinutes = slots.startTime.hour * 60 + slots.startTime.minute;
+        const endMinutes = slots.endTime.hour * 60 + slots.endTime.minute;
+        
+        // Query for overlapping slots
+        const existingSlot = await slotModel.findOne({
             venueId: venueId,
-            date: date,
-            slots: slots
+            date: new Date(date), // Ensure date format is consistent
+            $or: [
+                {
+                    // Case 1: Existing slot starts within the new slot's range
+                    'slots.startTime.hour': { $gte: slots.startTime.hour, $lte: slots.endTime.hour },
+                    $expr: {
+                        $and: [
+                            { $gte: ['$slots.startTime.minute', startMinutes % 60] },
+                            { $lte: ['$slots.startTime.minute', endMinutes % 60] }
+                        ]
+                    }
+                },
+                {
+                    // Case 2: Existing slot ends within the new slot's range
+                    'slots.endTime.hour': { $gte: slots.startTime.hour, $lte: slots.endTime.hour },
+                    $expr: {
+                        $and: [
+                            { $gte: ['$slots.endTime.minute', startMinutes % 60] },
+                            { $lte: ['$slots.endTime.minute', endMinutes % 60] }
+                        ]
+                    }
+                },
+                {
+                    // Case 3: Existing slot fully overlaps the new slot
+                    $and: [
+                        { 'slots.startTime.hour': { $lte: slots.startTime.hour } },
+                        { 'slots.endTime.hour': { $gte: slots.endTime.hour } }
+                    ]
+                }
+            ]
         });
-
-        if(existingSlots){
-            throw new Error('Slots already exist for the given date and venue');
+        
+        if (existingSlot) {
+            throw new Error('Overlapping slot already exists for the given date and venue.');
         }
-
+        
         // Step 3: Save new slots to the database
-        const newSlotData = slotModel.create(obj);
+        const newSlotData = await slotModel.create(obj);
         
 
         return { success: true, message: 'Slot created successfully', newSlotData };
@@ -57,12 +89,12 @@ module.exports.getSlotsbyAuthor = async (venueId) =>{
         throw new Error("invalid input");
         
     }try{
-        const slots = await slotModel.findOne({venueId: venueId});
-        if(!slots){
+        const slotsList = await slotModel.find({venueId: venueId});
+        if(!slotsList){
             throw new Error("slot with this venue dne");
             
         }
-        return slots;
+        return slotsList;
     }catch (error) {
         console.error(error);
         throw error;

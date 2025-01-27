@@ -3,8 +3,9 @@ import Home from './components/Home'
 import UserDashBoard from './components/dashboard/UserDashBoard'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Login from './components/RegLog/Login'
-import Register from './components/RegLog/Register'
 import MuseumPage from './components/museum/MuseumPage'
+import AuthorLogin from './components/author/AuthorLogin'
+import Author from './components/author/Author'
 
 function App() {
   return (
@@ -14,8 +15,9 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<UserDashBoard />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
           <Route path="/museum" element={<MuseumPage />} />
+          <Route path="/author" element={<Author />} />
+          <Route path="/author/login" element={<AuthorLogin />} />
         </Routes>
       </BrowserRouter>
     </>

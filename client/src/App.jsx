@@ -6,7 +6,7 @@ import Login from './components/RegLog/Login'
 import MuseumPage from './components/museum/MuseumPage'
 import AuthorLogin from './components/author/AuthorLogin'
 import Author from './components/author/Author'
-
+import Register from './components/RegLog/Register'
 function App() {
   return (
     <>
@@ -15,6 +15,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<UserDashBoard />} />
           <Route path="/login" element={<Login />} />
+          <Route path='/register' element={<Register/>}/>
           <Route path="/museum" element={<MuseumPage />} />
           <Route path="/author" element={<Author />} />
           <Route path="/author/login" element={<AuthorLogin />} />

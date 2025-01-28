@@ -37,7 +37,7 @@ const Search = () => {
     const handleOnChange = async (searchData) => {
         if (searchData && searchData.details) {
             const { _id, name } = searchData.details;
-            window.location.href = `/museum?name=${encodeURIComponent(name)}&id=${encodeURIComponent(_id)}`;
+            navigate(`/museum?name=${encodeURIComponent(name)}&id=${encodeURIComponent(_id)}`);
         }
     };
 

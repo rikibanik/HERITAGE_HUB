@@ -69,7 +69,7 @@ const AddSlots = () => {
                 throw new Error('Error while adding Slot!');
             }
             handleCloseModal();
-            // location.reload()
+            location.reload()
         } catch (error) {
             console.error(error);
         }

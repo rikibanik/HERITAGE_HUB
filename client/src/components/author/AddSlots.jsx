@@ -56,7 +56,7 @@ const AddSlots = () => {
 
     const handleAddData = async () => {
         try {
-            const res = await fetch('http://localhost:3000/author/add-slot', {
+            const res = await fetch(`${import.meta.env.VITE_HOST}/author/add-slot`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {

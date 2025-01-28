@@ -9,7 +9,7 @@ export default function PopUp({ type }) {
 
     const handleLogout = async () => {
         try {
-            const res = await fetch('http://localhost:3000/user/logout',
+            const res = await fetch(`${import.meta.env.VITE_HOST}/user/logout`,
                 {
                     method: "GET",
                     credentials: 'include',

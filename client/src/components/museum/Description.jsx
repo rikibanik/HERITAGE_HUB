@@ -17,7 +17,7 @@ const Description = () => {
     // console.log(id)
     useEffect(() => {
         const venueId = id;
-        fetch(`http://localhost:3000/venue/museum/${venueId}`)
+        fetch(`${import.meta.env.VITE_HOST}/venue/museum/${venueId}`)
             .then(response => response.json())
             .then(data => {
                 setMuseumData(data);

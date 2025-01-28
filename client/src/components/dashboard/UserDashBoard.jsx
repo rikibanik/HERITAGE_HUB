@@ -13,7 +13,7 @@ const UserDashBoard = () => {
   // console.log("MyProfile", resData)
   const getData = async () => {
     try {
-      const res = await fetch('http://localhost:3000/user',
+      const res = await fetch(`${import.meta.env.VITE_HOST}/user`,
         {
           method: "GET",
           credentials: 'include',

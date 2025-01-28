@@ -21,7 +21,7 @@ const ManageSlots = () => {
 
     const getData = async () => {
         try {
-            const res = await fetch('http://localhost:3000/author/get-all-slots', {
+            const res = await fetch(`${import.meta.env.VITE_HOST}/author/get-all-slots`, {
                 method: 'GET',
                 credentials: 'include',
             });

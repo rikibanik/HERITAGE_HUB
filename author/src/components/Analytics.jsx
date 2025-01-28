@@ -1,7 +1,11 @@
 import React from 'react'
 
-const Analytics = ({ authorData }) => {
-    console.log(authorData)
+const Analytics = ({ slotData }) => {
+    // console.log(slotData)
+
+    const sum = slotData.reduce((acc, value) => acc + value.currentBookings, 0)
+    // console.log(sum)
+
     return (
         <section id="analytics" className="p-6">
             <div className="max-w-6xl mx-auto">
@@ -10,7 +14,7 @@ const Analytics = ({ authorData }) => {
                         <div className="flex justify-between items-start">
                             <div>
                                 <p className="text-sm font-medium text-gray-600">Total Slots</p>
-                                <h3 className="text-2xl font-semibold text-gray-900 mt-1">1</h3>
+                                <h3 className="text-2xl font-semibold text-gray-900 mt-1">{slotData.length}</h3>
                             </div>
                             <div className="p-2 bg-indigo-50 rounded-lg">
                                 <svg className="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -24,7 +28,7 @@ const Analytics = ({ authorData }) => {
                         <div className="flex justify-between items-start">
                             <div>
                                 <p className="text-sm font-medium text-gray-600">Total Bookings</p>
-                                <h3 className="text-2xl font-semibold text-gray-900 mt-1">0</h3>
+                                <h3 className="text-2xl font-semibold text-gray-900 mt-1">{sum}</h3>
                             </div>
                             <div className="p-2 bg-blue-50 rounded-lg">
                                 <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">

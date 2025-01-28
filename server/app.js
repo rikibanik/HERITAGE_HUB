@@ -11,18 +11,25 @@ const userRoutes = require('./routes/userRoutes');
 const authorRoutes = require('./routes/authorRoutes')
 const paymentRoutes = require('./routes/paymentRoutes');
 app.use(cors({
-    origin: '*', // Your frontend's origin
-    credentials: true,              // Allow cookies
-  }));
+  origin: (origin, callback) => {
+    // if (origin === 'http://localhost:5174' || origin === 'http://another-origin.com') {
+      callback(null, true); // Allow the request
+    // } else {
+    //   callback(new Error('Not allowed by CORS')); // Block the request
+    // }
+  },
+  credentials: true, // Allow cookies and credentials
+}));
+
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieparser());
 connecttoDB();
 app.set('view engine', 'ejs');
 
 const path = require('path');
-const _dirname=path.dirname("")
-const buildpath = path.join(_dirname,"../client/dist");
+const _dirname = path.dirname("")
+const buildpath = path.join(_dirname, "../client/dist");
 app.use(express.static(buildpath));
 // ------------------------------------------
 //TOO BE REMOVED LATER
@@ -58,10 +65,10 @@ app.use(express.static(buildpath));
 
 
 
-app.use('/venue',venueRoutes);
-app.use('/admin',adminRoutes);
-app.use('/user',userRoutes);
-app.use('/author',authorRoutes);
+app.use('/venue', venueRoutes);
+app.use('/admin', adminRoutes);
+app.use('/user', userRoutes);
+app.use('/author', authorRoutes);
 
 app.use('/api/payment', paymentRoutes);
 module.exports = app;

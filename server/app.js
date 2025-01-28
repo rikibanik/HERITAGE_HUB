@@ -11,8 +11,8 @@ const userRoutes = require('./routes/userRoutes');
 const authorRoutes = require('./routes/authorRoutes')
 const paymentRoutes = require('./routes/paymentRoutes');
 app.use(cors({
-    origin: process.env.CLIENT_ID, // Your frontend's origin
-    credentials: true,              // Allow cookies
+    origin: '*', // Your frontend's origin
+              // Allow cookies
   }));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));

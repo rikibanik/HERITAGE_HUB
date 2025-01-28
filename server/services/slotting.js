@@ -101,3 +101,18 @@ module.exports.getSlotsbyAuthor = async (venueId) =>{
     }
     
 }
+module.exports.searchSlotbyVenuedate = async (id, date)=>{
+    if(!id || !date){
+        throw new Error("Invalid input");
+    }
+    try{
+        const slotList = await slotModel.find({venueId:id, date: date})
+        if(!slotList){
+            throw new Error("Does not exist");
+        }
+        return slotList
+    }
+    catch(e){
+        throw e;
+    }
+}

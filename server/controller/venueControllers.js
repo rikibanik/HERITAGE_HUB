@@ -1,7 +1,7 @@
 const {validationResult} = require('express-validator');
 const venueService = require('../services/venueService');
 const {s3Uploadv3} = require('../services/s3service');
-
+const slotting = require('../services/slotting');
 
 module.exports.addVenue = async (req, res) => {
 
@@ -111,4 +111,14 @@ module.exports.getVenue = async (req,res)=>{
         return res.status(401).json({error: e.message})
     }
 
+}
+module.exports.getSlotsByDate =async (req,res)=>{
+    const {id , date}= req.params;
+    console.log(id, date);
+    try{
+        const slots = await slotting.searchSlotbyVenuedate(id,date);
+        res.status(201).json({slots})
+    }catch(e){
+        res.status(405).json("Slot not found");
+    }
 }

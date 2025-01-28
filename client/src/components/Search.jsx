@@ -2,7 +2,6 @@ import React from "react";
 import { AsyncPaginate } from "react-select-async-paginate";
 import { useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
-import { Link } from "react-router-dom";
 
 const Search = () => {
     const navigate = useNavigate();

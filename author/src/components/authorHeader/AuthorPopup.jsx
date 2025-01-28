@@ -1,6 +1,6 @@
 
 import { useState } from "react"
-import Modal from "../../popup/Modal"
+import Modal from './Modal'
 import { BiLogOut } from "react-icons/bi"
 
 export default function AuthorPopup() {

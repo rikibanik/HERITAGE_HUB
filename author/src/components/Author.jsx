@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import AuthorProfile from './AuthorProfile'
 import ManageSlots from './ManageSlots'
-import Analytics from './Analytics'
 import AuthorNav from './authorHeader/AuthorNav'
-import Footer from '../Footer'
+import Footer from './Footer'
 import { Link } from 'react-router-dom'
 
 const Author = () => {
@@ -39,10 +38,10 @@ const Author = () => {
                     <main className='mt-16 bg-indigo-200'>
                         <AuthorProfile authorData={authorData.details} />
                         <ManageSlots />
-                        <Analytics authorData={authorData.details} />
+                        {/* <Analytics authorData={authorData.details} /> */}
                     </main>
                     <Footer />
-                </> : <Link to={'/author/login'}>Login</Link>
+                </> : <Link to={'/login'}>Login</Link>
             }
         </>
     )

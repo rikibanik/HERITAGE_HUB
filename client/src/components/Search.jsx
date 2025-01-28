@@ -62,7 +62,7 @@ const Search = () => {
                     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
                     '&:hover': {
                         borderColor: '#4f46e5',
-                        cursor: 'pointer',
+                        cursor: 'text',
                     },
                 }),
                 menuList: (provided) => ({

@@ -12,7 +12,7 @@ const AuthorProfile = ({ authorData }) => {
         setEditField(false);
     };
 
-    console.log(authorData);
+    // console.log(authorData);
     return (
         <section id="profile" className="p-6">
             <div className="max-w-4xl mx-auto">
@@ -48,6 +48,11 @@ const AuthorProfile = ({ authorData }) => {
                                     <h3 className="text-sm font-medium text-gray-500">Email</h3>
                                     <p className="text-base text-gray-900">{authorData.user.email}</p>
                                 </div>
+
+                                <div>
+                                    <h3 className="text-sm font-medium text-gray-500">Permissions</h3>
+                                    <p className="text-base text-gray-900">{authorData.user.permissions}</p>
+                                </div>
                                 <div className="flex gap-6 flex-wrap items-center">
                                     {!editField ? (
                                         <button
@@ -73,10 +78,6 @@ const AuthorProfile = ({ authorData }) => {
                                         </>
                                     )}
                                 </div>
-                                <div>
-                                    <h3 className="text-sm font-medium text-gray-500">Permissions</h3>
-                                    <p className="text-base text-gray-900">{authorData.user.permissions}</p>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -84,41 +85,41 @@ const AuthorProfile = ({ authorData }) => {
 
                 {/* Venue Details */}
                 <div
-    className="relative bg-white rounded-lg border border-gray-200 p-6"
-    style={{
-        backgroundImage: `url(${authorData.imgLink})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-    }}
->
-    {/* Overlay for better readability */}
-    <div className="absolute inset-0 bg-black bg-opacity-50 rounded-lg"></div>
-    <div className="relative z-10">
-        <h2 className="text-lg font-semibold text-white mb-4">Venue Details</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-white">
-            <div>
-                <h3 className="text-sm font-medium">Venue Name</h3>
-                <p className="text-base">{authorData.venueName}</p>
-            </div>
-            <div>
-                <h3 className="text-sm font-medium">Address</h3>
-                <p className="text-base">{authorData.location.address}</p>
-            </div>
-            <div>
-                <h3 className="text-sm font-medium">City</h3>
-                <p className="text-base">{authorData.location.city}</p>
-            </div>
-            <div>
-                <h3 className="text-sm font-medium">State</h3>
-                <p className="text-base">{authorData.location.state}</p>
-            </div>
-            <div>
-                <h3 className="text-sm font-medium">PIN Code</h3>
-                <p className="text-base">{authorData.location.pin}</p>
-            </div>
-        </div>
-    </div>
-</div>
+                    className="relative bg-white rounded-lg border border-gray-200 p-6"
+                    style={{
+                        backgroundImage: `url(${authorData.imgLink})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                    }}
+                >
+                    {/* Overlay for better readability */}
+                    <div className="absolute inset-0 bg-black bg-opacity-50 rounded-lg"></div>
+                    <div className="relative z-10">
+                        <h2 className="text-lg font-semibold text-white mb-4">Venue Details</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-white">
+                            <div>
+                                <h3 className="text-sm font-medium">Venue Name</h3>
+                                <p className="text-base">{authorData.venueName}</p>
+                            </div>
+                            <div>
+                                <h3 className="text-sm font-medium">Address</h3>
+                                <p className="text-base">{authorData.location.address}</p>
+                            </div>
+                            <div>
+                                <h3 className="text-sm font-medium">City</h3>
+                                <p className="text-base">{authorData.location.city}</p>
+                            </div>
+                            <div>
+                                <h3 className="text-sm font-medium">State</h3>
+                                <p className="text-base">{authorData.location.state}</p>
+                            </div>
+                            <div>
+                                <h3 className="text-sm font-medium">PIN Code</h3>
+                                <p className="text-base">{authorData.location.pin}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </section>

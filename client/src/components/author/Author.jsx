@@ -4,6 +4,7 @@ import ManageSlots from './ManageSlots'
 import Analytics from './Analytics'
 import AuthorNav from './authorHeader/AuthorNav'
 import Footer from '../Footer'
+import { Link } from 'react-router-dom'
 
 const Author = () => {
 
@@ -32,16 +33,16 @@ const Author = () => {
 
     return (
         <>
-            {authorData && authorData.details &&
+            {authorData && authorData.details ?
                 <>
                     <AuthorNav authorData={authorData.details} />
                     <main className='mt-16 bg-indigo-200'>
                         <AuthorProfile authorData={authorData.details} />
                         <ManageSlots />
-                        <Analytics />
+                        <Analytics authorData={authorData.details} />
                     </main>
                     <Footer />
-                </>
+                </> : <Link to={'/author/login'}>Login</Link>
             }
         </>
     )

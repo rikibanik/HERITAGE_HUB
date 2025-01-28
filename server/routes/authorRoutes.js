@@ -5,9 +5,6 @@ const authMiddleware = require('../middleware/authMiddleware');
 const authorController = require('../controller/authorController')
 const venueService = require('../services/venueService')
 //remove later
-router.get('/login',(req,res)=>{
-    res.render('authorlogin')
-})
 
 
 router.get('/dashboard',authMiddleware.authAuthor, async (req,res)=>{

@@ -18,7 +18,7 @@ router.post('/login', [
     body('email').isEmail().withMessage("Email must be a valid email"),
     body('password').isLength({ min: 5 }).withMessage("Password must be atleast 5 characters long")
 ], userController.loginUser);
-router.get('/', authUser, async (req, res) => {
+router.get('/data', authUser, async (req, res) => {
     const token = req.cookies.token
     const decode = jwt.verify(token, process.env.JWT_SECRET);
     const userData = await userModel.findOne({ "_id": decode._id })

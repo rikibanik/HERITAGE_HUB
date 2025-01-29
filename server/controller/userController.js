@@ -20,7 +20,11 @@ module.exports.registerUser = async (req, res) => {
         password: await userModel.hashPassword(req.body.password)
     };
     const result = await userService.registerUser(user);
-    res.cookie('token', result.token).status(201).json({ result });
+    res.cookie('token', result.token,{
+        httpOnly: true,  // Prevents JavaScript from accessing it
+        secure: false,   // Set to `true` if using HTTPS
+        sameSite: 'lax'  // Adjust for cross-site requests
+    }).status(201).json({ result });
 
 };
 module.exports.loginUser = async (req, res) => {
@@ -36,7 +40,11 @@ module.exports.loginUser = async (req, res) => {
     };
     const result = await userService.loginUser(user);
     console.log(result.token)
-    res.cookie('token', result.token)
+    res.cookie('token', result.token,{
+        httpOnly: true,  // Prevents JavaScript from accessing it
+        secure: false,   // Set to `true` if using HTTPS
+        sameSite: 'lax'  // Adjust for cross-site requests
+    })
     res.status(201).json({ result });
 }
 module.exports.logoutUser = async (req,res)=>{

@@ -11,7 +11,16 @@ const userRoutes = require('./routes/userRoutes');
 const authorRoutes = require('./routes/authorRoutes')
 const paymentRoutes = require('./routes/paymentRoutes');
 
-app.use(cors());
+app.use(cors({
+  origin: (origin, callback) => {
+    // if (origin === 'http://localhost:5173' || origin === 'http://192.168.28.242:5173') {
+      callback(null, true); // Allow the request
+    // } else {
+    //   callback(new Error('Not allowed by CORS')); // Block the request
+    // }
+  },
+  credentials: true, // Allow cookies and credentials
+}));
 
 
 app.use(express.json());

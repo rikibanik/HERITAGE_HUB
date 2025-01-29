@@ -13,7 +13,7 @@ const paymentRoutes = require('./routes/paymentRoutes');
 
 app.use(
   cors({
-    origin: ["https://heritage-hub-frontend.onrender.com","http:://localhost:3000"], // Allow only your frontend
+    origin: ["https://heritage-hub-frontend.onrender.com","http://localhost:3000"], // Allow only your frontend
     credentials: true, // Allow cookies and authentication headers
   })
 );

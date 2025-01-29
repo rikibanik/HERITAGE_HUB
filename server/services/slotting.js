@@ -52,6 +52,7 @@ module.exports.createSlot = async (obj) => {
         }
         
         // Step 3: Save new slots to the database
+        console.log("here")
         const newSlotData = await slotModel.create(obj);
         
 

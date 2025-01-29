@@ -23,7 +23,7 @@ module.exports.addAdmin = async (req,res)=>{
     };
     const result = await adminService.addAdmin(admin);
 
-    res.status(201).redirect('/'); //change to json later
+    res.status(201); //change to json later
 }
 module.exports.loginAdmin = async (req,res)=>{
     const errors = validationResult(req);
@@ -48,7 +48,7 @@ module.exports.loginAdmin = async (req,res)=>{
     
     const token =await isAdmin.generateAuthToken();
     res.cookie('token',token);
-    res.status(201).redirect('/add-venue');
+    res.status(201).json({message: "Done"});
     
 }
 module.exports.addAuthor = async (req,res)=>{

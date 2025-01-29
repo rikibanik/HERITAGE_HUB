@@ -10,21 +10,17 @@ const adminRoutes = require('./routes/adminRoutes');
 const userRoutes = require('./routes/userRoutes');
 const authorRoutes = require('./routes/authorRoutes')
 const paymentRoutes = require('./routes/paymentRoutes');
-app.use(cors());
+app.use(cors({
+  origin: (origin, callback) => {
+    // if (origin === 'http://localhost:5174' || origin === 'http://another-origin.com') {
+      callback(null, true); // Allow the request
+    // } else {
+    //   callback(new Error('Not allowed by CORS')); // Block the request
+    // }
+  },
+  credentials: true, // Allow cookies and credentials
+}));
 
-
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-      "Access-Control-Allow-Methods",
-      "GET,HEAD,OPTIONS,POST,PUT,DELETE"
-  );
-  res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
-  next();
-});
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieparser());

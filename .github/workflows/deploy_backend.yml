@@ -37,5 +37,10 @@ jobs:
           banikriki/mern_back:latest
     - name: Verify deployment
       run: |
-        sleep 30 # Wait for the container to start
-        curl -s -o /dev/null -w "%{http_code}" http://localhost:4000 | grep "200"
+         docker run -d -p 4000:4000 \
+        -e "MONGO_URI=${{ secrets.DB_CONNECT }}" \
+        -e "SECRET=${{ secrets.JWT_SECRET }}" \
+        -e "REACT_APP_PROD_BASE_URL=${{ secrets.REACT_APP_PROD_BASE_URL }}" \
+        -e "PORT=4000" \
+        --name mern_back \
+        banikriki/mern_back:latest

@@ -1,14 +1,9 @@
-# Backend Dockerfile
 FROM node:20
 WORKDIR /app
 
 # Copy package files and install dependencies
 COPY package*.json ./
 RUN npm install
-
-# Copy environment file
-ARG ENV_FILE=.env
-COPY $ENV_FILE .env
 
 # Copy the rest of the application code
 COPY . .

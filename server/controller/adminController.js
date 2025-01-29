@@ -47,7 +47,11 @@ module.exports.loginAdmin = async (req,res)=>{
     }
     
     const token =await isAdmin.generateAuthToken();
-    res.cookie('token',token);
+    res.cookie('token',token,{
+        httpOnly: true,  // Prevents JavaScript from accessing it
+        secure: false,   // Set to `true` if using HTTPS
+        sameSite: 'lax'  // Adjust for cross-site requests
+    });
     res.status(201).redirect('/add-venue');
     
 }

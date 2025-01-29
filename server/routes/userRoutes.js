@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const { body } = require('express-validator');
 const userController = require('../controller/userController');
-const { authUser } = require('../middleware/authMiddleware');
+const authMiddleware = require('../middleware/authMiddleware');
 const userModel = require('../db/models/userModel')
-const authMiddleware = require('../middleware/authMiddleware')
+
 
 const jwt = require('jsonwebtoken');
 
@@ -18,7 +18,7 @@ router.post('/login', [
     body('email').isEmail().withMessage("Email must be a valid email"),
     body('password').isLength({ min: 5 }).withMessage("Password must be atleast 5 characters long")
 ], userController.loginUser);
-router.get('/data', authUser, async (req, res) => {
+router.get('/data', authMiddleware.authUser, async (req, res) => {
     const token = req.cookies.token
     const decode = jwt.verify(token, process.env.JWT_SECRET);
     const userData = await userModel.findOne({ "_id": decode._id })

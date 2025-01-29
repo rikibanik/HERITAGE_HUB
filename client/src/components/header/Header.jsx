@@ -11,11 +11,10 @@ const Header = () => {
     // console.log(resData)
     const getData = async () => {
         try {
-            const res = await fetch(`${import.meta.env.VITE_HOST}/user/data`,
+            const res = await fetch(`${import.meta.env.VITE_HOST}/user`,
                 {
                     method: "GET",
                     credentials: 'include',
-                    headers: { "Content-Type": "application/json" }
                 }
             )
             if (!res.ok) {

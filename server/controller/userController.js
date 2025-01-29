@@ -21,8 +21,8 @@ module.exports.registerUser = async (req, res) => {
     };
     const result = await userService.registerUser(user);
     res.cookie('token', result.token,{
-        // httpOnly: true,  // Prevents JavaScript from accessing it
-        // secure: false,   // Set to `true` if using HTTPS
+        httpOnly: true,  // Prevents JavaScript from accessing it
+        secure: false,   // Set to `true` if using HTTPS
         sameSite: 'lax'  // Adjust for cross-site requests
     }).status(201).json({ result });
 

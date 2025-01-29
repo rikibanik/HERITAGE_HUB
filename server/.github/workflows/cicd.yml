@@ -1,0 +1,41 @@
+name: Deploy backend of the MERN app
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Login to Docker Hub
+      run: docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
+    - name: Build Docker image
+      run: docker build -t banikriki/mern_back --build-arg ENV_FILE=.env .
+    - name: Push Docker image
+      run: docker push banikriki/mern_back:latest
+
+  deploy:
+    needs: build
+    runs-on: self-hosted
+    steps:
+    - name: Pull Docker image
+      run: docker pull banikriki/mern_back:latest
+    - name: Stop existing Docker container (if running)
+      run: docker stop mern_back || true
+    - name: Remove existing Docker container (if exists)
+      run: docker rm mern_back || true
+    - name: Run Docker container in production
+      run: |
+        docker run -d -p 4000:4000 \
+          -e "MONGO_URI=${{ secrets.DB_CONNECT }}" \
+          -e "SECRET=${{ secrets.JWT_SECRET }}" \
+          -e "REACT_APP_PROD_BASE_URL=${{ secrets.REACT_APP_PROD_BASE_URL }}" \
+          -e "PORT=4000" \
+          --name mern_back \
+          banikriki/mern_back:latest
+    - name: Verify deployment
+      run: |
+        sleep 30 # Wait for the container to start
+        curl -s -o /dev/null -w "%{http_code}" http://localhost:4000 | grep "200"

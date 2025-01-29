@@ -1,0 +1,38 @@
+name: Deploy author of the MERN app
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Login to Docker Hub
+      run: docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
+    - name: Build Docker image
+      run: docker build -t banikriki/mern_author --build-arg VITE_HOST=${{ secrets.REACT_APP_API_PROXY }} .
+    - name: Push Docker image
+      run: docker push banikriki/mern_author:latest
+
+  deploy:
+    needs: build
+    runs-on: self-hosted
+    steps:
+    - name: Pull Docker image
+      run: docker pull banikriki/mern_author:latest
+    - name: Stop existing Docker container (if running)
+      run: docker stop mern_author || true
+    - name: Remove existing Docker container (if exists)
+      run: docker rm mern_author || true
+    - name: Run Docker container in production
+      run: |
+        docker run -d -p 81:80 \
+          -e "REACT_APP_API_PROXY=${{ secrets.REACT_APP_API_PROXY }}" \
+          --name mern_author \
+          banikriki/mern_author:latest
+    - name: Verify deployment
+      run: |
+        sleep 30 # Wait for the container to start
+        curl -s -o /dev/null -w "%{http_code}" http://localhost:81 | grep "200"

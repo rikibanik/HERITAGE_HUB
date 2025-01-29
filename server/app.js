@@ -9,8 +9,8 @@ const venueRoutes = require('./routes/venueRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const userRoutes = require('./routes/userRoutes');
 const authorRoutes = require('./routes/authorRoutes')
-const paymentRoutes = require('./routes/paymentRoutes');
 
+const orderRoutes = require('./routes/orderRoutes')
 app.use(cors({
   origin: (origin, callback) => {
     // if (origin === 'http://localhost:5173' || origin === 'http://192.168.28.242:5173') {
@@ -21,6 +21,8 @@ app.use(cors({
   },
   credentials: true, // Allow cookies and credentials
 }));
+require('events').EventEmitter.defaultMaxListeners = 100; // Set it to 100
+
 
 
 app.use(express.json());
@@ -66,11 +68,10 @@ app.use(express.static(buildpath));
 //-----------------------------------------
 
 
-
 app.use('/venue', venueRoutes);
 app.use('/admin', adminRoutes);
 app.use('/user', userRoutes);
 app.use('/author', authorRoutes);
 
-app.use('/api/payment', paymentRoutes);
+app.use('/order',orderRoutes);
 module.exports = app;

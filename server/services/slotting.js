@@ -17,26 +17,26 @@ module.exports.createSlot = async (obj) => {
             venueId: venueId,
             date: new Date(date), // Ensure date format is consistent
             $or: [
-                {
-                    // Case 1: Existing slot starts within the new slot's range
-                    'slots.startTime.hour': { $gte: slots.startTime.hour, $lte: slots.endTime.hour },
-                    $expr: {
-                        $and: [
-                            { $gte: ['$slots.startTime.minute', startMinutes % 60] },
-                            { $lte: ['$slots.startTime.minute', endMinutes % 60] }
-                        ]
-                    }
-                },
-                {
-                    // Case 2: Existing slot ends within the new slot's range
-                    'slots.endTime.hour': { $gte: slots.startTime.hour, $lte: slots.endTime.hour },
-                    $expr: {
-                        $and: [
-                            { $gte: ['$slots.endTime.minute', startMinutes % 60] },
-                            { $lte: ['$slots.endTime.minute', endMinutes % 60] }
-                        ]
-                    }
-                },
+                // {
+                //     // Case 1: Existing slot starts within the new slot's range
+                //     'slots.startTime.hour': { $gte: slots.startTime.hour, $lte: slots.endTime.hour },
+                //     $expr: {
+                //         $and: [
+                //             { $gte: ['$slots.startTime.minute', startMinutes % 60] },
+                //             { $lte: ['$slots.startTime.minute', endMinutes % 60] }
+                //         ]
+                //     }
+                // },
+                // {
+                //     // Case 2: Existing slot ends within the new slot's range
+                //     'slots.endTime.hour': { $gte: slots.startTime.hour, $lte: slots.endTime.hour },
+                //     $expr: {
+                //         $and: [
+                //             { $gte: ['$slots.endTime.minute', startMinutes % 60] },
+                //             { $lte: ['$slots.endTime.minute', endMinutes % 60] }
+                //         ]
+                //     }
+                // },
                 {
                     // Case 3: Existing slot fully overlaps the new slot
                     $and: [

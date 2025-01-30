@@ -1,5 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { ContextMuseum } from '../context/context';
+import PaymentButton from './payment/BookingPayment';
 
 const Booking = () => {
     const { MuseumData } = useContext(ContextMuseum);
@@ -11,7 +12,8 @@ const Booking = () => {
     // selectedDate is responsibe to handle date selection
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split("T")[0]);
 
-    const [selectedSlot, setSelectedSlot] = useState('');
+    // initial value is undefined
+    const [selectedSlot, setSelectedSlot] = useState();
 
     // visitorCounts is handeling the input value change of no. of visitors and also responsible for the price count
     const [visitorCounts, setVisitorCounts] = useState({
@@ -28,8 +30,9 @@ const Booking = () => {
         return `${hour12.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} ${amPm}`;
     };
 
+
     const handleDateChange = (e) => {
-        const date = e.target.value;
+        const date = e ? e.target.value : new Date().toISOString().split("T")[0];
         setSelectedDate(date);
 
         fetch(`${import.meta.env.VITE_HOST}/venue/slot/${MuseumData.venue._id}/${date}`, {
@@ -40,9 +43,8 @@ const Booking = () => {
         })
             .then((response) => response.json())
             .then((data) => {
-                // console.log(data)
                 setAvailableSlots(data.slots);
-                setSelectedSlot('');
+                // setSelectedSlot('select');
                 setVisitorCounts({
                     indianAdults: 0,
                     indianChildren: 0,
@@ -52,6 +54,12 @@ const Booking = () => {
             })
             .catch((error) => console.error('Error:', error));
     };
+
+    // this useEffect is for handleDateChange() because upon page reload, no change in date input is observed which doesn't set available slots for that date even if it's available
+    useEffect(() => {
+        handleDateChange();
+    }, [])
+
 
     const handleSlotChange = (e) => {
         const selectedSlotId = e.target.value;
@@ -64,7 +72,6 @@ const Booking = () => {
             ...visitorCounts,
             [name]: value
         });
-        // console.log(visitorCounts)
     };
 
     const calculatePrice = () => {
@@ -82,10 +89,7 @@ const Booking = () => {
         );
     };
 
-    const handleBooking = (e) => {
-        e.preventDefault();
-        console.log("booking...")
-    }
+
 
     const getButtonText = () => {
         const price = calculatePrice();
@@ -94,6 +98,23 @@ const Booking = () => {
         }
         return 'Book Now';
     };
+
+    // this bookingInfo is being sent to the bookingPayment page
+    const bookingInfo = {
+        venueId: MuseumData.venue._id,
+        slotId: selectedSlot,
+        tickets: {
+            indianAdult: visitorCounts.indianAdults,
+            indianChild: visitorCounts.indianChildren,
+            foreignAdult: visitorCounts.foreignAdults,
+            foreignChild: visitorCounts.foreignChildren,
+        }
+    }
+
+    const handleBooking = (e) => {
+        e.preventDefault();
+        console.log("error cases for slot selection and no. of visitors is to be handeled! for now, fill values correctly!", bookingInfo)
+    }
 
     return (
         <section id="BookingForm" className="py-20 bg-neutral-900">
@@ -124,19 +145,21 @@ const Booking = () => {
                         <h3 className="text-lg font-semibold text-neutral-900 mb-4">Select an Available Slot</h3>
                         <div>
                             <select
-                                value={selectedSlot}
+                                // value={selectedSlot}
                                 onChange={handleSlotChange}
                                 className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
                             >
-                                {/* <option value="">--Select a Slot--</option> */}
                                 {availableSlots.length > 0 ? (
-                                    availableSlots.map((slot) => (
-                                        <option key={slot._id} value={slot._id}>
-                                            {`${formatTime(slot.slots.startTime.hour, slot.slots.startTime.minute)} - ${formatTime(slot.slots.endTime.hour, slot.slots.endTime.minute)} (Available Capacity: ${slot.maxCapacity - slot.currentBookings})`}
-                                        </option>
-                                    ))
+                                    <>
+                                        <option value="select">--Select a Slot--</option>
+                                        {availableSlots.map((slot) => (
+                                            <option key={slot._id} value={slot._id}>
+                                                {`${formatTime(slot.slots.startTime.hour, slot.slots.startTime.minute)} - ${formatTime(slot.slots.endTime.hour, slot.slots.endTime.minute)} (Available Capacity: ${slot.maxCapacity - slot.currentBookings})`}
+                                            </option>
+                                        ))}
+                                    </>
                                 ) : (
-                                    <option>No slots available</option>
+                                    <option value="">No slots available</option>
                                 )}
                             </select>
                         </div>
@@ -208,15 +231,18 @@ const Booking = () => {
                     {/* Booking Button */}
                     <div className="mt-8">
                         <button
+                            // onClick={handleBooking}
                             type="submit"
-                            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300"
+                            className='w-full'
+
                         >
-                            {getButtonText()}
+                            <PaymentButton bookingInfo={bookingInfo} calculatePrice={calculatePrice} />
                         </button>
+
                     </div>
                 </form>
-            </div>
-        </section>
+            </div >
+        </section >
     );
 };
 

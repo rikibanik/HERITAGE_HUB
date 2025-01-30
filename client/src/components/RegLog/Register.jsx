@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Bounce, ToastContainer, toast } from 'react-toastify';
-
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
+    const navigate = useNavigate();
     const [registerForm, setRegisterForm] = useState(
         {
             name: { firstname: "", lastname: "" },
@@ -32,26 +33,25 @@ const Register = () => {
                 },
                 body: JSON.stringify(registerForm),
             });
-            if (!response.ok) {
-                throw new Error('Registration failed!');
-            }
             const data = await response.json();
-            // console.log('ResponseRegister:', data);
-            if (data.result.error) {
-                toast.error('User already exists!', {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: false,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                    transition: Bounce,
-                });
-                return;
+            if (!response.ok) {
+                if (data.errors) {
+                    toast.error('User with this email already exists!', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: false,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                        transition: Bounce,
+                    });
+                }
+                throw new Error("Registration failed!");
             }
-            window.location.href = "/"
+            // console.log('ResponseRegister:', data);
+            navigate('/')
 
         } catch (error) {
             console.error(error);

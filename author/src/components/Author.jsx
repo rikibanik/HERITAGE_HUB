@@ -3,10 +3,10 @@ import AuthorProfile from './AuthorProfile'
 import ManageSlots from './ManageSlots'
 import AuthorNav from './authorHeader/AuthorNav'
 import Footer from './Footer'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const Author = () => {
-
+    const navigate = useNavigate();
     const [authorData, setAuthorData] = useState(null)
     const getAuthorData = async () => {
         try {
@@ -17,10 +17,13 @@ const Author = () => {
                     'Content-Type': 'application/json',
                 }
             });
+            const data = await response.json();
             if (!response.ok) {
+                if (data.message.includes("No token") || data.error.includes("Unauthorized")) {
+                    navigate('/login');
+                }
                 throw new Error('response not ok for getting author data!')
             }
-            const data = await response.json();
             setAuthorData(data)
         } catch (error) {
             console.error('Error:', error);
@@ -38,10 +41,10 @@ const Author = () => {
                     <main className='mt-16 bg-indigo-200'>
                         <AuthorProfile authorData={authorData.details} />
                         <ManageSlots />
-                        {/* <Analytics authorData={authorData.details} /> */}
+                        {/* Analytics.jsx is in ManageSlots.jsx */}
                     </main>
                     <Footer />
-                </> : <Link to={'/login'}>Login</Link>
+                </> : "Loading..."
             }
         </>
     )

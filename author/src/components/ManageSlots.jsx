@@ -6,14 +6,18 @@ import { TbListDetails } from 'react-icons/tb'
 import Analytics from './Analytics';
 
 const ManageSlots = () => {
+
+    // rerender is getting passed to addSlots to rerender this component whenever there's slot added
+    const [rerender, setRerender] = useState(false);
+
     const [slotData, setSlotData] = useState([]);
     const [isEditing, setIsEditing] = useState(null);
     const [selectedSlot, setSelectedSlot] = useState(null);
 
-    const convertUnixToDateUTC = (unixTimestamp) => {
-        const localDateTime = DateTime.fromSeconds(unixTimestamp).setZone('UTC');
-        return localDateTime.toFormat('dd, MMM');
-    };
+    const formatDate = (date) => {
+        // date received is like: 2025-02-01T00:00:00.000Z
+        return new Date(date.split("T")[0]).toLocaleDateString("en-GB", { day: "2-digit", month: "short" }).replace(" ", ", ")
+    }
 
     const formatTime = (hour, minute) => {
         const amPm = hour < 12 ? 'AM' : 'PM';
@@ -38,15 +42,14 @@ const ManageSlots = () => {
 
     useEffect(() => {
         getData();
-    }, []);
+    }, [rerender]);
 
 
     const tableHeading = [
-        "Date", "Start Time", "End Time", "Max Capacity", "Elastic Capacity", "Current Bookings", "Actions"
+        "Actions", "Date", "Start Time", "End Time", "Max Capacity", "Elastic Capacity", "Current Bookings"
     ]
 
     const handleSubmit = () => {
-        // input value conditions to be cheked here
         console.log({ maxCapacity: selectedSlot.maxCapacity, elasticCapacity: selectedSlot.elasticCapacity })
         setIsEditing(null);
         setSelectedSlot(null);
@@ -72,7 +75,7 @@ const ManageSlots = () => {
                 <div className="max-w-6xl mx-auto">
                     <div className="bg-white rounded-lg border border-gray-200 p-6">
                         {/* AddSlots Component */}
-                        <AddSlots />
+                        <AddSlots rerenderManageSlots={{ rerender, setRerender }} />
 
 
                         {slotData.length === 0 ? (
@@ -111,7 +114,13 @@ const ManageSlots = () => {
                                         <tbody className="bg-white divide-y divide-gray-200">
                                             {slotData.map((slot) => (
                                                 <tr key={slot._id} className="hover:bg-gray-50">
-                                                    <td className="px-6 py-4">{convertUnixToDateUTC(new Date(slot.date).getTime())}</td>
+                                                    <td className="px-6 py-4">
+                                                        <div className="flex space-x-2 justify-center">
+                                                            <TbListDetails title='Details' className='cursor-pointer' onClick={() => handleDetailsClick(slot)} />
+                                                            <BiEdit title='Edit' className='cursor-pointer' onClick={() => handleEditClick(slot)} />
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-6 py-4">{formatDate(slot.date)}</td>
                                                     <td className="px-6 py-4">
                                                         {formatTime(slot.slots.startTime.hour, slot.slots.startTime.minute)}
                                                     </td>
@@ -121,12 +130,7 @@ const ManageSlots = () => {
                                                     <td className="px-6 py-4">{slot.maxCapacity}</td>
                                                     <td className="px-6 py-4">{slot.elasticCapacity}</td>
                                                     <td className="px-6 py-4">{slot.currentBookings}</td>
-                                                    <td className="px-6 py-4">
-                                                        <div className="flex space-x-2 justify-center">
-                                                            <TbListDetails title='Details' className='cursor-pointer' onClick={() => handleDetailsClick(slot)} />
-                                                            <BiEdit title='Edit' className='cursor-pointer' onClick={() => handleEditClick(slot)} />
-                                                        </div>
-                                                    </td>
+
                                                 </tr>
                                             ))}
                                         </tbody>
@@ -143,8 +147,10 @@ const ManageSlots = () => {
                                     {isEditing ? 'Edit Slot' : 'Slot Details'}
                                 </h3>
                                 {isEditing ? (
-                                    <>
-
+                                    <form onSubmit={(e) => {
+                                        e.preventDefault();
+                                        handleSubmit();
+                                    }}>
                                         <div className="mb-4">
                                             <label className="block font-medium text-gray-700">Max Capacity:</label>
                                             <input
@@ -178,16 +184,14 @@ const ManageSlots = () => {
                                                 Cancel
                                             </button>
                                             <button
-                                                type="button"
-                                                onClick={handleSubmit}
+                                                type="submit"
                                                 className="w-full px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
                                             >
                                                 Save
                                             </button>
-                                        </div>
-                                    </>
+                                        </div></form>
                                 ) : (
-                                    <>
+                                    <div>
 
                                         <p><strong>Date:</strong> {new Date(selectedSlot.date).toDateString()}</p>
                                         <p><strong>Start Time:</strong> {formatTime(selectedSlot.slots.startTime.hour, selectedSlot.slots.startTime.minute)}</p>
@@ -203,7 +207,7 @@ const ManageSlots = () => {
                                                 Close
                                             </button>
                                         </div>
-                                    </>
+                                    </div>
                                 )}
                             </div>
                         </div>

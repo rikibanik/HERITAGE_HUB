@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Bounce, ToastContainer, toast } from 'react-toastify';
-
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+    const navigate = useNavigate();
     const [LoginFrom, setLoginFrom] = useState({
         email: "",
         password: "",
@@ -55,7 +56,7 @@ const Login = () => {
                 });
                 return;
             }
-            window.location.href = "/"
+            navigate('/');
         } catch (error) {
             console.error('Error:', error);
         }

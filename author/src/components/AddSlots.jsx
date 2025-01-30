@@ -1,20 +1,24 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'
 
-const AddSlots = () => {
+const AddSlots = ({ rerenderManageSlots }) => {
+    const { rerender, setRerender } = rerenderManageSlots;
+
+    // const convertTimeTwoDigit
     const [addSlotData, setAddSlotData] = useState({
         date: new Date().toISOString().split("T")[0],
         slots: {
             startTime: {
-                hour: 0,
-                minute: 0,
+                hour: "09",
+                minute: "00",
             },
             endTime: {
-                hour: 12,
-                minute: 0,
+                hour: "12",
+                minute: "00",
             },
         },
-        maxCapacity: 10,
-        elasticCapacity: 10,
+        maxCapacity: 1,
+        elasticCapacity: 1,
     });
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,24 +32,23 @@ const AddSlots = () => {
     };
 
     const handleChange = (e) => {
-        // console.log(addSlotData)
-        // console.log(e.target)
         const { name, value } = e.target;
-        console.log(name, value)
-        if (name.includes('startTime') || name.includes('endTime')) {
-            // const type = name.split('.')[0];
-            // const time = name.split('.')[1];
-            const [time, type] = name.split('.');
+        // console.log(name, value)
+
+        if (name === 'startTime' || name === 'endTime') {
+            const [hour, minute] = value.split(':');
             setAddSlotData({
                 ...addSlotData,
                 slots: {
                     ...addSlotData.slots,
-                    [time]: {
-                        ...addSlotData.slots[time],
-                        [type]: value,
+                    [name]: {
+                        ...addSlotData.slots[name],
+                        hour: hour,
+                        minute: minute,
                     },
                 },
             });
+
         } else {
             setAddSlotData({
                 ...addSlotData,
@@ -54,7 +57,8 @@ const AddSlots = () => {
         }
     };
 
-    const handleAddData = async () => {
+    const handleAddData = async (e) => {
+        e.preventDefault();
         try {
             const res = await fetch(`${import.meta.env.VITE_HOST}/author/add-slot`, {
                 method: 'POST',
@@ -69,7 +73,7 @@ const AddSlots = () => {
                 throw new Error('Error while adding Slot!');
             }
             handleCloseModal();
-            // location.reload()
+            setRerender(!rerender)
         } catch (error) {
             console.error(error);
         }
@@ -94,7 +98,7 @@ const AddSlots = () => {
                         <h3 className="text-xl font-semibold text-gray-800 mb-4">Add Slot Details</h3>
 
                         {/* Form */}
-                        <form className="space-y-4">
+                        <form className="space-y-4" onSubmit={handleAddData}>
                             <div>
                                 <label htmlFor="date" className="block text-gray-700">Date</label>
                                 <input
@@ -111,58 +115,28 @@ const AddSlots = () => {
                             </div>
 
                             <div className="flex space-x-4">
-                                <div className="w-1/2">
-                                    <label htmlFor="startTime.hour" className="block text-gray-700">Start Time Hour</label>
+                                <div className="w-full">
+                                    <label htmlFor="startTime" className="block text-gray-700">Start Time</label>
                                     <input
-                                        type="number"
-                                        id="startTime.hour"
-                                        name="startTime.hour"
-                                        value={addSlotData.slots.startTime.hour}
+                                        type="time"
+                                        id="startTime"
+                                        name="startTime"
+                                        value={`${addSlotData.slots.startTime.hour}:${addSlotData.slots.startTime.minute}`}
                                         onChange={handleChange}
-                                        min="0"
-                                        max="23"
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-md"
-                                    />
-                                </div>
-                                <div className="w-1/2">
-                                    <label htmlFor="startTime.minute" className="block text-gray-700">Start Time Minute</label>
-                                    <input
-                                        type="number"
-                                        id="startTime.minute"
-                                        name="startTime.minute"
-                                        value={addSlotData.slots.startTime.minute}
-                                        onChange={handleChange}
-                                        min="0"
-                                        max="59"
                                         className="w-full px-4 py-2 border border-gray-300 rounded-md"
                                     />
                                 </div>
                             </div>
 
                             <div className="flex space-x-4">
-                                <div className="w-1/2">
-                                    <label htmlFor="endTime.hour" className="block text-gray-700">End Time Hour</label>
+                                <div className="w-full">
+                                    <label htmlFor="endTime" className="block text-gray-700">End Time</label>
                                     <input
-                                        type="number"
-                                        id="endTime.hour"
-                                        name="endTime.hour"
-                                        value={addSlotData.slots.endTime.hour}
+                                        type="time"
+                                        id="endTime"
+                                        name="endTime"
+                                        value={`${addSlotData.slots.endTime.hour}:${addSlotData.slots.endTime.minute}`}
                                         onChange={handleChange}
-                                        min="0"
-                                        max="23"
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-md"
-                                    />
-                                </div>
-                                <div className="w-1/2">
-                                    <label htmlFor="endTime.minute" className="block text-gray-700">End Time Minute</label>
-                                    <input
-                                        type="number"
-                                        id="endTime.minute"
-                                        name="endTime.minute"
-                                        value={addSlotData.slots.endTime.minute}
-                                        onChange={handleChange}
-                                        min="0"
-                                        max="59"
                                         className="w-full px-4 py-2 border border-gray-300 rounded-md"
                                     />
                                 </div>
@@ -203,8 +177,7 @@ const AddSlots = () => {
                                     Cancel
                                 </button>
                                 <button
-                                    type="button"
-                                    onClick={handleAddData}
+                                    type="submit"
                                     className="w-full px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
                                 >
                                     Save Slot

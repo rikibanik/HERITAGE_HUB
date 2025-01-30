@@ -19,7 +19,7 @@ const Author = () => {
             });
             const data = await response.json();
             if (!response.ok) {
-                if (data.message.includes("No token") || data.error.includes("Unauthorized")) {
+                if ((data.message && data.message.includes("No token")) || (data.error && data.error.includes("Unauthorised"))) {
                     navigate('/login');
                 }
                 throw new Error('response not ok for getting author data!')

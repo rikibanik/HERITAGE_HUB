@@ -1,7 +1,7 @@
 const { validationResult, ExpressValidator } = require('express-validator');
 
 const venueService = require('../services/venueService');
-const orderModel = require('../db/models/orderModel')
+
 const slotting = require('../services/slotting')
 const mongoose = require('mongoose')
 const userModel = require('../db/models/userModel');
@@ -35,6 +35,7 @@ module.exports.createOrder = async(req,res)=>{
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
+    console.log("hello")
     const {venueId,slotId,tickets } = req.body;
     const email = req.user.email;
     var totalSum = 0;

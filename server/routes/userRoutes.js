@@ -19,11 +19,14 @@ router.post('/login', [
     body('password').isLength({ min: 5 }).withMessage("Password must be atleast 5 characters long")
 ], userController.loginUser);
 router.get('/', async (req, res) => {
+    try{ 
     const token = req.cookies.token
     const decode = jwt.verify(token, process.env.JWT_SECRET);
     const userData = await userModel.findOne({ "_id": decode._id })
-    // console.log(userData)
-    res.json(userData)
+    res.status(201).json(userData)
+    }catch(e){
+        res.status(400).json({e})
+    }
 })
 
 router.get('/logout',authMiddleware.authUser,userController.logoutUser);

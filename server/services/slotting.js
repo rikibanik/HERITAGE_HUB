@@ -110,9 +110,11 @@ module.exports.searchSlotbyVenuedate = async (id, date)=>{
         if(!slotList){
             throw new Error("Does not exist");
         }
+       
         return slotList
     }
     catch(e){
+        
         throw e;
     }
 }

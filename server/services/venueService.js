@@ -34,7 +34,7 @@ module.exports.findByKeyword = async (keyword) => {
     }
     try{
         const venue = await venueModel.findById(id);
-        console.log("Reached getVenues");
+        // console.log("Reached getVenues");
         return venue;
        
     }catch(err){

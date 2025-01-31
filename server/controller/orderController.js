@@ -44,7 +44,7 @@ module.exports.createOrder = async (req, res) => {
     Object.values(tickets).forEach(value => {
         totalSum += value;
     });
-
+    console.log(totalSum)
     const session = await mongoose.startSession();
     session.startTransaction();
 

@@ -70,9 +70,10 @@ const Booking = () => {
         const { name, value } = e.target;
         setVisitorCounts({
             ...visitorCounts,
-            [name]: value
+            [name]: Number(value) || 0, // Ensures the value is an integer
         });
     };
+    
 
     const calculatePrice = () => {
         const { indianAdults, indianChildren, foreignAdults, foreignChildren } = visitorCounts;
@@ -113,8 +114,20 @@ const Booking = () => {
 
     const handleBooking = (e) => {
         e.preventDefault();
-        console.log("error cases for slot selection and no. of visitors is to be handeled! for now, fill values correctly!", bookingInfo)
-    }
+        
+        if (!selectedSlot) {
+            alert("Please select a valid slot.");
+            return;
+        }
+    
+        if (calculatePrice() === 0) {
+            alert("Please select at least one visitor.");
+            return;
+        }
+    
+        console.log("Proceeding with booking:", bookingInfo);
+    };
+    
 
     return (
         <section id="BookingForm" className="py-20 bg-neutral-900">
@@ -144,24 +157,25 @@ const Booking = () => {
                     <div className="mt-8">
                         <h3 className="text-lg font-semibold text-neutral-900 mb-4">Select an Available Slot</h3>
                         <div>
-                            <select
-                                // value={selectedSlot}
-                                onChange={handleSlotChange}
-                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
-                            >
-                                {availableSlots.length > 0 ? (
-                                    <>
-                                        <option value="select">--Select a Slot--</option>
-                                        {availableSlots.map((slot) => (
-                                            <option key={slot._id} value={slot._id}>
-                                                {`${formatTime(slot.slots.startTime.hour, slot.slots.startTime.minute)} - ${formatTime(slot.slots.endTime.hour, slot.slots.endTime.minute)} (Available Capacity: ${slot.maxCapacity - slot.currentBookings})`}
-                                            </option>
-                                        ))}
-                                    </>
-                                ) : (
-                                    <option value="">No slots available</option>
-                                )}
-                            </select>
+                        <select
+                                 value={selectedSlot}
+                                    onChange={handleSlotChange}
+                                         className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                        >
+                 {availableSlots.length > 0 ? (
+                              <>
+                                <option value="">--Select a Slot--</option>
+            {availableSlots.map((slot) => (
+                <option key={slot._id} value={slot._id}>
+                    {`${formatTime(slot.slots.startTime.hour, slot.slots.startTime.minute)} - ${formatTime(slot.slots.endTime.hour, slot.slots.endTime.minute)} (Available Capacity: ${slot.maxCapacity - slot.currentBookings})`}
+                </option>
+            ))}
+        </>
+    ) : (
+        <option value="">No slots available</option>
+    )}
+</select>
+
                         </div>
                     </div>
 
@@ -232,7 +246,7 @@ const Booking = () => {
                     <div className="mt-8">
                         <button
                             // onClick={handleBooking}
-                            type="submit"
+                            
                             className='w-full'
 
                         >

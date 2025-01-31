@@ -65,12 +65,12 @@ const PaymentButton = ({ bookingInfo, calculatePrice }) => {
     return (
         <>
             {calculatePrice() === 0 ? <div
-                // onClick={handlePayment}
+                onClick={handlePayment}
                 className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300"
             >
                 Buy now
             </div> : <div
-                // onClick={handlePayment}
+                onClick={handlePayment}
                 className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300"
             >
                 Pay now

@@ -104,10 +104,10 @@ const Booking = () => {
         venueId: MuseumData.venue._id,
         slotId: selectedSlot,
         tickets: {
-            indianAdult: visitorCounts.indianAdults,
-            indianChild: visitorCounts.indianChildren,
-            foreignAdult: visitorCounts.foreignAdults,
-            foreignChild: visitorCounts.foreignChildren,
+            indianAdult: Number(visitorCounts.indianAdults),
+            indianChild: Number(visitorCounts.indianChildren),
+            foreignAdult: Number(visitorCounts.foreignAdults),
+            foreignChild: Number(visitorCounts.foreignChildren),
         }
     }
 
@@ -124,7 +124,7 @@ const Booking = () => {
                     <div className="w-24 h-1 bg-indigo-600 mx-auto"></div>
                 </div>
 
-                <form onSubmit={handleBooking} id="visitorForm" className="bg-white rounded-lg shadow-xl p-8">
+                <form  id="visitorForm" className="bg-white rounded-lg shadow-xl p-8">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label htmlFor="visit-date" className="block text-neutral-700 font-medium mb-2">Visit Date</label>

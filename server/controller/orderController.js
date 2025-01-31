@@ -29,21 +29,25 @@ function generateUniqueId() {
 
     return id;
 }
-module.exports.createOrder = async(req,res)=>{
+module.exports.createOrder = async (req, res) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-    console.log("hello")
-    const {venueId,slotId,tickets } = req.body;
+
+    console.log("hello");
+    const { venueId, slotId, tickets } = req.body;
     const email = req.user.email;
-    var totalSum = 0;
+    let totalSum = 0;
+    
     Object.values(tickets).forEach(value => {
-        totalSum += value;  // Add the value of each ticket type
+        totalSum += value;
     });
+
     const session = await mongoose.startSession();
     session.startTransaction();
+
     try {
         // Get user details
         const user = await userModel.findOne({ email }).select('_id').session(session);
@@ -56,12 +60,16 @@ module.exports.createOrder = async(req,res)=>{
         if (!venue) {
             throw new Error('Venue not found.');
         }
-        const amount = tickets.indianAdult * venue.fare.indianAdult +
-                        tickets.indianChild * venue.fare.indianChild +
-                        tickets.foreignAdult * venue.fare.foreignAdult +
-                        tickets.foreignChild * venue.fare.foreignChild ;
-        // Check slot availability
+
+        const amount = 
+            (tickets.indianAdult || 0) * venue.fare.indianAdult +
+            (tickets.indianChild || 0) * venue.fare.indianChild +
+            (tickets.foreignAdult || 0) * venue.fare.foreignAdult +
+            (tickets.foreignChild || 0) * venue.fare.foreignChild;
+
         console.log(amount);
+
+        // Check slot availability
         const available = await slotting.checkAvailabilty(slotId);
         if (!available) {
             throw new Error('No slot available.');
@@ -73,12 +81,22 @@ module.exports.createOrder = async(req,res)=>{
             { $inc: { currentBookings: totalSum } },
             { new: true, session }
         );
+
+        if (!slot) {
+            throw new Error('Slot not found.');
+        }
+
+        console.log(slot.currentBookings);
+        console.log(slot.maxCapacity);
+
         if (slot.currentBookings > slot.maxCapacity) {
             throw new Error('Slot overbooked.');
         }
+
         const orderNumber = generateUniqueId();
-        
-        if(amount==0){
+        let order;
+
+        if (amount === 0) {
             const freeOrder = {
                 userId: user._id,
                 venueId: venueId,
@@ -86,55 +104,45 @@ module.exports.createOrder = async(req,res)=>{
                 tickets: tickets,
                 orderNum: orderNumber,
                 amount: amount,
-                // receiptNum to be added from razorpay
-            }
-            try{
-                const order = orderService.createOrder(freeOrder);
-                res.status(201).json({message: "Order Created", order});
-            }catch(e){
-                res.status(400).json({message: "Unable to create order"})
-            }
-            
+            };
 
-        }
-        else{
+            order = await orderService.createOrder(freeOrder);
+        } else {
             const options = {
                 amount: amount * 100, // Convert amount to smallest currency unit
                 currency: 'INR',
                 receipt: orderNumber,
                 payment_capture: 1
             };
-            const order = await razorpayInstance.orders.create(options);
-            console.log(order);
+
+            const razorpayOrder = await razorpayInstance.orders.create(options);
+            console.log(razorpayOrder);
+
             const newOrder = {
                 userId: user._id,
                 venueId: venueId,
                 slotId: slotId,
                 orderNum: orderNumber,
                 amount: amount,
-                // receiptNum to be added from razorpay
-            }
-            try{
-                const order = orderService.createOrder(newOrder);
-                res.status(201).json({message: "Order Created", order});
-            }catch(e){
-                res.status(400).json({message: "Unable to create order"})
-            }
-            console.log(createdOrder);
+            };
+
+            order = await orderService.createOrder(newOrder);
         }
-        
-        // Commit the transaction
+
+        // Commit the transaction **only if everything goes well**
         await session.commitTransaction();
         session.endSession();
 
-        res.status(200).json(order);
+        return res.status(201).json({ message: "Order Created", order });
+
     } catch (error) {
-        // Abort the transaction in case of an error
-        await session.abortTransaction();
+        // Only abort if the transaction is still active
+        if (session.inTransaction()) {
+            await session.abortTransaction();
+        }
         session.endSession();
 
         console.error(error);
-        res.status(500).send({ error: error.message });
+        return res.status(500).json({ error: error.message });
     }
-
-}
+};

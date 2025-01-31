@@ -11,56 +11,68 @@ const PaymentButton = ({ bookingInfo, calculatePrice }) => {
         document.body.appendChild(script);
     }, []);
 
-    const handlePayment = async () => {
-        console.log("Ensure slot and visitor selection are valid!");
-
+    const handlePayment = async (e) => {
+        e.preventDefault();
+    
         try {
             const obj = {
                 venueId: venueId,
                 slotId: slotId,
                 tickets: { indianAdult, indianChild, foreignAdult, foreignChild }
             };
-
+    
             const response = await fetch(`${import.meta.env.VITE_HOST}/order/booknow`, {
                 method: "POST",
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(obj),
             });
-
+    
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
-
-            const data = await response.json();
-            const { id: _id, amount, currency } = data;
-            console.log("Razorpay Order Response:", data);
-
-
+            console.log(response)
+            const { razorpay_order_id } = await response.json();
+    
             const options = {
                 key: import.meta.env.VITE_RAZORPAY_KEY_ID, // Load from env
-                amount,
+                amount: calculatePrice() * 100, // Amount in smallest unit (paise)
                 currency: 'INR',
                 name: "HERITAGE HUB",
                 description: "Test Transaction",
-                order_id,
-                handler: (response) => {
-                    alert(`Payment Successful! Payment ID: ${response.razorpay_payment_id}`);
+                order_id: razorpay_order_id,
+                handler: async function (response) {
+                    // Step 3: Verify payment on backend
+                    const verifyRes = await fetch(`${import.meta.env.VITE_HOST}/order/verify-payment`, {
+                        method: "POST",
+                        credentials: 'include',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(response),
+                    });
+    
+                    const verifyData = await verifyRes.json();
+    
+                    if (verifyData.success) {
+                        alert("Payment Successful! Order Created.");
+                    } else {
+                        alert("Payment Verification Failed.");
+                    }
                 },
                 prefill: {
-                    name: "John Doe",
+                    name: "RIKI BANIK",
                     email: "john.doe@example.com",
                     contact: "9999999999",
                 },
-                theme: { color: "#3399cc" },
+                theme: { color: "#4F4AE5" },
             };
-
+    
             const paymentObject = new window.Razorpay(options);
             paymentObject.open();
         } catch (error) {
             console.error('Payment initiation failed:', error);
         }
     };
+    
 
     return (
         <div

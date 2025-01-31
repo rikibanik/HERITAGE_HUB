@@ -1,6 +1,6 @@
 const orderModel = require('../db/models/orderModel');
 
-module.exports.createOrder = async (obj)=>{
+module.exports.createOrder = async (obj) => {
     if (!obj) {
         return { error: 'Please provide all the details' };
     }
@@ -9,6 +9,21 @@ module.exports.createOrder = async (obj)=>{
         return order;
     } catch (error) {
         throw new Error("unable to create order");
-        
+    }
+}
+
+module.exports.updateOrderStatus = async (rzpid, sts) => {
+    if (!rzpid || !sts) {
+        return { error: 'Please provide both order number and status' };
+    }
+    try {
+        const updatedOrder = await orderModel.findOneAndUpdate(
+            { orderNum: rzpid },
+            { status: sts },
+            { new: true }
+        );
+        return updatedOrder;
+    } catch (error) {
+        throw new Error("unable to update order status");
     }
 }

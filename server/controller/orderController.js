@@ -1,13 +1,11 @@
-const { validationResult, ExpressValidator } = require('express-validator');
-
-const venueService = require('../services/venueService');
-
-const slotting = require('../services/slotting')
-const mongoose = require('mongoose')
-const userModel = require('../db/models/userModel');
-const slotModel = require('../db/models/slotModel');
+const razorpayInstance = require('../controller/razorpay');
+const crypto = require('crypto');
 const orderService = require('../services/orderService');
-const razorpayInstance = require('../controller/razorpay')
+const userModel = require('../db/models/userModel');
+const venueService = require('../services/venueService');
+const slotting = require('../services/slotting');
+const slotModel = require('../db/models/slotModel');
+const mongoose = require('mongoose');
 function generateUniqueId() {
     const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const numbers = '0123456789';
@@ -30,21 +28,14 @@ function generateUniqueId() {
     return id;
 }
 module.exports.createOrder = async (req, res) => {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-
-    console.log("hello");
     const { venueId, slotId, tickets } = req.body;
     const email = req.user.email;
     let totalSum = 0;
-    
+
     Object.values(tickets).forEach(value => {
         totalSum += value;
     });
-    console.log(totalSum)
+
     const session = await mongoose.startSession();
     session.startTransaction();
 
@@ -61,13 +52,11 @@ module.exports.createOrder = async (req, res) => {
             throw new Error('Venue not found.');
         }
 
-        const amount = 
-            (tickets.indianAdult || 0) * venue.fare.indianAdult +
+        // Calculate the total amount
+        const amount = (tickets.indianAdult || 0) * venue.fare.indianAdult +
             (tickets.indianChild || 0) * venue.fare.indianChild +
             (tickets.foreignAdult || 0) * venue.fare.foreignAdult +
             (tickets.foreignChild || 0) * venue.fare.foreignChild;
-
-        console.log(amount);
 
         // Check slot availability
         const available = await slotting.checkAvailabilty(slotId);
@@ -75,21 +64,14 @@ module.exports.createOrder = async (req, res) => {
             throw new Error('No slot available.');
         }
 
-        // Update slot availability (reserve slot temporarily)
+        // Reserve slot temporarily
         const slot = await slotModel.findOneAndUpdate(
             { _id: slotId },
             { $inc: { currentBookings: totalSum } },
             { new: true, session }
         );
 
-        if (!slot) {
-            throw new Error('Slot not found.');
-        }
-
-        console.log(slot.currentBookings);
-        console.log(slot.maxCapacity);
-
-        if (slot.currentBookings > slot.maxCapacity) {
+        if (!slot || slot.currentBookings > slot.maxCapacity) {
             throw new Error('Slot overbooked.');
         }
 
@@ -104,45 +86,72 @@ module.exports.createOrder = async (req, res) => {
                 tickets: tickets,
                 orderNum: orderNumber,
                 amount: amount,
+                status: "created", // Set status as 'created'
             };
 
             order = await orderService.createOrder(freeOrder);
+            await session.commitTransaction();
+            session.endSession();
+            return res.status(201).json({ message: "Order Created", order });
         } else {
             const options = {
-                amount: amount * 100, // Convert amount to smallest currency unit
+                amount: amount * 100, // Convert amount to smallest currency unit (paise)
                 currency: 'INR',
                 receipt: orderNumber,
-                payment_capture: 1
+                payment_capture: 1,
             };
 
             const razorpayOrder = await razorpayInstance.orders.create(options);
-            console.log(razorpayOrder);
 
             const newOrder = {
                 userId: user._id,
                 venueId: venueId,
                 slotId: slotId,
-                orderNum: orderNumber,
+                orderNum: razorpayOrder.id,
                 amount: amount,
+                receiptId: razorpayOrder.receipt,
+                status: "created", // Initial status as 'created'
             };
 
             order = await orderService.createOrder(newOrder);
+            await session.commitTransaction();
+            session.endSession();
+
+            return res.json({
+                razorpay_order_id: razorpayOrder.id,
+                userId: user._id,
+                venueId,
+                amount,
+            });
         }
-
-        // Commit the transaction **only if everything goes well**
-        await session.commitTransaction();
-        session.endSession();
-
-        return res.status(201).json({ message: "Order Created", order });
-
     } catch (error) {
-        // Only abort if the transaction is still active
         if (session.inTransaction()) {
             await session.abortTransaction();
         }
         session.endSession();
-
         console.error(error);
         return res.status(500).json({ error: error.message });
+    }
+};
+
+module.exports.verifyPayment = async (req, res) => {
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+
+    const generated_signature = crypto
+        .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+        .update(razorpay_order_id + "|" + razorpay_payment_id)
+        .digest("hex");
+
+    if (generated_signature === razorpay_signature) {
+        // Payment is verified, now update the order status in the database
+        const order = await orderService.updateOrderStatus(razorpay_order_id, "paid");
+
+        if (order) {
+            res.json({ success: true, message: "Payment Verified. Order Created." });
+        } else {
+            res.status(400).json({ success: false, message: "Order not found." });
+        }
+    } else {
+        res.status(400).json({ success: false, message: "Payment Verification Failed." });
     }
 };

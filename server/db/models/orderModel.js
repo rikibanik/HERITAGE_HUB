@@ -31,6 +31,12 @@ const orderSchema= new mongoose.Schema({
     dateofBooking:{
         type: Date,
         default: Date.now
+    },
+    status:{
+        type: String
+    },
+    receiptId:{
+        type: String
     }
 })
 const Order = mongoose.model('Order',orderSchema);

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { useLocation } from 'react-router-dom';
 import { ContextMuseum } from '../context/context';
 import Loading from '../dashboard/Loading';
-import { Link as ElementLink} from 'react-scroll';
+import { Link as ElementLink } from 'react-scroll';
 
 const Description = () => {
 
@@ -56,7 +56,7 @@ const Description = () => {
                         </div>
                     </div>
                     {/* loading position to be fixed */}
-                </section>) : <Loading type="spinningBubbles" color="blue" />}
+                </section>) : <div className='flex justify-center items-center h-[100vh]'><Loading type="spinningBubbles" color="blue" /></div>}
         </>
     )
 }

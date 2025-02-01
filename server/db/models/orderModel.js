@@ -28,14 +28,21 @@ const orderSchema= new mongoose.Schema({
         type: String,
         
     },
-    dateofBooking:{
+    dateofBooking: {
         type: Date,
-        default: Date.now
+        default: () => {
+            let now = new Date();
+            let istOffset = 5.5 * 60 * 60 * 1000; // Offset for IST (5 hours 30 minutes)
+            return new Date(now.getTime() + istOffset);
+        }
     },
     status:{
         type: String
     },
     receiptId:{
+        type: String
+    },
+    typeOfOrder:{
         type: String
     }
 })

@@ -27,3 +27,19 @@ module.exports.updateOrderStatus = async (rzpid, sts) => {
         throw new Error("unable to update order status");
     }
 }
+module.exports.getOrderById = async (id)=>{
+    if(!id){
+        throw new Error("ID dne");
+        
+    }
+    try{
+        const order = await orderModel.findById(id);
+        if(!order){
+            throw new Error("order doesnot exist");
+        }
+        return order;
+    }catch(e){
+        throw new Error("error while searching");
+        
+    }
+}

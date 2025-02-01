@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 const LogoutBooking = () => {
     return (
-        <div className="mx-auto px-4 sm:px-6 lg:px-8 py-20 bg-neutral-900 blur-md">
+        <div className="mx-auto px-4 sm:px-6 lg:px-8 py-20 bg-neutral-900">
             <div className="text-center mb-16 ">
                 <h2 className="text-3xl font-bold text-white mb-4">Book Your Visit</h2>
                 <div className="w-24 h-1 bg-indigo-600 mx-auto"></div>

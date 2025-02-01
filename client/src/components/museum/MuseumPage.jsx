@@ -6,39 +6,35 @@ import VisitingInfo from './VisitingInfo'
 import Booking from './Booking'
 import Gallery from './Gallery'
 import Footer from '../Footer'
-import { ContextMuseum, ContextCheckLogin } from '../context/context'
+import { ContextMuseum } from '../context/context'
 import { Element } from 'react-scroll'
-import LogoutBooking from './LogoutBooking'
 
 // MuseumList
 const MuseumPage = () => {
-    const [resData, setResData] = useState(null)
     const [MuseumData, setMuseumData] = useState(null);
     document.title = MuseumData ? `${MuseumData.venue.name} | HeritageHub` : "HeritageHub";
     return (
         <>
-            <ContextCheckLogin.Provider value={{ resData, setResData }}>
-                <ContextMuseum.Provider value={{ MuseumData, setMuseumData }}>
-                    <Navbar />
-                    {/* <Header/> */}
-                    <Description />
-                    {MuseumData &&
-                        <main>
-                            <Element name='visitinginfo'>
-                                <VisitingInfo />
-                            </Element>
-                            <Element name='booking'>
-                                {resData && resData.email ? <Booking /> : <LogoutBooking />}
-                            </Element>
-                            <Element name='gallery'>
-                                <Gallery />
-                            </Element>
-                            <Collections />
-                            <Footer />
-                        </main>
-                    }
-                </ContextMuseum.Provider>
-            </ContextCheckLogin.Provider>
+            <ContextMuseum.Provider value={{ MuseumData, setMuseumData }}>
+                <Navbar />
+                {/* <Header/> */}
+                <Description />
+                {MuseumData &&
+                    <main>
+                        <Element name='visitinginfo'>
+                            <VisitingInfo />
+                        </Element>
+                        <Element name='booking'>
+                            <Booking />
+                        </Element>
+                        <Element name='gallery'>
+                            <Gallery />
+                        </Element>
+                        <Collections />
+                        <Footer />
+                    </main>
+                }
+            </ContextMuseum.Provider>
         </>
     )
 }

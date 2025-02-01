@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { ContextMuseum } from '../context/context';
+import PaymentButton from './payment/BookingPayment';
 
 const Booking = () => {
     const { MuseumData } = useContext(ContextMuseum);
@@ -54,13 +55,9 @@ const Booking = () => {
             .catch((error) => console.error('Error:', error));
     };
 
-    // this useEffect is for handleDateChange() as there's no change in date input field upon page reload, which doesn't set available slots for that date even if it's available
+    // this useEffect is for handleDateChange() because upon page reload, no change in date input is observed which doesn't set available slots for that date even if it's available
     useEffect(() => {
         handleDateChange();
-        const script = document.createElement("script");
-        script.src = "https://checkout.razorpay.com/v1/checkout.js";
-        script.async = true;
-        document.body.appendChild(script);
     }, [])
 
 
@@ -76,7 +73,7 @@ const Booking = () => {
             [name]: Number(value) || 0, // Ensures the value is an integer
         });
     };
-
+    
 
     const calculatePrice = () => {
         const { indianAdults, indianChildren, foreignAdults, foreignChildren } = visitorCounts;
@@ -93,85 +90,54 @@ const Booking = () => {
         );
     };
 
-    const handlePayment = async (e) => {
+
+
+    const getButtonText = () => {
+        const price = calculatePrice();
+        if (price > 0) {
+            return 'Pay Now';
+        }
+        return 'Book Now';
+    };
+
+    // this bookingInfo is being sent to the bookingPayment page
+    const bookingInfo = {
+        venueId: MuseumData.venue._id,
+        slotId: selectedSlot,
+        tickets: {
+            indianAdult: Number(visitorCounts.indianAdults),
+            indianChild: Number(visitorCounts.indianChildren),
+            foreignAdult: Number(visitorCounts.foreignAdults),
+            foreignChild: Number(visitorCounts.foreignChildren),
+        }
+    }
+
+    const handleBooking = (e) => {
         e.preventDefault();
+        
         if (!selectedSlot) {
             alert("Please select a valid slot.");
             return;
         }
-
+    
         if (calculatePrice() === 0) {
             alert("Please select at least one visitor.");
             return;
         }
-        try {
-            const obj = {
-                venueId: MuseumData.venue._id,
-                slotId: selectedSlot,
-                tickets: visitorCounts,
-            };
-            const response = await fetch(`${import.meta.env.VITE_HOST}/order/booknow`, {
-                method: "POST",
-                credentials: 'include',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(obj),
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            console.log(response)
-            const { razorpay_order_id } = await response.json();
-
-            const options = {
-                key: import.meta.env.VITE_RAZORPAY_KEY_ID, // Load from env
-                amount: calculatePrice() * 100, // Amount in smallest unit (paise)
-                currency: 'INR',
-                name: "HERITAGE HUB",
-                description: "Test Transaction",
-                order_id: razorpay_order_id,
-                handler: async function (response) {
-                    // Step 3: Verify payment on backend
-                    const verifyRes = await fetch(`${import.meta.env.VITE_HOST}/order/verify-payment`, {
-                        method: "POST",
-                        credentials: 'include',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(response),
-                    });
-
-                    const verifyData = await verifyRes.json();
-
-                    if (verifyData.success) {
-                        alert("Payment Successful! Order Created.");
-                    } else {
-                        alert("Payment Verification Failed.");
-                    }
-                },
-                prefill: {
-                    name: "RIKI BANIK",
-                    email: "john.doe@example.com",
-                    contact: "9999999999",
-                },
-                theme: { color: "#4F4AE5" },
-            };
-
-            const paymentObject = new window.Razorpay(options);
-            paymentObject.open();
-        } catch (error) {
-            console.error('Payment initiation failed:', error);
-        }
+    
+        console.log("Proceeding with booking:", bookingInfo);
     };
-
+    
 
     return (
-
         <section id="BookingForm" className="py-20 bg-neutral-900">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-16 ">
                     <h2 className="text-3xl font-bold text-white mb-4">Book Your Visit</h2>
                     <div className="w-24 h-1 bg-indigo-600 mx-auto"></div>
                 </div>
-                <form onSubmit={handlePayment} id="visitorForm" className="bg-white rounded-lg shadow-xl p-8">
+
+                <form  id="visitorForm" className="bg-white rounded-lg shadow-xl p-8">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label htmlFor="visit-date" className="block text-neutral-700 font-medium mb-2">Visit Date</label>
@@ -191,24 +157,24 @@ const Booking = () => {
                     <div className="mt-8">
                         <h3 className="text-lg font-semibold text-neutral-900 mb-4">Select an Available Slot</h3>
                         <div>
-                            <select
-                                value={selectedSlot}
-                                onChange={handleSlotChange}
-                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
-                            >
-                                {availableSlots.length > 0 ? (
-                                    <>
-                                        <option value="">--Select a Slot--</option>
-                                        {availableSlots.map((slot) => (
-                                            <option key={slot._id} value={slot._id}>
-                                                {`${formatTime(slot.slots.startTime.hour, slot.slots.startTime.minute)} - ${formatTime(slot.slots.endTime.hour, slot.slots.endTime.minute)} (Available Capacity: ${slot.maxCapacity - slot.currentBookings})`}
-                                            </option>
-                                        ))}
-                                    </>
-                                ) : (
-                                    <option value="">No slots available</option>
-                                )}
-                            </select>
+                        <select
+                                 value={selectedSlot}
+                                    onChange={handleSlotChange}
+                                         className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                        >
+                 {availableSlots.length > 0 ? (
+                              <>
+                                <option value="">--Select a Slot--</option>
+            {availableSlots.map((slot) => (
+                <option key={slot._id} value={slot._id}>
+                    {`${formatTime(slot.slots.startTime.hour, slot.slots.startTime.minute)} - ${formatTime(slot.slots.endTime.hour, slot.slots.endTime.minute)} (Available Capacity: ${slot.maxCapacity - slot.currentBookings})`}
+                </option>
+            ))}
+        </>
+    ) : (
+        <option value="">No slots available</option>
+    )}
+</select>
 
                         </div>
                     </div>
@@ -277,11 +243,17 @@ const Booking = () => {
                     </div>
 
                     {/* Booking Button */}
-                    <button
-                        className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300"
-                    >
-                        {calculatePrice() === 0 ? "Buy now" : "Pay now"}
-                    </button>
+                    <div className="mt-8">
+                        <button
+                            // onClick={handleBooking}
+                            
+                            className='w-full'
+
+                        >
+                            <PaymentButton bookingInfo={bookingInfo} calculatePrice={calculatePrice} />
+                        </button>
+
+                    </div>
                 </form>
             </div >
         </section >

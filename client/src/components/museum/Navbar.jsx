@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import ProfileDropdown from '../header/ProfileDropdown'
+import { ContextCheckLogin } from '../context/context'
+
 
 const Header = () => {
 
-    const [resData, setResData] = useState(null)
+    const { resData, setResData } = useContext(ContextCheckLogin)
     // console.log(resData)
     const getData = async () => {
         try {

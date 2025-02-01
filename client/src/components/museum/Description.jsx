@@ -56,7 +56,7 @@ const Description = () => {
                         </div>
                     </div>
                     {/* loading position to be fixed */}
-                </section>) : <div className='flex justify-center items-center h-[100vh]'><Loading type="spinningBubbles" color="blue" /> loading</div>}
+                </section>) : <div className='flex justify-center items-center h-[100vh]'><Loading type="spinningBubbles" color="blue" /></div>}
         </>
     )
 }

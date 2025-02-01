@@ -93,6 +93,17 @@ const Booking = () => {
         );
     };
 
+    const bookingInfo = {
+        venueId: MuseumData.venue._id,
+        slotId: selectedSlot,
+        tickets: {
+            indianAdult: Number(visitorCounts.indianAdults),
+            indianChild: Number(visitorCounts.indianChildren),
+            foreignAdult: Number(visitorCounts.foreignAdults),
+            foreignChild: Number(visitorCounts.foreignChildren),
+        }
+    }
+
     const handlePayment = async (e) => {
         e.preventDefault();
         if (!selectedSlot) {
@@ -106,9 +117,9 @@ const Booking = () => {
         }
         try {
             const obj = {
-                venueId: MuseumData.venue._id,
-                slotId: selectedSlot,
-                tickets: visitorCounts,
+                venueId: bookingInfo.venueId,
+                slotId: bookingInfo.slotId,
+                tickets: bookingInfo.tickets,
             };
             const response = await fetch(`${import.meta.env.VITE_HOST}/order/booknow`, {
                 method: "POST",

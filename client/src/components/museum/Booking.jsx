@@ -93,17 +93,6 @@ const Booking = () => {
         );
     };
 
-    const bookingInfo = {
-        venueId: MuseumData.venue._id,
-        slotId: selectedSlot,
-        tickets: {
-            indianAdult: Number(visitorCounts.indianAdults),
-            indianChild: Number(visitorCounts.indianChildren),
-            foreignAdult: Number(visitorCounts.foreignAdults),
-            foreignChild: Number(visitorCounts.foreignChildren),
-        }
-    }
-
     const handlePayment = async (e) => {
         e.preventDefault();
         if (!selectedSlot) {
@@ -117,10 +106,17 @@ const Booking = () => {
         }
         try {
             const obj = {
-                venueId: bookingInfo.venueId,
-                slotId: bookingInfo.slotId,
-                tickets: bookingInfo.tickets,
+                venueId: MuseumData.venue._id,
+                slotId: selectedSlot,
+                tickets: {
+                    indianAdult: visitorCounts.indianAdults,
+                    indianChild: visitorCounts.indianChildren,
+                    foreignAdult: visitorCounts.foreignAdults,
+                    foreignChild: visitorCounts.foreignChildren,
+                },
             };
+            console.log(obj)
+
             const response = await fetch(`${import.meta.env.VITE_HOST}/order/booknow`, {
                 method: "POST",
                 credentials: 'include',
@@ -132,7 +128,9 @@ const Booking = () => {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
             console.log(response)
+
             const { razorpay_order_id } = await response.json();
+            console.log(razorpay_order_id)
 
             const options = {
                 key: import.meta.env.VITE_RAZORPAY_KEY_ID, // Load from env

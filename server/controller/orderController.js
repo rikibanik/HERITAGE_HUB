@@ -86,7 +86,7 @@ module.exports.createOrder = async (req, res) => {
                 tickets: tickets,
                 orderNum: orderNumber,
                 amount: amount,
-                status: "created", // Set status as 'created'
+                status: "confirmed", // Set status as 'created'
                 typeOfOrder: 'free'
             };
 
@@ -111,7 +111,7 @@ module.exports.createOrder = async (req, res) => {
                 orderNum: razorpayOrder.id,
                 amount: amount,
                 receiptId: razorpayOrder.receipt,
-                status: "created", // Initial status as 'created'
+                status: "payment pending", // Initial status as 'created'
                 typeOfOrder: 'not-free'
             };
 
@@ -147,7 +147,7 @@ module.exports.verifyPayment = async (req, res) => {
 
     if (generated_signature === razorpay_signature) {
         // Payment is verified, now update the order status in the database
-        const order = await orderService.updateOrderStatus(razorpay_order_id, "paid");
+        const order = await orderService.updateOrderStatus(razorpay_order_id, "paid || confirmed");
 
         if (order) {
             res.json({ success: true, message: "Payment Verified. Order Created." });
@@ -160,14 +160,15 @@ module.exports.verifyPayment = async (req, res) => {
 };
 module.exports.getOrderbyId= async (req, res)=>{
     const order_id = req.params.id;
-
+    console.log(order_id)
     if(!order_id){
         res.status(400).json("NO ID PROVIDED")
     }
     try {
-        const order = orderService.getOrderById(order_id);
+        const order =await orderService.getOrderById(order_id);
+       
         res.status(200).json({order})
     } catch (error) {
-        res.status(401).json({message: e.message})
+        res.status(401).json({message: error.message})
     }
 };

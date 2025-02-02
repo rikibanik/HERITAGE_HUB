@@ -1,7 +1,13 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { ContextMuseum } from '../context/context';
+import { ContextMuseum, ContextCheckLogin, ContextOrderId, ContextConfirmOrder } from '../context/context';
+import { Bounce, ToastContainer, toast } from 'react-toastify';
+import SuccessBookingPopup from './SuccessBookingPopup';
 
 const Booking = () => {
+    const { orderId, setOrderId } = useContext(ContextOrderId);
+    const { resData, setResData } = useContext(ContextCheckLogin);
+    const { confirmOrder, setConfirmOrder } = useContext(ContextConfirmOrder);
+
     const { MuseumData } = useContext(ContextMuseum);
     // console.log(MuseumData)
 
@@ -115,7 +121,7 @@ const Booking = () => {
                     foreignChild: visitorCounts.foreignChildren,
                 },
             };
-            console.log(obj)
+            // console.log(obj)
 
             const response = await fetch(`${import.meta.env.VITE_HOST}/order/booknow`, {
                 method: "POST",
@@ -127,10 +133,15 @@ const Booking = () => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
-            console.log(response)
+            // console.log(response)
+            // return;
+            // const { razorpay_order_id } = await response.json();
 
-            const { razorpay_order_id } = await response.json();
-            console.log(razorpay_order_id)
+            const data = await response.json();
+            const razorpay_order_id = data.razorpay_order_id;
+            setOrderId(data._id);
+            // console.log(data)
+
 
             const options = {
                 key: import.meta.env.VITE_RAZORPAY_KEY_ID, // Load from env
@@ -151,14 +162,37 @@ const Booking = () => {
                     const verifyData = await verifyRes.json();
 
                     if (verifyData.success) {
-                        alert("Payment Successful! Order Created.");
+                        toast.success('Payment Successful! Order Created!', {
+                            position: "top-right",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: false,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "dark",
+                            transition: Bounce,
+                        });
+
+                        setConfirmOrder(true);
+
                     } else {
-                        alert("Payment Verification Failed.");
+                        toast.error('Payment Verification Failed!', {
+                            position: "top-right",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: false,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "dark",
+                            transition: Bounce,
+                        });
                     }
                 },
                 prefill: {
-                    name: "RIKI BANIK",
-                    email: "john.doe@example.com",
+                    name: `${resData.name.firstname} ${resData.name.lastname}`,
+                    email: resData.email,
                     contact: "9999999999",
                 },
                 theme: { color: "#4F4AE5" },
@@ -171,129 +205,144 @@ const Booking = () => {
         }
     };
 
-
     return (
-
-        <section id="BookingForm" className="py-20 bg-neutral-900">
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-16 ">
-                    <h2 className="text-3xl font-bold text-white mb-4">Book Your Visit</h2>
-                    <div className="w-24 h-1 bg-indigo-600 mx-auto"></div>
-                </div>
-                <form onSubmit={handlePayment} id="visitorForm" className="bg-white rounded-lg shadow-xl p-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label htmlFor="visit-date" className="block text-neutral-700 font-medium mb-2">Visit Date</label>
-                            <input
-                                value={selectedDate}
-                                onChange={handleDateChange}
-                                type="date"
-                                id="visit-date"
-                                name="visit-date"
-                                required
-                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
-                            />
-                        </div>
+        <>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick={false}
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+                transition={Bounce}
+            />
+            <section id="BookingForm" className="py-20 bg-neutral-900">
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-16 ">
+                        <h2 className="text-3xl font-bold text-white mb-4">Book Your Visit</h2>
+                        <div className="w-24 h-1 bg-indigo-600 mx-auto"></div>
                     </div>
-
-                    {/* Select Slot */}
-                    <div className="mt-8">
-                        <h3 className="text-lg font-semibold text-neutral-900 mb-4">Select an Available Slot</h3>
-                        <div>
-                            <select
-                                value={selectedSlot}
-                                onChange={handleSlotChange}
-                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
-                            >
-                                {availableSlots.length > 0 ? (
-                                    <>
-                                        <option value="">--Select a Slot--</option>
-                                        {availableSlots.map((slot) => (
-                                            <option key={slot._id} value={slot._id}>
-                                                {`${formatTime(slot.slots.startTime.hour, slot.slots.startTime.minute)} - ${formatTime(slot.slots.endTime.hour, slot.slots.endTime.minute)} (Available Capacity: ${slot.maxCapacity - slot.currentBookings})`}
-                                            </option>
-                                        ))}
-                                    </>
-                                ) : (
-                                    <option value="">No slots available</option>
-                                )}
-                            </select>
-
-                        </div>
-                    </div>
-
-                    {/* Visitor Count Inputs */}
-                    <div className="mt-8">
-                        <h3 className="text-lg font-semibold text-neutral-900 mb-4">Number of Visitors</h3>
+                    <form onSubmit={handlePayment} id="visitorForm" className="bg-white rounded-lg shadow-xl p-8">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label htmlFor="indian-adults" className="block text-neutral-700 mb-2">Indian Adults (₹{MuseumData.venue.fare.indianAdult})</label>
+                                <label htmlFor="visit-date" className="block text-neutral-700 font-medium mb-2">Visit Date</label>
                                 <input
-                                    type="number"
-                                    id="indian-adults"
-                                    name="indianAdults"
-                                    min="0"
-                                    value={visitorCounts.indianAdults}
-                                    onChange={handleVisitorCountChange}
-                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
-                                />
-                            </div>
-
-                            <div>
-                                <label htmlFor="indian-children" className="block text-neutral-700 mb-2">Indian Children (₹{MuseumData.venue.fare.indianChild})</label>
-                                <input
-                                    type="number"
-                                    id="indian-children"
-                                    name="indianChildren"
-                                    min="0"
-                                    value={visitorCounts.indianChildren}
-                                    onChange={handleVisitorCountChange}
-                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
-                                />
-                            </div>
-
-                            <div>
-                                <label htmlFor="foreign-adults" className="block text-neutral-700 mb-2">Foreign Adults (₹{MuseumData.venue.fare.foreignAdult})</label>
-                                <input
-                                    type="number"
-                                    id="foreign-adults"
-                                    name="foreignAdults"
-                                    min="0"
-                                    value={visitorCounts.foreignAdults}
-                                    onChange={handleVisitorCountChange}
-                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
-                                />
-                            </div>
-
-                            <div>
-                                <label htmlFor="foreign-children" className="block text-neutral-700 mb-2">Foreign Children (₹{MuseumData.venue.fare.foreignChild})</label>
-                                <input
-                                    type="number"
-                                    id="foreign-children"
-                                    name="foreignChildren"
-                                    min="0"
-                                    value={visitorCounts.foreignChildren}
-                                    onChange={handleVisitorCountChange}
+                                    value={selectedDate}
+                                    onChange={handleDateChange}
+                                    type="date"
+                                    id="visit-date"
+                                    name="visit-date"
+                                    required
                                     className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
                                 />
                             </div>
                         </div>
-                    </div>
 
-                    {/* Display Total Price */}
-                    <div className="mt-8">
-                        <h3 className="text-lg font-semibold text-neutral-900 mb-4">Total Price: ₹{calculatePrice()}</h3>
-                    </div>
+                        {/* Select Slot */}
+                        <div className="mt-8">
+                            <h3 className="text-lg font-semibold text-neutral-900 mb-4">Select an Available Slot</h3>
+                            <div>
+                                <select
+                                    value={selectedSlot}
+                                    onChange={handleSlotChange}
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                                >
+                                    {availableSlots.length > 0 ? (
+                                        <>
+                                            <option value="">--Select a Slot--</option>
+                                            {availableSlots.map((slot) => (
+                                                <option key={slot._id} value={slot._id}>
+                                                    {`${formatTime(slot.slots.startTime.hour, slot.slots.startTime.minute)} - ${formatTime(slot.slots.endTime.hour, slot.slots.endTime.minute)} (Available Capacity: ${slot.maxCapacity - slot.currentBookings})`}
+                                                </option>
+                                            ))}
+                                        </>
+                                    ) : (
+                                        <option value="">No slots available</option>
+                                    )}
+                                </select>
 
-                    {/* Booking Button */}
-                    <button
-                        className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300"
-                    >
-                        {calculatePrice() === 0 ? "Buy now" : "Pay now"}
-                    </button>
-                </form>
-            </div >
-        </section >
+                            </div>
+                        </div>
+
+                        {/* Visitor Count Inputs */}
+                        <div className="mt-8">
+                            <h3 className="text-lg font-semibold text-neutral-900 mb-4">Number of Visitors</h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label htmlFor="indian-adults" className="block text-neutral-700 mb-2">Indian Adults (₹{MuseumData.venue.fare.indianAdult})</label>
+                                    <input
+                                        type="number"
+                                        id="indian-adults"
+                                        name="indianAdults"
+                                        min="0"
+                                        value={visitorCounts.indianAdults}
+                                        onChange={handleVisitorCountChange}
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label htmlFor="indian-children" className="block text-neutral-700 mb-2">Indian Children (₹{MuseumData.venue.fare.indianChild})</label>
+                                    <input
+                                        type="number"
+                                        id="indian-children"
+                                        name="indianChildren"
+                                        min="0"
+                                        value={visitorCounts.indianChildren}
+                                        onChange={handleVisitorCountChange}
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label htmlFor="foreign-adults" className="block text-neutral-700 mb-2">Foreign Adults (₹{MuseumData.venue.fare.foreignAdult})</label>
+                                    <input
+                                        type="number"
+                                        id="foreign-adults"
+                                        name="foreignAdults"
+                                        min="0"
+                                        value={visitorCounts.foreignAdults}
+                                        onChange={handleVisitorCountChange}
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label htmlFor="foreign-children" className="block text-neutral-700 mb-2">Foreign Children (₹{MuseumData.venue.fare.foreignChild})</label>
+                                    <input
+                                        type="number"
+                                        id="foreign-children"
+                                        name="foreignChildren"
+                                        min="0"
+                                        value={visitorCounts.foreignChildren}
+                                        onChange={handleVisitorCountChange}
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Display Total Price */}
+                        <div className="mt-8">
+                            <h3 className="text-lg font-semibold text-neutral-900 mb-4">Total Price: ₹{calculatePrice()}</h3>
+                        </div>
+
+                        {/* Booking Button */}
+                        <button
+                            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300"
+                        >
+                            {calculatePrice() === 0 ? "Buy now" : "Pay now"}
+                        </button>
+                    </form>
+                </div >
+            </section >
+            {confirmOrder && <SuccessBookingPopup selectedSlot={selectedSlot} availableSlots={availableSlots} />}
+
+        </>
     );
 };
 

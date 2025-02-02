@@ -46,20 +46,20 @@ module.exports.authAdmin = async (req, res, next) => {
 };
 
 module.exports.authUser = async (req, res, next) => {
-    
+
     const token = req.cookies.token || (req.header('Authorization') && req.header('Authorization').split(' ')[1]);
     if (!token) {
         return res.status(401).json({ message: 'No token provided' });
     }
 
     const isBlackListed = await blackList.findOne({ token: token.token });
-    if(isBlackListed){
-        return res.status(401).json({message: 'Unauthorized'});
+    if (isBlackListed) {
+        return res.status(401).json({ message: 'Unauthorized' });
     }
     try {
         const decode = jwt.verify(token, process.env.JWT_SECRET);
-       // id of the user is stored is decode._id
-    //    console.log(decode)
+        // id of the user is stored is decode._id
+        //    console.log(decode)
         const user = await userModel.findById(decode._id);
         if (!user) {
             return res.status(401).json({ message: `User not found ${decode._id}` });
@@ -72,8 +72,8 @@ module.exports.authUser = async (req, res, next) => {
         return res.status(401).json({ message: 'Invalid token' });
     }
 };
-module.exports.authAuthor = async (req,res,next) =>{
-    try{
+module.exports.authAuthor = async (req, res, next) => {
+    try {
         const token = req.cookies.token || (req.header('Authorization') && req.header('Authorization').split(' ')[1]);
         if (!token) {
             return res.status(401).json({ message: 'No token provided' });
@@ -89,13 +89,13 @@ module.exports.authAuthor = async (req,res,next) =>{
         }
 
         const author = await authorModel.findById(decode._id);
-        if(!author){
-            return res.status(401).json({error: "Unauthorised access. User not found"})
+        if (!author) {
+            return res.status(401).json({ error: "Unauthorised access. User not found" })
         }
         req.user = author;
         req.token = token;
         next();
-    }catch(error){
+    } catch (error) {
         if (error.name === 'TokenExpiredError') {
             return res.status(401).json({ message: 'Token expired. Please login again.' });
         } else if (error.name === 'JsonWebTokenError') {

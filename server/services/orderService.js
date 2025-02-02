@@ -33,13 +33,14 @@ module.exports.getOrderById = async (id)=>{
         
     }
     try{
-        const order = await orderModel.findById(id);
+        const order = await orderModel.findById({_id: id});
         if(!order){
             throw new Error("order doesnot exist");
         }
+        console.log(order)
         return order;
     }catch(e){
-        throw new Error("error while searching");
+        throw e;
         
     }
 }

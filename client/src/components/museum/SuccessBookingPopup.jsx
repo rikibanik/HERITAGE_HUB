@@ -53,20 +53,10 @@ const SuccessBookingPopup = ({ availableSlots, selectedSlot }) => {
         if (confirmOrder) {
             setIsConfettiActive(true);
             setTimeout(() => {
-                setIsConfettiActive(false); // Stop the confetti after 3 seconds
-            }, 3000); // 3 seconds
+                setIsConfettiActive(false);
+            }, 5000);
         }
     }, [confirmOrder]);
-
-    // Prevent background scrolling when modal is open
-    // useEffect(() => {
-    //     if (confirmOrder) {
-    //         document.body.classList.add("overflow-hidden");
-    //     } else {
-    //         document.body.classList.remove("overflow-hidden");
-    //     }
-    //     return () => document.body.classList.remove("overflow-hidden");
-    // }, [confirmOrder]);
 
     const { width, height } = useWindowSize();
 
@@ -146,7 +136,6 @@ const SuccessBookingPopup = ({ availableSlots, selectedSlot }) => {
                         <div className="bg-gray-50 p-4 rounded-lg">
                             <h3 className="font-semibold mb-2">Visit Details</h3>
                             <p>Date: {formatDate(slotInfo[0].date)}</p>
-                            {/* <p>Time: 12:00 PM - 2:00 PM</p> */}
                             <p>Time: {formatTime(slotInfo[0].slots.startTime.hour, slotInfo[0].slots.startTime.minute)} - {formatTime(slotInfo[0].slots.endTime.hour, slotInfo[0].slots.endTime.minute)}</p>
                         </div>
                     </div>
@@ -156,7 +145,6 @@ const SuccessBookingPopup = ({ availableSlots, selectedSlot }) => {
                         <h3 className="font-semibold mb-2">Venue Information</h3>
                         <p>{MuseumData.venue.name}</p>
                         <p>{MuseumData.venue.location.address}</p>
-                        {/* <p>Varanasi, Uttar Pradesh - 221007</p> */}
                         <p>{MuseumData.venue.location.city}, {MuseumData.venue.location.state} - {MuseumData.venue.location.pin}</p>
                         <p>Phone: {MuseumData.venue.phNo}</p>
                         <p>Email: {MuseumData.venue.email}</p>

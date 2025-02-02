@@ -8,6 +8,7 @@ const venueService = require('../services/venueService')
 
 
 router.get('/dashboard',authMiddleware.authAuthor, async (req,res)=>{
+    console.log(req.user)
     const venue = await venueService.getVenuebyId(req.user.venueId);
 
     const details ={
@@ -46,5 +47,6 @@ router.post('/add-slot',[
     
 ],authMiddleware.authAuthor, authorController.addSlot);
 
-router.get('/get-all-slots',authMiddleware.authAuthor,authorController.getSlots)
+router.get('/get-all-slots',authMiddleware.authAuthor,authorController.getSlots);
+router.get('/logout',authMiddleware.authAuthor,authorController.logoutAuthor);
 module.exports = router;

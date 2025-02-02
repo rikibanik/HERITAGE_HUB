@@ -16,22 +16,23 @@ module.exports.addAuthor = async (obj)=>{
 
 module.exports.loginAuthor = async (obj)=>{
     if (!obj) {
-        return { error: 'Please provide all the details' };
+        throw new Error("invalid");
+        
     }
 
     try{
         const user = await authorModel.findOne({email: obj.email}).select("+password");
         if (!user) {
-            return { error: 'Invalid email' };
+            throw new Error("invalid user");
         }   
         const passwordMatch = await user.comparePassword(obj.password);
         if (!passwordMatch) {
-            return { error: 'Invalid password' };
+            throw new Error("invalid password");
         }
         const token = await user.generateAuthToken();
         return {user, token};
     } catch (err) {
      
-        throw new Error("server errors");
+        throw new Error(e.message);
     }
 }

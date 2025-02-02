@@ -1,6 +1,7 @@
 const { validationResult, ExpressValidator } = require('express-validator');
 const authorService = require('../services/authorService');
-const slotting = require('../services/slotting')
+const slotting = require('../services/slotting');
+const { json } = require('body-parser');
 
 module.exports.loginAuthor = async (req,res)=>{
     const errors = validationResult(req);
@@ -11,13 +12,21 @@ module.exports.loginAuthor = async (req,res)=>{
         email: req.body.email,
         password: req.body.password
     }
-    const result = await authorService.loginAuthor(author);
-    res.cookie('token', result.token,{
-        httpOnly: true,  // Prevents JavaScript from accessing it
-        secure: false,   // Set to `true` if using HTTPS
-        sameSite: 'lax'  // Adjust for cross-site requests
-    })
-    res.status(201).json({ message: "Successfully logged in" });
+    try {
+        const result = await authorService.loginAuthor(author);
+        console.log(result)
+        res.cookie('token', result.token);
+        res.status(201).json({ message: "Successfully logged in" });
+    } catch (error) {
+        res.status(400).json({error});
+    }
+    
+    // ,{
+    //     httpOnly: true,  // Prevents JavaScript from accessing it
+    //     secure: false,   // Set to `true` if using HTTPS
+    //     sameSite: 'lax'  // Adjust for cross-site requests
+    // }
+    
 }
 module.exports.addSlot = async (req,res)=>{
     const errors = validationResult(req);
@@ -41,6 +50,13 @@ module.exports.addSlot = async (req,res)=>{
     // res.json({slot})
     
 }
+module.exports.logoutAuthor = async (req,res)=>{
+    res.clearCookie('token');
+    const token = req.cookies.token || (req.header('Authorization') && req.header('Authorization').split(' ')[1]);
+    await blackList.create({token});
+    res.status(200).redirect('/');
+}
+
 module.exports.getSlots = async(req,res)=>{
     const errors = validationResult(req);
     if(!errors.isEmpty()){

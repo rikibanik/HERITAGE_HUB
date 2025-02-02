@@ -3,8 +3,21 @@ const userModel = require('../db/models/userModel');
 const blackList = require('../db/models/blacklistToken');
 const userService = require('../services/userService');
 const otpSevice = require('../services/otpService');
-const { generate } = require('otp-generator');
 
+
+
+const config = process.env.TYPE === 'DEV'?
+                                        {
+                                            httpOnly: true,  // Prevents JavaScript from accessing it
+                                            secure: false,
+                                            sameSite: 'None'
+                                        }:
+                                                                                {
+                                            httpOnly: true,  // Prevents JavaScript from accessing it
+                                            secure: true,  //false // Set to `true` if using HTTPS
+                                            sameSite: 'None',// Adjust for cross-site requests
+                                            partitioned: true   
+                                        }
 module.exports.registerUser = async (req, res) => {
     const errors = validationResult(req);
 
@@ -21,12 +34,7 @@ module.exports.registerUser = async (req, res) => {
         password: await userModel.hashPassword(req.body.password)
     };
     const result = await userService.registerUser(user);
-    res.cookie('token', result.token,{
-        httpOnly: true,  // Prevents JavaScript from accessing it
-        secure: true,  //false // Set to `true` if using HTTPS
-        sameSite: 'None',// Adjust for cross-site requests
-        partitioned: true   //remove
-    }).status(201).json({ result });
+    res.cookie('token', result.token,config).status(201).json({ result });
 
 };
 module.exports.loginUser = async (req, res) => {
@@ -40,14 +48,10 @@ module.exports.loginUser = async (req, res) => {
         email: req.body.email,
         password: req.body.password
     };
+   
     const result = await userService.loginUser(user);
     console.log(result.token)
-    res.cookie('token', result.token,{
-        httpOnly: true,  // Prevents JavaScript from accessing it
-        secure: true, //false  // Set to `true` if using HTTPS
-        sameSite: 'None',// Adjust for cross-site requests
-        partitioned: true   //remove
-    })
+    res.cookie('token', result.token,config)
     res.status(201).json({ result });
 }
 module.exports.logoutUser = async (req,res)=>{

@@ -30,5 +30,5 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/logout',authMiddleware.authUser,userController.logoutUser);
-
+router.post('/generate-otp',userController.generateOtp)
 module.exports = router;

@@ -27,9 +27,11 @@
     "mongoose": "^8.9.4",
     "multer": "^1.4.5-lts.1",
     "nodemon": "^3.1.9",
+    "otp-generator": "^4.0.1",
     "parser": "^0.1.4",
     "path": "^0.12.7",
     "razorpay": "^2.9.5",
+    "twilio": "^5.4.3",
     "uuid": "^11.0.5"
   }
 }

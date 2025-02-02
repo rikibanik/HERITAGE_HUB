@@ -32,6 +32,7 @@ const SuccessBookingPopup = ({ availableSlots, selectedSlot }) => {
             const res = await fetch(`${import.meta.env.VITE_HOST}/order/order-details/${orderId}`, {
                 method: "POST",
                 credentials: 'include',
+                headers: { 'Content-Type': 'application/json' },
             });
             if (!res.ok) {
                 throw new Error('order details could not be fetched');

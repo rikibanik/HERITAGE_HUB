@@ -23,8 +23,9 @@ module.exports.registerUser = async (req, res) => {
     const result = await userService.registerUser(user);
     res.cookie('token', result.token,{
         httpOnly: true,  // Prevents JavaScript from accessing it
-        secure: true,   // Set to `true` if using HTTPS
-        sameSite: 'None'  // Adjust for cross-site requests
+        secure: true,  //false // Set to `true` if using HTTPS
+        sameSite: 'None',// Adjust for cross-site requests
+        partitioned: true   //remove
     }).status(201).json({ result });
 
 };
@@ -43,8 +44,9 @@ module.exports.loginUser = async (req, res) => {
     console.log(result.token)
     res.cookie('token', result.token,{
         httpOnly: true,  // Prevents JavaScript from accessing it
-        secure: true,   // Set to `true` if using HTTPS
-        sameSite: 'None'  // Adjust for cross-site requests
+        secure: true, //false  // Set to `true` if using HTTPS
+        sameSite: 'None',// Adjust for cross-site requests
+        partitioned: true   //remove
     })
     res.status(201).json({ result });
 }

@@ -9,18 +9,24 @@ const SuccessBookingPopup = ({ availableSlots, selectedSlot }) => {
 
     const [orderDetails, setOrderDetails] = useState(null)
     const { MuseumData } = useContext(ContextMuseum);
-    const { orderId } = useContext(ContextOrderId);
     const slotInfo = availableSlots.filter((slot) => slot._id === selectedSlot);
+
     const { confirmOrder, setConfirmOrder } = useContext(ContextConfirmOrder);
     const [isConfettiActive, setIsConfettiActive] = useState(false);
 
-
-    const dataChecking = {
-        orderDetails: orderDetails,
-        MuseumData: MuseumData,
-        slotInfo: slotInfo,
+    const formatDate = (date) => {
+        // date received is like: 2025-02-01T00:00:00.000Z
+        return new Date(date.split("T")[0]).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" })
     }
-    console.log(dataChecking)
+
+    const formatTime = (hour, minute) => {
+        const amPm = hour < 12 ? 'AM' : 'PM';
+        let hour12 = hour % 12;
+        if (hour12 === 0) hour12 = 12;
+        return `${hour12.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} ${amPm}`;
+    };
+
+    const { orderId } = useContext(ContextOrderId);
     const getOrderDetails = async () => {
         try {
             const res = await fetch(`${import.meta.env.VITE_HOST}/order/order-details/${orderId}`, {
@@ -110,7 +116,7 @@ const SuccessBookingPopup = ({ availableSlots, selectedSlot }) => {
                         {/* Price Paid Section */}
                         <div className="flex items-center justify-center">
                             <span className="text-xl font-light text-gray-800 mr-2">Amount Paid:</span>
-                            <span className="text-xl font-light text-green-600">₹{ }</span>
+                            <span className="text-xl font-light text-green-600">₹{orderDetails && orderDetails.order.amount}</span>
                         </div>
                     </div>
 
@@ -119,36 +125,41 @@ const SuccessBookingPopup = ({ availableSlots, selectedSlot }) => {
                         {/* Order Details */}
                         <div className="bg-gray-50 p-4 rounded-lg">
                             <div className="font-semibold">Order Number:</div>
-                            <div>order_PqYTHImh1eH29y</div>
+                            <div>{orderDetails && orderDetails.order.orderNum}</div>
                         </div>
                         <div className="bg-gray-50 p-4 rounded-lg">
                             <div className="font-semibold">Receipt ID:</div>
-                            <div>AHAY214Z</div>
+                            <div>{orderDetails && orderDetails.order.receiptId}</div>
                         </div>
 
-                        {/* Visitor Information */}
                         <div className="bg-gray-50 p-4 rounded-lg">
                             <h3 className="font-semibold mb-2">Visitor Information</h3>
-                            <p>Name: RIKI BANIK</p>
-                            <p>Email: rikibanik784114@gmail.com</p>
+                            <div className="grid grid-cols-2 gap-2">
+                                <p title="indian adult">IAdult: 2</p>
+                                <p title="indian child">IChild: 2</p>
+                                <p title="foreign adult">FAdult: 2</p>
+                                <p title="foreign child">FChild: 2</p>
+                            </div>
                         </div>
 
                         {/* Visit Details */}
                         <div className="bg-gray-50 p-4 rounded-lg">
                             <h3 className="font-semibold mb-2">Visit Details</h3>
-                            <p>Date: February 2, 2025</p>
-                            <p>Time: 12:00 PM - 2:00 PM</p>
+                            <p>Date: {formatDate(slotInfo[0].date)}</p>
+                            {/* <p>Time: 12:00 PM - 2:00 PM</p> */}
+                            <p>Time: {formatTime(slotInfo[0].slots.startTime.hour, slotInfo[0].slots.startTime.minute)} - {formatTime(slotInfo[0].slots.endTime.hour, slotInfo[0].slots.endTime.minute)}</p>
                         </div>
                     </div>
 
                     {/* Venue Details */}
                     <div className="bg-gray-50 p-4 rounded-lg mt-4">
                         <h3 className="font-semibold mb-2">Venue Information</h3>
-                        <p>Sarnath Museum</p>
-                        <p>Near Sarnath Archaeological Site, Sarnath</p>
-                        <p>Varanasi, Uttar Pradesh - 221007</p>
-                        <p>Phone: +91 542 259 5095</p>
-                        <p>Email: info@sarnathmuseum.com</p>
+                        <p>{MuseumData.venue.name}</p>
+                        <p>{MuseumData.venue.location.address}</p>
+                        {/* <p>Varanasi, Uttar Pradesh - 221007</p> */}
+                        <p>{MuseumData.venue.location.city}, {MuseumData.venue.location.state} - {MuseumData.venue.location.pin}</p>
+                        <p>Phone: {MuseumData.venue.phNo}</p>
+                        <p>Email: {MuseumData.venue.email}</p>
                     </div>
 
                     {/* Footer Note */}

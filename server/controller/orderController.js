@@ -31,7 +31,7 @@ module.exports.createOrder = async (req, res) => {
     const { venueId, slotId, tickets } = req.body;
     const email = req.user.email;
     let totalSum = 0;
-
+    console.log(tickets)
     Object.values(tickets).forEach(value => {
         totalSum += value;
     });
@@ -108,6 +108,7 @@ module.exports.createOrder = async (req, res) => {
                 userId: user._id,
                 venueId: venueId,
                 slotId: slotId,
+                tickets: tickets,
                 orderNum: razorpayOrder.id,
                 amount: amount,
                 receiptId: razorpayOrder.receipt,
@@ -172,3 +173,16 @@ module.exports.getOrderbyId= async (req, res)=>{
         res.status(401).json({message: error.message})
     }
 };
+module.exports.getMyOrders = async (req,res)=>{
+    const userId =  req.user._id;
+    console.log(userId);
+    try {
+        const orders = await orderService.getOrderByUserId(userId);
+        if(!orders){
+            res.status(400).json({message: "Unable to get the details"});
+        }
+        res.status(200).json({orders})
+    } catch (error) {
+        res.status(401).json({message: error.message})
+    }
+}

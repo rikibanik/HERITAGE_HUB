@@ -44,3 +44,18 @@ module.exports.getOrderById = async (id)=>{
         
     }
 }
+module.exports.getOrderByUserId = async (_id)=>{
+    if(!_id){
+        throw new Error("ID dne");
+        
+    }
+    try {
+        const orders = await orderModel.find({ userId: _id });
+        if (!orders.length) {
+            throw new Error("No orders found for this user");
+        }
+        return orders;
+    } catch (error) {
+        throw error;
+    }
+}

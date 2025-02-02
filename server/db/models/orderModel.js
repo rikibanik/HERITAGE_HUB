@@ -44,6 +44,28 @@ const orderSchema= new mongoose.Schema({
     },
     typeOfOrder:{
         type: String
+    },
+    tickets:{
+        indianAdult:{
+            type: Number,
+            required: true,
+            default: 0
+        },
+        indianChild:{
+            type: Number,
+            required: true,
+            default: 0
+        },
+        foreignAdult:{
+            type: Number,
+            required: true,
+            default: 0
+        },
+        foreignChild:{
+            type: Number,
+            required: true,
+            default: 0
+        }
     }
 })
 const Order = mongoose.model('Order',orderSchema);

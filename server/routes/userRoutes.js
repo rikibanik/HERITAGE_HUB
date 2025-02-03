@@ -28,7 +28,8 @@ router.get('/', async (req, res) => {
         res.status(400).json({e})
     }
 })
-
+router.post('/generate-otp',userController.generateOtp);
+router.post('/verify-otp', userController.verifyOtp);
 router.get('/logout',authMiddleware.authUser,userController.logoutUser);
 
 module.exports = router;

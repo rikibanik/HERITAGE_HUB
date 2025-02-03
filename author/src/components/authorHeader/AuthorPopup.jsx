@@ -2,13 +2,31 @@
 import { useState } from "react"
 import Modal from './Modal'
 import { BiLogOut } from "react-icons/bi"
+import { useNavigate } from 'react-router-dom'
 
 export default function AuthorPopup() {
+    const navigate = useNavigate();
     const [open, setOpen] = useState(false)
 
     const handleLogout = async () => {
-        console.log("logout clicked")
-        setOpen(false);
+        try {
+            const res = await fetch(`${import.meta.env.VITE_HOST}/author/logout`, {
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            if (!res.ok) {
+                throw new Error('Error logging out!');
+            }
+            navigate('/login');
+            setOpen(false);
+        } catch (error) {
+            console.error(error);
+        }
+        // console.log("logout clicked")
         // try {
         //     const res = await fetch(`${import.meta.env.VITE_HOST}/user/logout`,
         //         {

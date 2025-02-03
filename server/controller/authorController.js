@@ -1,6 +1,7 @@
 const { validationResult, ExpressValidator } = require('express-validator');
 const authorService = require('../services/authorService');
 const slotting = require('../services/slotting');
+const blackList = require('../db/models/blacklistToken');
 const { json } = require('body-parser');
 
 module.exports.loginAuthor = async (req,res)=>{

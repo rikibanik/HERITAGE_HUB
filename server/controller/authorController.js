@@ -16,7 +16,13 @@ module.exports.loginAuthor = async (req,res)=>{
     try {
         const result = await authorService.loginAuthor(author);
         console.log(result)
-        res.cookie('token', result.token);
+        res.cookie('token', result.token,{
+                 httpOnly: true,  // Prevents JavaScript from accessing it
+                 secure: false,   // Set to `true` if using HTTPS
+                sameSite: 'lax'  // Adjust for cross-site requests
+            }
+            
+        );
         res.status(201).json({ message: "Successfully logged in" });
     } catch (error) {
         res.status(400).json({error});

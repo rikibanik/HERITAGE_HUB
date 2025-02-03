@@ -21,9 +21,9 @@ module.exports.addAdmin = async (req,res)=>{
         email: req.body.email,
         password: await adminModel.hashPassword(req.body.password)
     };
-    const result = await adminService.addAdmin(admin);
+    //const result = await adminService.addAdmin(admin);
 
-    res.status(201).redirect('/'); //change to json later
+    res.status(201).json({result}); //change to json later
 }
 module.exports.loginAdmin = async (req,res)=>{
     const errors = validationResult(req);
@@ -52,7 +52,7 @@ module.exports.loginAdmin = async (req,res)=>{
         secure: false,   // Set to `true` if using HTTPS
         sameSite: 'lax'  // Adjust for cross-site requests
     });
-    res.status(201).redirect('/add-venue');
+    res.status(201).json({status: true});
     
 }
 module.exports.addAuthor = async (req,res)=>{

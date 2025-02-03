@@ -44,7 +44,7 @@ const Search = () => {
     return (
         <AsyncPaginate
             placeholder={(
-                <div className="flex items-center justify-center text-gray-500">
+                <div className="flex items-center justify-center text-gray-500 my-2">
                     <FaSearch className="mr-2" />
                     Search for city
                 </div>
@@ -56,7 +56,7 @@ const Search = () => {
             styles={{
                 control: (provided) => ({
                     ...provided,
-                    borderRadius: '12px',
+                    borderRadius: '16px',
                     backgroundColor: '#f9fafb',
                     borderColor: '#d1d5db',
                     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
@@ -68,8 +68,13 @@ const Search = () => {
                 menuList: (provided) => ({
                     ...provided,
                     maxHeight: 190,
-                    scrollbarWidth: 'thin',
+                    scrollbarWidth: 'none', // For Firefox
+                    msOverflowStyle: 'none', // For Internet Explorer and Edge
+                    '&::-webkit-scrollbar': {
+                        display: 'none', // For Chrome, Safari, and Opera
+                    },
                 }),
+
             }}
         />
     );

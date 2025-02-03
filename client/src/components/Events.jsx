@@ -17,7 +17,7 @@ const Events = () => {
                         </p>
 
                         {/* <!-- Search Box --> */}
-                        <div className="max-w-xl mx-auto bg-white rounded-xl shadow-xl p-2 mb-8">
+                        <div className="max-w-xl mx-auto rounded-xl shadow-xl mb-8">
                             <Search />
                         </div>
 

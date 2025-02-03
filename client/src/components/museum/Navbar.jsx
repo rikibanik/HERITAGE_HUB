@@ -1,35 +1,18 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import ProfileDropdown from '../header/ProfileDropdown'
-import { ContextCheckLogin } from '../context/context'
+import { useDispatch, useSelector } from 'react-redux'
+import { getUserData } from '../../../redux/slices/getUserDataSlice'
 
 
 const Header = () => {
 
-    const { resData, setResData } = useContext(ContextCheckLogin)
-    // console.log(resData)
-    const getData = async () => {
-        try {
-            const res = await fetch(`${import.meta.env.VITE_HOST}/user`,
-                {
-                    method: "GET",
-                    credentials: 'include',
-                }
-            )
-            if (!res.ok) {
-                throw new Error('user not logged in!')
-            }
-            const data = await res.json()
-            setResData(data)
-            // console.log(data)
-        } catch (error) {
-            console.error(error);
-        }
+    const dispatch = useDispatch();
+    const { resData, loading, error } = useSelector((state) => state.getUserData);
 
-    }
     useEffect(() => {
-        getData()
-    }, [])
+        dispatch(getUserData());
+    }, [dispatch])
 
     return (
         <header id="header" className="fixed top-0 left-0 w-full bg-white shadow-md z-50">
@@ -42,7 +25,7 @@ const Header = () => {
 
                     {/* <!-- Right Side Icons --> */}
                     <div className="flex items-center space-x-4">
-                        {resData && resData.email ?
+                        {!loading ?
 
                             <ProfileDropdown resData={resData} /> :
 

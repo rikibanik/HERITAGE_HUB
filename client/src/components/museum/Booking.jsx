@@ -1,12 +1,16 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { ContextMuseum, ContextCheckLogin, ContextOrderId, ContextConfirmOrder } from '../context/context';
+import { ContextMuseum, ContextCheckLogin, ContextOrderId } from '../context/context';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import SuccessBookingPopup from './SuccessBookingPopup';
+import { setConfirmOrder } from '../../../redux/slices/confirmOrderSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Booking = () => {
+    const dispatch = useDispatch();
+    const confirmOrder = useSelector((state) => state.confirmOrder.status)
+
     const { orderId, setOrderId } = useContext(ContextOrderId);
     const { resData, setResData } = useContext(ContextCheckLogin);
-    const { confirmOrder, setConfirmOrder } = useContext(ContextConfirmOrder);
 
     const { MuseumData } = useContext(ContextMuseum);
     // console.log(MuseumData)
@@ -174,7 +178,7 @@ const Booking = () => {
                             transition: Bounce,
                         });
 
-                        setConfirmOrder(true);
+                        dispatch(setConfirmOrder(true));
 
                     } else {
                         toast.error('Payment Verification Failed!', {

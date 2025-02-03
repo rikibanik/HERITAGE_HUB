@@ -1,17 +1,21 @@
 import React, { useState } from "react";
 import { MdCancel } from "react-icons/md";
-import { ContextConfirmOrder, ContextMuseum, ContextOrderId } from "../context/context";
+import { ContextMuseum, ContextOrderId } from "../context/context";
 import { useContext, useEffect } from "react";
 import { useWindowSize } from "react-use";
 import Confetti from 'react-confetti';
+import { setConfirmOrder } from "../../../redux/slices/confirmOrderSlice";
+import { useSelector, useDispatch } from "react-redux";
 
 const SuccessBookingPopup = ({ availableSlots, selectedSlot }) => {
+
+    const dispatch = useDispatch();
+    const confirmOrder = useSelector((state) => state.confirmOrder.status)
 
     const [orderDetails, setOrderDetails] = useState(null)
     const { MuseumData } = useContext(ContextMuseum);
     const slotInfo = availableSlots.filter((slot) => slot._id === selectedSlot);
 
-    const { confirmOrder, setConfirmOrder } = useContext(ContextConfirmOrder);
     const [isConfettiActive, setIsConfettiActive] = useState(false);
 
     const formatDate = (date) => {
@@ -63,7 +67,7 @@ const SuccessBookingPopup = ({ availableSlots, selectedSlot }) => {
     return (
         <>
             <div
-                onClick={() => setConfirmOrder(false)}
+                onClick={() => dispatch(setConfirmOrder(false))}
                 className="fixed inset-0 flex justify-center items-center bg-black/20 transition-colors z-50"
             >
                 {isConfettiActive &&
@@ -78,7 +82,7 @@ const SuccessBookingPopup = ({ availableSlots, selectedSlot }) => {
                 >
                     {/* Close Button */}
                     <button
-                        onClick={() => setConfirmOrder(false)}
+                        onClick={() => dispatch(setConfirmOrder(false))}
                         className="absolute top-2 right-2 p-1 rounded-lg text-gray-400 bg-white hover:bg-gray-50 hover:text-gray-600"
                     >
                         <MdCancel />

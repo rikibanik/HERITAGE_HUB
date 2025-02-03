@@ -5,7 +5,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Login from './components/RegLog/Login'
 import MuseumPage from './components/museum/MuseumPage'
 import Register from './components/RegLog/Register'
-import UserDataComponent from '../redux/Test'
 
 function App() {
   return (
@@ -17,7 +16,6 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path='/register' element={<Register />} />
           <Route path="/museum" element={<MuseumPage />} />
-          <Route path="/test" element={<UserDataComponent />} />
         </Routes>
       </BrowserRouter>
     </>

@@ -38,16 +38,9 @@ const getUserDataSlice = createSlice({
             })
             .addCase(getUserData.rejected, (state, action) => {
                 state.loading = false
-                // console.log(action)
                 state.error = action.payload
             })
     },
 })
-
-// export const getAllProducts = (state) => state.products.list
-// export const getProductLoadingState = (state) => state.products.loading
-// export const getProductError = (state) => state.products.error
-
-
 
 export default getUserDataSlice.reducer

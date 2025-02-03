@@ -50,7 +50,9 @@ module.exports.getOrderByUserId = async (_id)=>{
         
     }
     try {
-        const orders = await orderModel.find({ userId: _id });
+        const orders = await orderModel.find({ userId: _id }).select("tickets _id venueId slotId receiptId amount typeOfOrder orderNum")
+        .populate("slotId","slots date") 
+        .populate("venueId","location workingHours name phNo email");
         if (!orders.length) {
             throw new Error("No orders found for this user");
         }

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { FcGoogle } from 'react-icons/fc';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -78,7 +79,7 @@ const Login = () => {
                 transition={Bounce}
             />
             <div id="AuthContainer" className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
-                <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-lg">
+                <div className="w-full max-w-md p-8 space-y-4 bg-white rounded-xl shadow-lg">
                     <div className="text-center space-y-2">
                         <h1 className="text-2xl font-bold text-gray-900">Welcome Back</h1>
                     </div>
@@ -142,6 +143,18 @@ const Login = () => {
                         </Link>
 
                     </p>
+                    <div class="relative">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-gray-300"></div>
+                        </div>
+                        <div class="relative flex justify-center text-sm">
+                            <span class="bg-white text-gray-500">Or continue with</span>
+                        </div>
+                    </div>
+                    <button className="flex items-center justify-center w-full max-w-sm py-2 text-lg font-medium text-gray-700 bg-white border border-gray-300 shadow-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition rounded-full">
+                        <FcGoogle className="text-2xl mr-3" />
+                        Sign in with Google
+                    </button>
                 </div>
             </div>
         </>

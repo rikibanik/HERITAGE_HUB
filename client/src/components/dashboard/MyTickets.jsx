@@ -7,8 +7,6 @@ const MyTickets = () => {
     const [loading, setLoading] = useState(true);
     const [totalTickets, setTotalTickets] = useState(0)
     const [myTicketDetails, setMyTicketDetails] = useState([]);
-    console.log("tickets", myTicketDetails)
-
 
     const formatDate = (date) => {
         // date received is like: 2025-02-01T00:00:00.000Z

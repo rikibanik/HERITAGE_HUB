@@ -86,7 +86,7 @@ module.exports.createOrder = async (req, res) => {
                 tickets: tickets,
                 orderNum: orderNumber,
                 amount: amount,
-                status: "confirmed", // Set status as 'created'
+                Paymentstatus: "free", // Set status as 'created'
                 typeOfOrder: 'free'
             };
 
@@ -112,7 +112,7 @@ module.exports.createOrder = async (req, res) => {
                 orderNum: razorpayOrder.id,
                 amount: amount,
                 receiptId: razorpayOrder.receipt,
-                status: "payment pending", // Initial status as 'created'
+                Paymentstatus: "payment pending", // Initial status as 'created'
                 typeOfOrder: 'not-free'
             };
 

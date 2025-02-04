@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import { FcGoogle } from 'react-icons/fc';
+import Googlebtn from './Googlebtn';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -63,6 +63,9 @@ const Login = () => {
         }
     }
     // console.log(form)
+
+    //auth things
+ 
     return (
         <>
             <ToastContainer
@@ -151,10 +154,7 @@ const Login = () => {
                             <span class="bg-white text-gray-500">Or continue with</span>
                         </div>
                     </div>
-                    <button className="flex items-center justify-center w-full max-w-sm py-2 text-lg font-medium text-gray-700 bg-white border border-gray-300 shadow-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition rounded-full">
-                        <FcGoogle className="text-2xl mr-3" />
-                        Sign in with Google
-                    </button>
+                    <Googlebtn/>
                 </div>
             </div>
         </>

@@ -9,7 +9,7 @@ const venueRoutes = require('./routes/venueRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const userRoutes = require('./routes/userRoutes');
 const authorRoutes = require('./routes/authorRoutes')
-
+const authRoutes = require('./routes/authRoutes');
 const orderRoutes = require('./routes/orderRoutes')
 app.use(cors({
   origin: (origin, callback) => {
@@ -72,6 +72,6 @@ app.use('/venue', venueRoutes);
 app.use('/admin', adminRoutes);
 app.use('/user', userRoutes);
 app.use('/author', authorRoutes);
-
+app.use('/auth',authRoutes)
 app.use('/order',orderRoutes);
 module.exports = app;

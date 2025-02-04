@@ -40,7 +40,7 @@ const orderSchema= new mongoose.Schema({
             return new Date(now.getTime() + istOffset);
         }
     },
-    status:{
+    Paymentstatus:{
         type: String
     },
     receiptId:{

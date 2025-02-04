@@ -19,7 +19,7 @@ module.exports.updateOrderStatus = async (rzpid, sts) => {
     try {
         const updatedOrder = await orderModel.findOneAndUpdate(
             { orderNum: rzpid },
-            { status: sts },
+            { Paymentstatus: sts },
             { new: true }
         );
         return updatedOrder;
@@ -50,7 +50,7 @@ module.exports.getOrderByUserId = async (_id)=>{
         
     }
     try {
-        const orders = await orderModel.find({ userId: _id }).select("tickets _id venueId slotId receiptId amount typeOfOrder orderNum")
+        const orders = await orderModel.find({ userId: _id }).select("tickets _id venueId slotId receiptId amount typeOfOrder orderNum paymentstatus")
         .populate("slotId","slots date") 
         .populate("venueId","location workingHours name phNo email");
         if (!orders.length) {

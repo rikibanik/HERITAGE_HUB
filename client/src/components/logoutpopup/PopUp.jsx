@@ -13,6 +13,7 @@ export default function PopUp({ type }) {
                 {
                     method: "GET",
                     credentials: 'include',
+                    headers: { 'Content-Type': 'application/json' }
                 }
             )
             if (!res.ok) {

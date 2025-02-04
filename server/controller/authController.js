@@ -6,13 +6,14 @@ module.exports.googleLogin= async(req,res)=>{
     const { code }=req.body;
     console.log(req.body);
     try {
-        
+        console.log("c1")
         const googleRes = await oauth2client.getToken(code);
+        console.log(googleRes)
          oauth2client.setCredentials(googleRes.tokens);
         const userRes = await axios.get(
             `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${googleRes.tokens.access_token}`
         );
-        console.log("c1")
+        console.log(userRes)
         const { email, name, picture } = userRes.data;
      
         // console.log(userRes);

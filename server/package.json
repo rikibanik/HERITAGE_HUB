@@ -30,8 +30,10 @@
     "nodemon": "^3.1.9",
     "otp-generator": "^4.0.1",
     "parser": "^0.1.4",
+    "passport-google-oauth20": "^2.0.0",
     "path": "^0.12.7",
     "razorpay": "^2.9.5",
+    "session": "^0.1.0",
     "uuid": "^11.0.5"
   }
 }

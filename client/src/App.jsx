@@ -21,7 +21,6 @@ function App() {
           <Route path='/register' element={<Register />} />
          
           <Route path="/museum" element={<MuseumPage />} />
-          <Route path="/test" element={<SuccessBookingPopup />} />
         </Routes>
         </GoogleOAuthProvider>
       </BrowserRouter>

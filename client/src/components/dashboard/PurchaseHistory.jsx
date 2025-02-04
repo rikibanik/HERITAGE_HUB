@@ -34,20 +34,6 @@ const PurchaseHistory = () => {
             }
             const data = await response.json();
             setTotalTickets(data.orders.length)
-            console.log("rogi", data.orders)
-            const wait = data.orders.filter((items) => {
-                const eventDate = new Date(items.slotId.date);
-                const eventHour = items.slotId.slots.endTime.hour;
-                const eventMinute = items.slotId.slots.endTime.minute;
-                return (
-                    (eventDate.toDateString() < new Date().toDateString()) ||
-                    (
-                        (eventHour < new Date().getHours()) ||
-                        (eventHour === new Date().getHours() && eventMinute < new Date().getMinutes())
-                    )
-                );
-            })
-            console.log("wait", wait)
             setPurchaseHistory(data.orders.filter((items) => {
                 const currentTime = new Date();
                 const eventDate = new Date(items.slotId.date);

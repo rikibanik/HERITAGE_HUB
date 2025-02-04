@@ -40,9 +40,10 @@ module.exports.googleLogin= async(req,res)=>{
         console.log(token)
         res.cookie('token', token,{
             httpOnly: true,  // Prevents JavaScript from accessing it
-            secure: false,   // Set to `true` if using HTTPS
-            sameSite: 'lax'  // Adjust for cross-site requests
-        }).status(201).json({token, user});
+            secure: true,   // Set to `true` if using HTTPS
+           sameSite: 'None',
+           partioned: true  // Adjust for cross-site requests
+       }).status(201).json({token, user});
     
 
     } catch (error) {

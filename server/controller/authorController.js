@@ -18,8 +18,9 @@ module.exports.loginAuthor = async (req,res)=>{
         console.log(result)
         res.cookie('token', result.token,{
                  httpOnly: true,  // Prevents JavaScript from accessing it
-                 secure: false,   // Set to `true` if using HTTPS
-                sameSite: 'lax'  // Adjust for cross-site requests
+                 secure: true,   // Set to `true` if using HTTPS
+                sameSite: 'None',
+                partioned: true  // Adjust for cross-site requests
             }
             
         );

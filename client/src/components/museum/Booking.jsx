@@ -99,6 +99,7 @@ const Booking = () => {
         );
     };
 
+    // this loading is to handle shimmer effect
     const [loading, setLoading] = useState(false);
 
     const handlePayment = async (e) => {
@@ -107,14 +108,13 @@ const Booking = () => {
             alert("Please select a valid slot.");
             return;
         }
-    
+
         if (calculatePrice() === 0) {
             alert("Please select at least one visitor.");
             return;
         }
-    
-        setLoading(true); // Start shimmer effect
-    
+
+        // setLoading(true);
         try {
             const obj = {
                 venueId: MuseumData.venue._id,
@@ -126,22 +126,22 @@ const Booking = () => {
                     foreignChild: visitorCounts.foreignChildren,
                 },
             };
-    
+
             const response = await fetch(`${import.meta.env.VITE_HOST}/order/booknow`, {
                 method: "POST",
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(obj),
             });
-    
+
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
-    
+
             const data = await response.json();
             const razorpay_order_id = data.razorpay_order_id;
             setOrderId(data._id);
-    
+
             const options = {
                 key: import.meta.env.VITE_RAZORPAY_KEY_ID,
                 amount: calculatePrice() * 100,
@@ -150,16 +150,16 @@ const Booking = () => {
                 description: "Test Transaction",
                 order_id: razorpay_order_id,
                 handler: async function (response) {
-                    setLoading(false); // Stop shimmer effect
+                    // setLoading(false);
                     const verifyRes = await fetch(`${import.meta.env.VITE_HOST}/order/verify-payment`, {
                         method: "POST",
                         credentials: 'include',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(response),
                     });
-    
+
                     const verifyData = await verifyRes.json();
-    
+
                     if (verifyData.success) {
                         toast.success('Payment Successful! Order Created!');
                         setConfirmOrder(true);
@@ -174,21 +174,16 @@ const Booking = () => {
                 },
                 theme: { color: "#4F4AE5" },
             };
-    
+
             const paymentObject = new window.Razorpay(options);
             paymentObject.open();
-    
-            // ✅ FIX: Stop shimmer effect if Razorpay is closed
-            paymentObject.on('payment.failed', () => setLoading(false));
-            paymentObject.on('close', () => setLoading(false)); // Stop shimmer on exit
-            paymentObject.on('unprocessed', () => setLoading(false)); // Stop shimmer on exit
-    
+
         } catch (error) {
             console.error('Payment initiation failed:', error);
-            setLoading(false); // Stop shimmer effect on error
+            // setLoading(false);
         }
     };
-    
+
 
 
     return (

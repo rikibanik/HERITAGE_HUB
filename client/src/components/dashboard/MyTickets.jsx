@@ -35,18 +35,17 @@ const MyTickets = () => {
             const data = await response.json();
             setTotalTickets(data.orders.length);
             setMyTicketDetails(data.orders.filter((items) => {
+                const currentTime = new Date();
                 const eventDate = new Date(items.slotId.date);
-                const eventHour = new Date(items.slotId.slots.endTime.hour);
-                const eventMinute = new Date(items.slotId.slots.endTime.minute);
-                return (
-                    (eventDate.toDateString() >= new Date().toDateString()) &&
-                    (
-                        (eventHour > new Date().getHours()) ||
-                        (eventHour === new Date().getHours() && eventMinute >= new Date().getMinutes())
-                    )
-                );
-            }
-            ));
+                const eventHour = items.slotId.slots.endTime.hour;
+                const eventMinute = items.slotId.slots.endTime.minute;
+
+                const eventEndTime = new Date(eventDate);
+                eventEndTime.setHours(eventHour, eventMinute, 0, 0);
+
+                return eventEndTime >= currentTime;
+            }));
+
         }
         catch (error) {
             setError(error);

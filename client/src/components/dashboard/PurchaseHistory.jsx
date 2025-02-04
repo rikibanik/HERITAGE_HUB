@@ -7,7 +7,7 @@ const PurchaseHistory = () => {
     const [loading, setLoading] = useState(true);
     const [totalTickets, setTotalTickets] = useState(0);
     const [purchaseHistory, setPurchaseHistory] = useState([]);
-    console.log("tickets", purchaseHistory)
+    // console.log("tickets", purchaseHistory)
 
 
     const formatDate = (date) => {
@@ -34,10 +34,11 @@ const PurchaseHistory = () => {
             }
             const data = await response.json();
             setTotalTickets(data.orders.length)
-            setPurchaseHistory(data.orders.filter((items) => {
+            console.log("rogi", data.orders)
+            const wait = data.orders.filter((items) => {
                 const eventDate = new Date(items.slotId.date);
-                const eventHour = new Date(items.slotId.slots.endTime.hour);
-                const eventMinute = new Date(items.slotId.slots.endTime.minute);
+                const eventHour = items.slotId.slots.endTime.hour;
+                const eventMinute = items.slotId.slots.endTime.minute;
                 return (
                     (eventDate.toDateString() < new Date().toDateString()) ||
                     (
@@ -45,8 +46,20 @@ const PurchaseHistory = () => {
                         (eventHour === new Date().getHours() && eventMinute < new Date().getMinutes())
                     )
                 );
-            }
-            ));
+            })
+            console.log("wait", wait)
+            setPurchaseHistory(data.orders.filter((items) => {
+                const currentTime = new Date();
+                const eventDate = new Date(items.slotId.date);
+                const eventHour = items.slotId.slots.endTime.hour;
+                const eventMinute = items.slotId.slots.endTime.minute;
+
+                const eventEndTime = new Date(eventDate);
+                eventEndTime.setHours(eventHour, eventMinute, 0, 0);
+
+                return eventEndTime < currentTime;
+            }));
+
         }
         catch (error) {
             setError(error);
@@ -105,7 +118,7 @@ const PurchaseHistory = () => {
                 :
                 (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {purchaseHistory.slice(0, 2).map((items) => {
+                        {purchaseHistory.reverse().slice(0, 2).map((items) => {
                             return (
                                 <div key={items._id} className="border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition duration-300">
                                     <div className="p-6">
@@ -145,7 +158,7 @@ const PurchaseHistory = () => {
                     </div>
                 )
             }
-            <TicketsAnalytics expiredTickets={purchaseHistory.length} totalTickets={totalTickets} activeTickets={totalTickets-purchaseHistory.length}/>
+            <TicketsAnalytics expiredTickets={purchaseHistory.length} totalTickets={totalTickets} activeTickets={totalTickets - purchaseHistory.length} />
         </div>
     )
 }

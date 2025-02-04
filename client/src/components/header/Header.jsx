@@ -7,6 +7,7 @@ import { SidebarData } from './sidebar/SidebarData'
 
 const Header = () => {
 
+    const [loading, setLoading] = useState(true);
     const [resData, setResData] = useState(null)
     // console.log(resData)
     const getData = async () => {
@@ -22,10 +23,10 @@ const Header = () => {
             }
             const data = await res.json()
             setResData(data)
-            // setProfile({ ...profile, name: { ...profile.name, firstname: data.name.firstname, lastname: data.name.lastname } })
-            // console.log(data)
         } catch (error) {
             console.error(error);
+        } finally {
+            setLoading(false)
         }
 
     }
@@ -57,28 +58,25 @@ const Header = () => {
 
                     {/* <!-- Right Side Icons --> */}
                     <div className="flex items-center space-x-4">
-                        {resData && resData.email ?
-
-                            <ProfileDropdown resData={resData} /> :
-
-                            <div className='flex gap-4'>
-                                <Link to='/login'>
-                                    <button type="submit" className="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                                        Sign In
-                                    </button>
-                                </Link>
-                                {/* <Link to='/login'>
-                                    <button type="submit" className="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                                        Login
-                                    </button>
-                                </Link> */}
-                            </div>
+                        {loading ?
+                            (
+                                <div className="rounded-full bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 animate-pulse w-10 h-10" >
+                                </div>
+                            ) :
+                            resData && resData.email ?
+                                <ProfileDropdown resData={resData} /> :
+                                (
+                                    <div className='flex gap-4'>
+                                        <Link to='/login'>
+                                            <button type="submit" className="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                                                Sign In
+                                            </button>
+                                        </Link>
+                                    </div>
+                                )
                         }
-
                     </div>
                 </div>
-
-
             </div>
         </header>
 

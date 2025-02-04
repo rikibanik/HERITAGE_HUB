@@ -116,7 +116,8 @@ module.exports.createOrder = async (req, res) => {
                 typeOfOrder: 'not-free'
             };
 
-            order = await orderService.createOrder(newOrder);
+            const order = await orderService.createOrder(newOrder);
+            console.log(order)
             await session.commitTransaction();
             session.endSession();
 

@@ -99,17 +99,22 @@ const Booking = () => {
         );
     };
 
+    const [loading, setLoading] = useState(false);
+
     const handlePayment = async (e) => {
         e.preventDefault();
         if (!selectedSlot) {
             alert("Please select a valid slot.");
             return;
         }
-
+    
         if (calculatePrice() === 0) {
             alert("Please select at least one visitor.");
             return;
         }
+    
+        setLoading(true); // Start shimmer effect
+    
         try {
             const obj = {
                 venueId: MuseumData.venue._id,
@@ -121,73 +126,45 @@ const Booking = () => {
                     foreignChild: visitorCounts.foreignChildren,
                 },
             };
-            // console.log(obj)
-
+    
             const response = await fetch(`${import.meta.env.VITE_HOST}/order/booknow`, {
                 method: "POST",
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(obj),
             });
-
+    
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
-            // console.log(response)
-            // return;
-            // const { razorpay_order_id } = await response.json();
-
+    
             const data = await response.json();
             const razorpay_order_id = data.razorpay_order_id;
             setOrderId(data._id);
-            // console.log(data)
-
-
+    
             const options = {
-                key: import.meta.env.VITE_RAZORPAY_KEY_ID, // Load from env
-                amount: calculatePrice() * 100, // Amount in smallest unit (paise)
+                key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+                amount: calculatePrice() * 100,
                 currency: 'INR',
                 name: "HERITAGE HUB",
                 description: "Test Transaction",
                 order_id: razorpay_order_id,
                 handler: async function (response) {
-                    // Step 3: Verify payment on backend
+                    setLoading(false); // Stop shimmer effect
                     const verifyRes = await fetch(`${import.meta.env.VITE_HOST}/order/verify-payment`, {
                         method: "POST",
                         credentials: 'include',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(response),
                     });
-
+    
                     const verifyData = await verifyRes.json();
-
+    
                     if (verifyData.success) {
-                        toast.success('Payment Successful! Order Created!', {
-                            position: "top-right",
-                            autoClose: 5000,
-                            hideProgressBar: false,
-                            closeOnClick: false,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                            theme: "dark",
-                            transition: Bounce,
-                        });
-
+                        toast.success('Payment Successful! Order Created!');
                         setConfirmOrder(true);
-
                     } else {
-                        toast.error('Payment Verification Failed!', {
-                            position: "top-right",
-                            autoClose: 5000,
-                            hideProgressBar: false,
-                            closeOnClick: false,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                            theme: "dark",
-                            transition: Bounce,
-                        });
+                        toast.error('Payment Verification Failed!');
                     }
                 },
                 prefill: {
@@ -197,13 +174,22 @@ const Booking = () => {
                 },
                 theme: { color: "#4F4AE5" },
             };
-
+    
             const paymentObject = new window.Razorpay(options);
             paymentObject.open();
+    
+            // ✅ FIX: Stop shimmer effect if Razorpay is closed
+            paymentObject.on('payment.failed', () => setLoading(false));
+            paymentObject.on('close', () => setLoading(false)); // Stop shimmer on exit
+            paymentObject.on('unprocessed', () => setLoading(false)); // Stop shimmer on exit
+    
         } catch (error) {
             console.error('Payment initiation failed:', error);
+            setLoading(false); // Stop shimmer effect on error
         }
     };
+    
+
 
     return (
         <>
@@ -333,10 +319,16 @@ const Booking = () => {
 
                         {/* Booking Button */}
                         <button
-                            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300"
+                            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300 flex justify-center items-center"
+                            disabled={loading}
                         >
-                            {calculatePrice() === 0 ? "Buy now" : "Pay now"}
+                            {loading ? (
+                                <div className="animate-pulse w-24 h-6 bg-gray-300 rounded"></div>
+                            ) : (
+                                calculatePrice() === 0 ? "Buy now" : "Pay now"
+                            )}
                         </button>
+
                     </form>
                 </div >
             </section >

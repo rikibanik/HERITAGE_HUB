@@ -10,7 +10,6 @@ const SuccessBookingPopup = ({ availableSlots, selectedSlot }) => {
     const [orderDetails, setOrderDetails] = useState(null)
     const { MuseumData } = useContext(ContextMuseum);
     const slotInfo = availableSlots.filter((slot) => slot._id === selectedSlot);
-
     const { confirmOrder, setConfirmOrder } = useContext(ContextConfirmOrder);
     const [isConfettiActive, setIsConfettiActive] = useState(false);
 
@@ -125,10 +124,10 @@ const SuccessBookingPopup = ({ availableSlots, selectedSlot }) => {
                         <div className="bg-gray-50 p-4 rounded-lg">
                             <h3 className="font-semibold mb-2">Visitor Information</h3>
                             <div className="grid grid-cols-2 gap-2">
-                                <p title="indian adult">IAdult: 2</p>
-                                <p title="indian child">IChild: 2</p>
-                                <p title="foreign adult">FAdult: 2</p>
-                                <p title="foreign child">FChild: 2</p>
+                                <p title="indian adult">IAdult: {orderDetails?.order?.tickets?.indianAdult}</p>
+                                <p title="indian child">IChild: {orderDetails?.order?.tickets?.indianChild}</p>
+                                <p title="foreign adult">FAdult: {orderDetails?.order?.tickets?.foreignAdult}</p>
+                                <p title="foreign child">FChild: {orderDetails?.order?.tickets?.foreignChild}</p>
                             </div>
                         </div>
 

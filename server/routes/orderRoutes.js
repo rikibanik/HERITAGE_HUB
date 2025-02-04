@@ -5,5 +5,6 @@ const orderController = require('../controller/orderController')
 router.post('/booknow',authMiddleware.authUser ,orderController.createOrder);
 router.post('/verify-payment', authMiddleware.authUser, orderController.verifyPayment)
 router.post('/order-details/:id',authMiddleware.authUser,orderController.getOrderbyId)
-router.get('/myorders',authMiddleware.authUser,orderController.getMyOrders)
+router.get('/myorders',authMiddleware.authUser,orderController.getMyOrders);
+router.post('/cancel',authMiddleware.authUser,orderController)
 module.exports = router;

@@ -170,12 +170,12 @@ const Register = () => {
                             <button className="ml-1 font-medium text-blue-600 hover:text-blue-800">Log in</button>
                         </Link>
                     </p>
-                    <div class="relative">
-                        <div class="absolute inset-0 flex items-center">
-                            <div class="w-full border-t border-gray-300"></div>
+                    <div className="relative">
+                        <div className="absolute inset-0 flex items-center">
+                            <div className="w-full border-t border-gray-300"></div>
                         </div>
-                        <div class="relative flex justify-center text-sm">
-                            <span class="bg-white text-gray-500">Or continue with</span>
+                        <div className="relative flex justify-center text-sm">
+                            <span className="bg-white text-gray-500">Or continue with</span>
                         </div>
                     </div>
                     <button className="flex items-center justify-center w-full max-w-sm py-2 text-lg font-medium text-gray-700 bg-white border border-gray-300 shadow-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition rounded-full">

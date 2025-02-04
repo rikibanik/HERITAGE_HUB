@@ -2,6 +2,8 @@ const {oauth2client} = require('../utils/googleConfig')
 const userModel = require('../db/models/userModel')
 const axios = require('axios')
 const userService = require('../services/userService')
+
+
 module.exports.googleLogin= async(req,res)=>{
     const { code }=req.body;
     console.log(req.body);
@@ -41,9 +43,9 @@ module.exports.googleLogin= async(req,res)=>{
         console.log(token)
         res.cookie('token', token,{
             httpOnly: true,  // Prevents JavaScript from accessing it
-            secure: true,   // Set to `true` if using HTTPS
-           sameSite: 'None',
-           partioned: true  // Adjust for cross-site requests
+            secure: process.env.NODE_ENV === 'production',   // Set to `true` if using HTTPS
+           sameSite: process.env.NODE_ENV === 'production' ?'None': 'lax',
+           partitioned: true  // Adjust for cross-site requests
        }).status(201).json({token, user});
     
 

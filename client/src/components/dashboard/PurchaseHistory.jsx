@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
+import TicketsAnalytics from './TicketsAnalytics';
 
 const PurchaseHistory = () => {
 
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
-    const [myTicketDetails, setMyTicketDetails] = useState([]);
-    console.log("tickets", myTicketDetails)
+    const [totalTickets, setTotalTickets] = useState(0);
+    const [purchaseHistory, setPurchaseHistory] = useState([]);
+    console.log("tickets", purchaseHistory)
 
 
     const formatDate = (date) => {
@@ -31,7 +33,8 @@ const PurchaseHistory = () => {
                 throw new Error('response error fetching my ticket order details!')
             }
             const data = await response.json();
-            setMyTicketDetails(data.orders.filter((items) => {
+            setTotalTickets(data.orders.length)
+            setPurchaseHistory(data.orders.filter((items) => {
                 const eventDate = new Date(items.slotId.date);
                 const eventHour = new Date(items.slotId.slots.endTime.hour);
                 const eventMinute = new Date(items.slotId.slots.endTime.minute);
@@ -102,7 +105,7 @@ const PurchaseHistory = () => {
                 :
                 (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {myTicketDetails.slice(0, 2).map((items) => {
+                        {purchaseHistory.slice(0, 2).map((items) => {
                             return (
                                 <div key={items._id} className="border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition duration-300">
                                     <div className="p-6">
@@ -142,21 +145,7 @@ const PurchaseHistory = () => {
                     </div>
                 )
             }
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-                <div className="bg-indigo-50 rounded-xl p-6">
-                    <h4 className="text-indigo-600 font-semibold mb-2">Total Tickets</h4>
-                    <p className="text-3xl font-bold">{myTicketDetails.length}</p>
-                </div>
-                <div className="bg-green-50 rounded-xl p-6">
-                    <h4 className="text-green-600 font-semibold mb-2">Active Tickets</h4>
-                    <p className="text-3xl font-bold">5</p>
-                </div>
-                <div className="bg-purple-50 rounded-xl p-6">
-                    <h4 className="text-purple-600 font-semibold mb-2">Expired Tickets</h4>
-                    <p className="text-3xl font-bold">2,450</p>
-                </div>
-            </div>
+            <TicketsAnalytics expiredTickets={purchaseHistory.length} totalTickets={totalTickets} activeTickets={totalTickets-purchaseHistory.length}/>
         </div>
     )
 }

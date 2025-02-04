@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
+import TicketsAnalytics from './TicketsAnalytics';
 
 const MyTickets = () => {
 
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
+    const [totalTickets, setTotalTickets] = useState(0)
     const [myTicketDetails, setMyTicketDetails] = useState([]);
     console.log("tickets", myTicketDetails)
 
@@ -31,6 +33,7 @@ const MyTickets = () => {
                 throw new Error('response error fetching my ticket order details!')
             }
             const data = await response.json();
+            setTotalTickets(data.orders.length);
             setMyTicketDetails(data.orders.filter((items) => {
                 const eventDate = new Date(items.slotId.date);
                 const eventHour = new Date(items.slotId.slots.endTime.hour);
@@ -143,20 +146,7 @@ const MyTickets = () => {
                 )
             }
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-                <div className="bg-indigo-50 rounded-xl p-6">
-                    <h4 className="text-indigo-600 font-semibold mb-2">Total Tickets</h4>
-                    <p className="text-3xl font-bold">{myTicketDetails.length}</p>
-                </div>
-                <div className="bg-green-50 rounded-xl p-6">
-                    <h4 className="text-green-600 font-semibold mb-2">Upcoming Events</h4>
-                    <p className="text-3xl font-bold">5</p>
-                </div>
-                <div className="bg-purple-50 rounded-xl p-6">
-                    <h4 className="text-purple-600 font-semibold mb-2">Reward Points</h4>
-                    <p className="text-3xl font-bold">2,450</p>
-                </div>
-            </div>
+            <TicketsAnalytics totalTickets={totalTickets} activeTickets={myTicketDetails.length} expiredTickets={totalTickets - myTicketDetails.length} />
         </div>
     )
 }

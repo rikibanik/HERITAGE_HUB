@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
-import ProfileDropdown from '../header/ProfileDropdown'
+import ProfileDropdown from '../home/header/ProfileDropdown'
 import { ContextCheckLogin } from '../context/context'
 
 

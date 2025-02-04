@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import PopUp from '../popup/PopUp';
+import PopUp from '../../logoutpopup/PopUp';
 
 const ProfileDropdown = ({ resData }) => {
     const [isOpen, setIsOpen] = useState(false);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import Loading from "./Loading";
-import PopUp from "../popup/PopUp";
+import PopUp from "../logoutpopup/PopUp";
 
 const MyProfile = () => {
     const [resData, setResData] = useState(null)

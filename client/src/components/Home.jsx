@@ -1,9 +1,9 @@
 import React from 'react'
-import Header from './header/Header'
+import Header from './home/header/Header'
 import Contacts from './Contacts'
 import Footer from './Footer'
 import { Element } from 'react-scroll'
-import { SidebarData } from './header/sidebar/SidebarData'
+import { SidebarData } from './home/header/sidebar/SidebarData'
 import BookingProcess from './BookingProcess'
 import Reviews from './Reviews'
 

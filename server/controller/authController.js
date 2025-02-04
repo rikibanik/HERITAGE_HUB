@@ -10,8 +10,7 @@ module.exports.googleLogin= async(req,res)=>{
     try {
         console.log("c1")
         const googleRes = await oauth2client.getToken(code);
-        console.log("Access Token:", googleRes.tokens.access_token);
-
+        console.log(googleRes)
          oauth2client.setCredentials(googleRes.tokens);
         const userRes = await axios.get(
             `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${googleRes.tokens.access_token}`
@@ -31,10 +30,18 @@ module.exports.googleLogin= async(req,res)=>{
                 },
                 email:email,
                 photo: picture,
-                emailVerified: true
+                emailVerified: true,
+                password: null
             }
             try{
-                user = await userService.registerUser(obj);
+                const userData = await userService.registerUser(obj);
+                const {user, token} = userData;
+                res.cookie('token', token,{
+                    httpOnly: true,  // Prevents JavaScript from accessing it
+                    secure: process.env.NODE_ENV === 'production',   // Set to `true` if using HTTPS
+                   sameSite: process.env.NODE_ENV === 'production' ?'None': 'lax',
+                   partitioned: true  // Adjust for cross-site requests
+               }).status(201).json({token, user});
             }catch(e){
                 throw Error("Unable to create new user")
             }

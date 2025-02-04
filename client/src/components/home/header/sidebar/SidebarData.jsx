@@ -5,11 +5,11 @@ import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
 import * as BiIcons from "react-icons/bi";
 import * as MdIcons from "react-icons/md";
-import Events from "../../../Events";
+import Events from "../../Events";
 import Faq from "../../faqs/Faq";
-import Find from "../../../Find";
-import Categories from "../../../Categories";
-import FeaturedEvents from "../../../FeaturedEvents";
+import Find from "../../Find";
+import Categories from "../../Categories";
+import FeaturedEvents from "../../FeaturedEvents";
 
 export const SidebarData = [
     {

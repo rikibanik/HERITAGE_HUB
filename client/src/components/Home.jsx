@@ -10,7 +10,7 @@ import Reviews from './Reviews'
 const Home = () => {
 
   return (
-    <main className='min-w-[330px]'>
+    <main className='min-w-[320px]'>
       <Header />
       {SidebarData.map((items, index) => {
         return (

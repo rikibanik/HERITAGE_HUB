@@ -22,27 +22,29 @@ const MuseumPage = () => {
                 <ContextOrderId.Provider value={{ orderId, setOrderId }}>
                     <ContextCheckLogin.Provider value={{ resData, setResData }}>
                         <ContextMuseum.Provider value={{ MuseumData, setMuseumData }}>
-                            <Navbar />
+                            <main className='min-w-[320px]'>
+                                <Navbar />
 
-                            {/* <Header/> */}
-                            <Description />
-                            {MuseumData &&
-                                <main>
-                                    <Element name='visitinginfo'>
-                                        <VisitingInfo />
-                                    </Element>
-                                    <Element name='booking'>
-                                        {resData && resData.email ?
-                                            <Booking />
-                                            : <LogoutBooking />}
-                                    </Element>
-                                    <Element name='gallery'>
-                                        <Gallery />
-                                    </Element>
-                                    <Collections />
-                                    <Footer />
-                                </main>
-                            }
+                                {/* <Header/> */}
+                                <Description />
+                                {MuseumData &&
+                                    <>
+                                        <Element name='visitinginfo'>
+                                            <VisitingInfo />
+                                        </Element>
+                                        <Element name='booking'>
+                                            {resData && resData.email ?
+                                                <Booking />
+                                                : <LogoutBooking />}
+                                        </Element>
+                                        <Element name='gallery'>
+                                            <Gallery />
+                                        </Element>
+                                        <Collections />
+                                        <Footer />
+                                    </>
+                                }
+                            </main>
                         </ContextMuseum.Provider>
                     </ContextCheckLogin.Provider>
                 </ContextOrderId.Provider>

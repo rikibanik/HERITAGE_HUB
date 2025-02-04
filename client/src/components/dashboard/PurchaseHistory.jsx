@@ -76,7 +76,7 @@ const PurchaseHistory = () => {
                                             <div className="h-5 w-36 bg-gray-300 rounded-md"></div>
                                             <div className="h-4 w-24 bg-gray-300 rounded-md mt-2"></div>
                                         </div>
-                                        <div className="h-6 w-16 bg-green-200 rounded-full"></div>
+                                        <div className="h-6 w-16 bg-red-200 rounded-full"></div>
                                     </div>
                                     <div className="space-y-2">
                                         <div className="flex items-center">

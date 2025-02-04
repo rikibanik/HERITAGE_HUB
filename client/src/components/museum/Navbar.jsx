@@ -47,14 +47,9 @@ const Header = () => {
                             <ProfileDropdown resData={resData} /> :
 
                             <div className='flex gap-4'>
-                                <Link to='/register'>
-                                    <button type="submit" className="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                                        Register
-                                    </button>
-                                </Link>
                                 <Link to='/login'>
                                     <button type="submit" className="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                                        Login
+                                        Sign in
                                     </button>
                                 </Link>
                             </div>

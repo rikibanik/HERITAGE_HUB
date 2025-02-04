@@ -197,6 +197,6 @@ module.exports.cancelOrder = async(req,res)=>{
             //order service.cancel order
         }
     } catch (error) {
-        
+        throw error
     }
 }

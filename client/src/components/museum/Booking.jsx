@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { ContextMuseum, ContextCheckLogin, ContextOrderId, ContextConfirmOrder } from '../context/context';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import SuccessBookingPopup from './SuccessBookingPopup';
+import PaymentShimmer from './PaymentShimmer';
 
 const Booking = () => {
     const { orderId, setOrderId } = useContext(ContextOrderId);
@@ -114,7 +115,7 @@ const Booking = () => {
             return;
         }
 
-        // setLoading(true);
+        setLoading(true);
         try {
             const obj = {
                 venueId: MuseumData.venue._id,
@@ -142,6 +143,8 @@ const Booking = () => {
             const razorpay_order_id = data.razorpay_order_id;
             setOrderId(data._id);
 
+            setLoading(false);
+
             const options = {
                 key: import.meta.env.VITE_RAZORPAY_KEY_ID,
                 amount: calculatePrice() * 100,
@@ -150,7 +153,6 @@ const Booking = () => {
                 description: "Test Transaction",
                 order_id: razorpay_order_id,
                 handler: async function (response) {
-                    // setLoading(false);
                     const verifyRes = await fetch(`${import.meta.env.VITE_HOST}/order/verify-payment`, {
                         method: "POST",
                         credentials: 'include',
@@ -180,7 +182,7 @@ const Booking = () => {
 
         } catch (error) {
             console.error('Payment initiation failed:', error);
-            // setLoading(false);
+            setLoading(false);
         }
     };
 
@@ -315,18 +317,14 @@ const Booking = () => {
                         {/* Booking Button */}
                         <button
                             className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300 flex justify-center items-center"
-                            disabled={loading}
                         >
-                            {loading ? (
-                                <div className="animate-pulse w-24 h-6 bg-gray-300 rounded"></div>
-                            ) : (
-                                calculatePrice() === 0 ? "Buy now" : "Pay now"
-                            )}
+                            {calculatePrice() === 0 ? "Buy now" : "Pay now"}
                         </button>
 
                     </form>
                 </div >
             </section >
+            {loading && <PaymentShimmer/>}
             {confirmOrder && <SuccessBookingPopup selectedSlot={selectedSlot} availableSlots={availableSlots} />}
 
         </>

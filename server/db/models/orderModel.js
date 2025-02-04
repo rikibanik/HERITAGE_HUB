@@ -16,6 +16,10 @@ const orderSchema= new mongoose.Schema({
         ref: 'Slot',
         required: true
     },
+    status:{
+        type: String,
+        default: "active"
+    },
     orderNum:{
         type: String,
         required: true

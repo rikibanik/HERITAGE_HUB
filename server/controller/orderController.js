@@ -187,3 +187,16 @@ module.exports.getMyOrders = async (req,res)=>{
         res.status(401).json({message: error.message})
     }
 }
+module.exports.cancelOrder = async(req,res)=>{
+    const userId =  req.user._id;
+    const {orderId} = req.body;
+    if(!userId || !orderId) res.status(400).json({message: "invalid request"})
+    try {
+        const order = await orderService.getOrderById(orderId);
+        if(order.userId === userId){
+            //order service.cancel order
+        }
+    } catch (error) {
+        
+    }
+}

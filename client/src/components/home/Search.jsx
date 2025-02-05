@@ -74,7 +74,10 @@ const Search = () => {
                         display: 'none', // For Chrome, Safari, and Opera
                     },
                 }),
-
+                option: (provided) => ({
+                    ...provided,
+                    cursor: 'pointer',
+                }),
             }}
         />
     );

@@ -22,7 +22,14 @@ app.use(cors({
   credentials: true, // Allow cookies and credentials
 }));
 require('events').EventEmitter.defaultMaxListeners = 100; // Set it to 100
-
+app.use((req,res,next)=>{
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Controll-Allow-Headers",
+    "Origin, X-Requested-Width, Content-Type, Accept"
+  );
+  next();
+})
 
 
 app.use(express.json());

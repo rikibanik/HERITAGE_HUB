@@ -86,7 +86,7 @@ const Login = () => {
                 theme="dark"
                 transition={Bounce}
             />
-            <div id="AuthContainer" className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
+            <div id="AuthContainer" className="min-h-screen min-w-[300px] px-4 flex flex-col items-center justify-center bg-gray-50">
                 <div className="w-full max-w-md p-8 space-y-4 bg-white rounded-xl shadow-lg">
                     <div className="text-center space-y-2">
                         <h1 className="text-2xl font-bold text-gray-900">Welcome Back</h1>

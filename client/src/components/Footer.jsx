@@ -3,9 +3,9 @@ import React from 'react'
 const Footer = () => {
   return (
     <footer id="footer" className="bg-gray-900 text-gray-300">
-      <p class="text-lg text-white  text-center mt-5 pt-5 ">
-  **This website is for project purposes only and has no affiliation with any museum or other official sites.**
-</p>
+      <p class="text-lg text-white  text-center pt-5 ">
+        **This website is for project purposes only and has no affiliation with any museum or other official sites.**
+      </p>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-12">

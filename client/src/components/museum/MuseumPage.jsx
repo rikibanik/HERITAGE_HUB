@@ -6,7 +6,7 @@ import VisitingInfo from './VisitingInfo'
 import Booking from './Booking'
 import Gallery from './Gallery'
 import Footer from '../Footer'
-import { ContextMuseum, ContextCheckLogin, ContextOrderId, ContextConfirmOrder } from '../context/context'
+import { ContextMuseum, ContextCheckLogin, ContextConfirmOrder } from '../context/context'
 import { Element } from 'react-scroll'
 import LogoutBooking from './LogoutBooking'
 
@@ -19,7 +19,6 @@ const MuseumPage = () => {
     return (
         <>
             <ContextConfirmOrder.Provider value={{ confirmOrder, setConfirmOrder }}>
-                <ContextOrderId.Provider value={{ orderId, setOrderId }}>
                     <ContextCheckLogin.Provider value={{ resData, setResData }}>
                         <ContextMuseum.Provider value={{ MuseumData, setMuseumData }}>
                             <main className='min-w-[320px]'>
@@ -47,7 +46,6 @@ const MuseumPage = () => {
                             </main>
                         </ContextMuseum.Provider>
                     </ContextCheckLogin.Provider>
-                </ContextOrderId.Provider>
             </ContextConfirmOrder.Provider>
         </>
     )

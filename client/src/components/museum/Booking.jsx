@@ -1,13 +1,20 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { ContextMuseum, ContextCheckLogin, ContextOrderId, ContextConfirmOrder } from '../context/context';
+import { ContextMuseum, ContextCheckLogin, ContextConfirmOrder } from '../context/context';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import SuccessBookingPopup from './SuccessBookingPopup';
-import PaymentShimmer from './PaymentShimmer';
+import SuccessBookingSkeleton from './SuccessBookingShimmer';
 
 const Booking = () => {
-    const { orderId, setOrderId } = useContext(ContextOrderId);
+    const [orderDetails, setOrderDetails] = useState(null)
+
     const { resData, setResData } = useContext(ContextCheckLogin);
     const { confirmOrder, setConfirmOrder } = useContext(ContextConfirmOrder);
+
+    // this effect state is for handeling effect just after payment
+    const [effect, setEffect] = useState(false);
+
+    // this loading state is to handle paying... loading effect
+    const [loading, setLoading] = useState(false);
 
     const { MuseumData } = useContext(ContextMuseum);
     // console.log(MuseumData)
@@ -100,9 +107,6 @@ const Booking = () => {
         );
     };
 
-    // this loading is to handle shimmer effect
-    const [loading, setLoading] = useState(false);
-
     const handlePayment = async (e) => {
         e.preventDefault();
         if (!selectedSlot) {
@@ -141,8 +145,6 @@ const Booking = () => {
 
             const data = await response.json();
             const razorpay_order_id = data.razorpay_order_id;
-            setOrderId(data._id);
-
             setLoading(false);
 
             const options = {
@@ -153,21 +155,31 @@ const Booking = () => {
                 description: "Test Transaction",
                 order_id: razorpay_order_id,
                 handler: async function (response) {
+                    setEffect(true)
                     const verifyRes = await fetch(`${import.meta.env.VITE_HOST}/order/verify-payment`, {
                         method: "POST",
                         credentials: 'include',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(response),
                     });
-
+                    const orderId = data._id;
+                    console.log(orderId)
                     const verifyData = await verifyRes.json();
-
                     if (verifyData.success) {
-                        toast.success('Payment Successful! Order Created!');
                         setConfirmOrder(true);
+                        const res = await fetch(`${import.meta.env.VITE_HOST}/order/order-details/${orderId}`, {
+                            method: "POST",
+                            credentials: 'include',
+                        });
+                        if (!res.ok) {
+                            throw new Error('order details could not be fetched');
+                        }
+                        const data = await res.json();
+                        setOrderDetails(data);
                     } else {
                         toast.error('Payment Verification Failed!');
                     }
+                    setEffect(false);
                 },
                 prefill: {
                     name: `${resData.name.firstname} ${resData.name.lastname}`,
@@ -182,6 +194,7 @@ const Booking = () => {
 
         } catch (error) {
             console.error('Payment initiation failed:', error);
+            setEffect(false);
             setLoading(false);
         }
     };
@@ -336,7 +349,8 @@ const Booking = () => {
                     </form>
                 </div >
             </section >
-            {confirmOrder && <SuccessBookingPopup selectedSlot={selectedSlot} availableSlots={availableSlots} />}
+            {confirmOrder && orderDetails ?
+                <SuccessBookingPopup orderDetails={orderDetails} selectedSlot={selectedSlot} availableSlots={availableSlots} /> : effect && <SuccessBookingSkeleton />}
 
         </>
     );

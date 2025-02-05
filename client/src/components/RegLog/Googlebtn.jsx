@@ -1,30 +1,28 @@
 import React from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { useGoogleLogin } from '@react-oauth/google';
-import axios from 'axios'
+// import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 const Googlebtn = () => {
     const navigate = useNavigate();
     const responseGoogle = async (authResult)=>{
         try {
             if (authResult['code']) {
-                const response = await axios.post(
-                    `${import.meta.env.VITE_HOST}/auth/google`, // Removed `?code=...`
-                    {
-                        code: authResult['code'], // Send code in the request body
-                    },
-                    {
-                        withCredentials: true, // Ensures cookies are sent & received
+                const response = await fetch(
+                    `${import.meta.env.VITE_HOST}/auth/google`,{
+                        method: 'POST',
+                        credentials: 'include',
                         headers: {
                             'Content-Type': 'application/json',
                         },
+                        body: JSON.stringify({code: authResult['code']}),
                     }
                 );
                 if (response.status != 201) {
                     console.log(response);
                     throw new Error('Login failed!')
                 }
-                
+
                 navigate('/');
                 
             }

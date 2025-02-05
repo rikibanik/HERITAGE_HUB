@@ -36,6 +36,7 @@ module.exports.googleLogin= async(req,res)=>{
             try{
                 const userData = await userService.registerUser(obj);
                 const {user, token} = userData;
+                console.log(token);
                 res.cookie('token', token,{
                     httpOnly: true,  // Prevents JavaScript from accessing it
                     secure: process.env.NODE_ENV === 'production',   // Set to `true` if using HTTPS

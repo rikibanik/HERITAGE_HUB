@@ -40,7 +40,7 @@ const Header = () => {
                 <div className="flex justify-between items-center h-16">
 
                     <div className="flex-shrink-0 flex items-center flex-col">
-                        <h1 className="text-2xl font-bold text-indigo-600"><a href="/">HeritageHub</a></h1>
+                        <h1 className="text-2xl font-bold text-indigo-600">HeritageHub</h1>
                     </div>
 
                     {/* <!-- Right Side Icons --> */}

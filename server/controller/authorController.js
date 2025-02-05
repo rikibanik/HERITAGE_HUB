@@ -20,7 +20,7 @@ module.exports.loginAuthor = async (req,res)=>{
                  httpOnly: true,  // Prevents JavaScript from accessing it
                  secure: process.env.NODE_ENV === 'production',   // Set to `true` if using HTTPS
            sameSite: process.env.NODE_ENV === 'production' ?'None': 'lax',
-                partioned: true  // Adjust for cross-site requests
+                partioned: process.env.NODE_ENV === 'production'  // Adjust for cross-site requests
             }
             
         );

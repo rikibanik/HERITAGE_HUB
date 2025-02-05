@@ -24,7 +24,7 @@ module.exports.registerUser = async (req, res) => {
         httpOnly: true,  // Prevents JavaScript from accessing it
         secure: process.env.NODE_ENV === 'production',   // Set to `true` if using HTTPS
            sameSite: process.env.NODE_ENV === 'production' ?'None': 'lax',
-       partioned: true  // Adjust for cross-site requests
+       partioned: process.env.NODE_ENV === 'production'  // Adjust for cross-site requests
    }).status(201).json({ result });
 
 };
@@ -45,7 +45,7 @@ module.exports.loginUser = async (req, res) => {
         httpOnly: true,  // Prevents JavaScript from accessing it
         secure: process.env.NODE_ENV === 'production',   // Set to `true` if using HTTPS
         sameSite: process.env.NODE_ENV === 'production' ?'None': 'lax',
-       partioned: true  // Adjust for cross-site requests
+       partioned: process.env.NODE_ENV === 'production'  // Adjust for cross-site requests
    })
     res.status(201).json({ result });
 }

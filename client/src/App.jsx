@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Login from './components/RegLog/Login'
 import MuseumPage from './components/museum/MuseumPage'
 import Register from './components/RegLog/Register'
+import SuccessBookingPopup from './components/museum/SuccessBookingPopup'
 import { GoogleOAuthProvider } from '@react-oauth/google';
   
 function App() {

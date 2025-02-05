@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { MdCancel } from "react-icons/md";
-import { ContextConfirmOrder, ContextMuseum } from "../context/context";
+import { ContextConfirmOrder, ContextMuseum, ContextOrderId } from "../context/context";
 import { useContext, useEffect } from "react";
 import { useWindowSize } from "react-use";
 import Confetti from 'react-confetti';
-import Shimmer from "./SuccessBookingShimmer";
-import { toast, ToastContainer, Bounce } from "react-toastify";
 
-const SuccessBookingPopup = ({ availableSlots, selectedSlot, orderDetails }) => {
+const SuccessBookingPopup = ({ availableSlots, selectedSlot }) => {
 
+    const [orderDetails, setOrderDetails] = useState(null)
     const { MuseumData } = useContext(ContextMuseum);
     const slotInfo = availableSlots.filter((slot) => slot._id === selectedSlot);
     const { confirmOrder, setConfirmOrder } = useContext(ContextConfirmOrder);
@@ -26,9 +25,31 @@ const SuccessBookingPopup = ({ availableSlots, selectedSlot, orderDetails }) => 
         return `${hour12.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} ${amPm}`;
     };
 
+    const { orderId } = useContext(ContextOrderId);
+    const getOrderDetails = async () => {
+        try {
+            const res = await fetch(`${import.meta.env.VITE_HOST}/order/order-details/${orderId}`, {
+                method: "POST",
+                credentials: 'include',
+            });
+            if (!res.ok) {
+                throw new Error('order details could not be fetched');
+            }
+            const data = await res.json();
+            // console.log(data);
+            setOrderDetails(data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        getOrderDetails();
+    }, [])
+
+    // Trigger confetti effect when confirmOrder is true
     useEffect(() => {
         if (confirmOrder) {
-            toast.success('Payment Successful! Order Created!');
             setIsConfettiActive(true);
             setTimeout(() => {
                 setIsConfettiActive(false);
@@ -37,21 +58,9 @@ const SuccessBookingPopup = ({ availableSlots, selectedSlot, orderDetails }) => 
     }, [confirmOrder]);
 
     const { width, height } = useWindowSize();
+
     return (
         <>
-            <ToastContainer
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick={false}
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="dark"
-                transition={Bounce}
-            />
             <div
                 onClick={() => setConfirmOrder(false)}
                 className="fixed inset-0 flex justify-center items-center bg-black/20 transition-colors z-50"
@@ -71,12 +80,12 @@ const SuccessBookingPopup = ({ availableSlots, selectedSlot, orderDetails }) => 
                         onClick={() => setConfirmOrder(false)}
                         className="absolute top-2 right-2 p-1 rounded-lg text-gray-400 bg-white hover:bg-gray-50 hover:text-gray-600"
                     >
-                        <MdCancel size={25} color="red" />
+                        <MdCancel />
                     </button>
 
                     {/* Success Header */}
                     <div className="text-center mb-4">
-                        <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                             <svg
                                 className="w-8 h-8 text-green-500"
                                 fill="none"
@@ -91,12 +100,12 @@ const SuccessBookingPopup = ({ availableSlots, selectedSlot, orderDetails }) => 
                                 ></path>
                             </svg>
                         </div>
-                        <h2 className="text-xl font-bold text-gray-800">Booking Confirmed!</h2>
+                        <h2 className="text-2xl font-bold text-gray-800">Booking Confirmed!</h2>
 
                         {/* Price Paid Section */}
                         <div className="flex items-center justify-center">
-                            <span className="text-lg font-light text-gray-800 mr-2">Amount Paid:</span>
-                            <span className="text-lg font-light text-green-600">₹{orderDetails && orderDetails.order.amount}</span>
+                            <span className="text-xl font-light text-gray-800 mr-2">Amount Paid:</span>
+                            <span className="text-xl font-light text-green-600">₹{orderDetails && orderDetails.order.amount}</span>
                         </div>
                     </div>
 
@@ -114,7 +123,7 @@ const SuccessBookingPopup = ({ availableSlots, selectedSlot, orderDetails }) => 
 
                         <div className="bg-gray-50 p-4 rounded-lg">
                             <h3 className="font-semibold mb-2">Visitor Information</h3>
-                            <div className="grid grid-cols-2 gap-1">
+                            <div className="grid grid-cols-2 gap-2">
                                 <p title="indian adult">IAdult: {orderDetails?.order?.tickets?.indianAdult}</p>
                                 <p title="indian child">IChild: {orderDetails?.order?.tickets?.indianChild}</p>
                                 <p title="foreign adult">FAdult: {orderDetails?.order?.tickets?.foreignAdult}</p>

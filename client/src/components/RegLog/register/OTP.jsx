@@ -180,9 +180,7 @@ const OTP = () => {
                             <span className="bg-white text-gray-500">Or continue with</span>
                         </div>
                     </div>
-                    <button className="flex items-center justify-center w-full max-w-sm py-2 text-lg font-medium text-gray-700 bg-white border border-gray-300 shadow-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition rounded-full">
-                        <Googlebtn />
-                    </button>
+                    <Googlebtn />
                 </div>
             </div>
         </>

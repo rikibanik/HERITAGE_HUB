@@ -10,9 +10,9 @@ module.exports.registerUser = async (req, res) => {
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-    const exist = await userModel.findOne({email: req.body.email});
-    if(exist){
-        return res.status(401).json({errors: "user with this email exist"})
+    const exist = await userModel.findOne({ email: req.body.email });
+    if (exist) {
+        return res.status(401).json({ errors: "user with this email exist" })
     }
     const user = {
         name: req.body.name,
@@ -20,12 +20,12 @@ module.exports.registerUser = async (req, res) => {
         password: await userModel.hashPassword(req.body.password)
     };
     const result = await userService.registerUser(user);
-    res.cookie('token', result.token,{
+    res.cookie('token', result.token, {
         httpOnly: true,  // Prevents JavaScript from accessing it
         secure: process.env.NODE_ENV === 'production',   // Set to `true` if using HTTPS
-           sameSite: process.env.NODE_ENV === 'production' ?'None': 'lax',
-       partioned: process.env.NODE_ENV === 'production'  // Adjust for cross-site requests
-   }).status(201).json({ result });
+        sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'lax',
+        partioned: process.env.NODE_ENV === 'production'  // Adjust for cross-site requests
+    }).status(201).json({ result });
 
 };
 module.exports.loginUser = async (req, res) => {
@@ -41,58 +41,60 @@ module.exports.loginUser = async (req, res) => {
     };
     const result = await userService.loginUser(user);
     console.log(result.token)
-    res.cookie('token', result.token,{
+    res.cookie('token', result.token, {
         httpOnly: true,  // Prevents JavaScript from accessing it
         secure: process.env.NODE_ENV === 'production',   // Set to `true` if using HTTPS
-        sameSite: process.env.NODE_ENV === 'production' ?'None': 'lax',
-       partioned: process.env.NODE_ENV === 'production'  // Adjust for cross-site requests
-   })
+        sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'lax',
+        partioned: process.env.NODE_ENV === 'production'  // Adjust for cross-site requests
+    })
     res.status(201).json({ result });
 }
-module.exports.logoutUser = async (req,res)=>{
+module.exports.logoutUser = async (req, res) => {
     res.clearCookie('token');
     const token = req.cookies.token || (req.header('Authorization') && req.header('Authorization').split(' ')[1]);
-    await blackList.create({token});
+    await blackList.create({ token });
     res.status(200).redirect('/');
 }
-module.exports.generateOtp = async (req,res)=>{
+module.exports.generateOtp = async (req, res) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-    
-    const {email} = req.body;
+
+    const { email, name, password } = req.body;
+    const hashedPassword = await userModel.hashPassword(password);
+    const { user } = await userService.registerUser({ email, name, password: hashedPassword })
     console.log(email);
     try {
         const otpGen = await otpService.sendOTP(email);
-        if(otpGen.status == false){
+        if (otpGen.status == false) {
             res.status(400).json(otpGen)
         }
-        res.status(200).json({message: "OTP SENT SUCCESSFULLY"})
+        res.status(200).json({ message: "OTP SENT SUCCESSFULLY" })
     } catch (error) {
-        res.status(400).json({message: error.message})
+        res.status(400).json({ message: error.message })
     }
 }
-module.exports.verifyOtp = async (req,res)=>{
+module.exports.verifyOtp = async (req, res) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-    const {email, otp} = req.body;
-    try{
+    const { email, otp } = req.body;
+    try {
         const verify = await otpService.verifyOTP(email, otp);
         // res.json(verify)
-        if(verify.status){
+        if (verify.status) {
             // update user status to verified...
             await userService.updateUserStatus(email);
             res.status(201).json(verify);
         }
-        else{
-            res.status(500).json({message: verify.message})
+        else {
+            res.status(500).json({ message: verify.message })
         }
-    }catch(e){
-        res.status(400).json({message: e.message});
+    } catch (e) {
+        res.status(400).json({ message: e.message });
     }
 }

@@ -1,81 +1,101 @@
-# HERITAGE HUB
+# HERITAGE HUB (Ticket Booking System)
 
 ## Overview
-HERITAGE HUB is a comprehensive platform designed to manage venues, admins, users, authors, and orders. This README provides an overview of the available endpoints and features of the project.
+Heritage Hub is a robust and scalable web application that allows users to book tickets for museums, enables authors to manage their assigned venues, and provides admins with full control over the platform. It features user authentication, role-based access, secure payments, and insightful analytics.
 
-## Table of Contents
-- [Installation](#installation)
-- [Usage](#usage)
-- [Endpoints](#endpoints)
-    - [Admin Endpoints](#admin-endpoints)
-    - [User Endpoints](#user-endpoints)
-    - [Author Endpoints](#author-endpoints)
-    - [Venue Endpoints](#venue-endpoints)
-    - [Order Endpoints](#order-endpoints)
-- [Features](#features)
-
-## Installation
-To install and run the project locally, follow these steps:
-
-1. Clone the repository:
-        ```sh
-        git clone https://github.com/banikriki/HERITAGE_HUB.git
-        ```
-2. Navigate to the project directory:
-        ```sh
-        cd HERITAGE_HUB
-        ```
-3. Install the dependencies:
-        ```sh
-        npm install
-        ```
-4. Set up the environment variables by creating a `.env` file in the root directory and adding the necessary configurations.
-
-5. Start the server:
-        ```sh
-        npm start
-        ```
-
-## Usage
-Once the server is running, you can access the application at `http://localhost:3000`.
-
-## Endpoints
-
-### Admin Endpoints
-- **POST /admin/add**: Add a new admin.
-- **POST /admin/login**: Login as an admin.
-
-### User Endpoints
-- **GET /user**: Get all users.
-- **POST /user**: Create a new user.
-- **PUT /user/:id**: Update user details.
-- **DELETE /user/:id**: Delete a user.
-
-### Author Endpoints
-- **GET /author**: Get all authors.
-- **POST /author**: Create a new author.
-- **PUT /author/:id**: Update author details.
-- **DELETE /author/:id**: Delete an author.
-
-### Venue Endpoints
-- **GET /venue**: Get all venues.
-- **POST /venue**: Create a new venue.
-- **PUT /venue/:id**: Update venue details.
-- **DELETE /venue/:id**: Delete a venue.
-
-### Order Endpoints
-- **GET /order**: Get all orders.
-- **POST /order**: Create a new order.
-- **PUT /order/:id**: Update order details.
-- **DELETE /order/:id**: Delete an order.
+---
 
 ## Features
-- **Admin Management**: Add, update, and delete admins.
-- **User Management**: Add, update, and delete users.
-- **Author Management**: Add, update, and delete authors.
-- **Venue Management**: Add, update, and delete venues.
-- **Order Management**: Add, update, and delete orders.
-- **Authentication**: Secure login for admins.
-- **CORS Support**: Configurable CORS settings for secure cross-origin requests.
 
-For more detailed information on each endpoint and feature, refer to the respective route files and controllers in the `server` directory.
+### User Features
+- **Authentication**:
+  - Users can sign up and log in using Gmail/Google authentication (OAuth2).
+  - OTP-based login and password-based login using Nodemailer.
+- **Ticket Management**:
+  - Book tickets for museum visits.
+  - View booked tickets and their details.
+  - Cancel booked tickets if needed.
+- **Payment Integration**:
+  - Seamlessly integrated **Razorpay** payment gateway for secure transactions.
+
+### Author Features
+Authors are assigned to specific museums with different levels of permissions.
+- **Museum Management**:
+  - Edit museum details such as name, description, and contact info.
+  - Add and update the museum gallery with images.
+- **Ticket & Slot Management**:
+  - Add ticket slots by date, time, and capacity.
+  - View all ticket bookings and details related to their assigned museum.
+  
+### Admin Features
+Admins have complete control over the platform.
+- **User & Author Management**:
+  - Manage all users and authors.
+  - Assign authors to specific museum venues with different permission levels.
+- **Venue & Ticket Management**:
+  - Add and edit museum venues.
+  - Oversee ticket bookings and availability.
+- **Insights & Analytics**:
+  - View booking statistics and insights for better decision-making.
+
+---
+
+## Technologies Used
+- **Backend**: Node.js, Express.js
+- **Database**: MongoDB
+- **Authentication**: OAuth2, Nodemailer (for OTP login)
+- **Payments**: Razorpay Integration
+- **Frontend**: React.js 
+- **Hosting**: Server deployed on AWS
+---
+
+## Setup & Installation
+### Prerequisites
+- Node.js installed
+- MongoDB database setup
+- Razorpay account for payment integration
+
+### Steps to Run
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/rikibanik/HERITAGE_HUB.git
+   cd HERITAGE_HUB
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Set up environment variables in `.env`:
+   ```env
+   MONGO_URI=your_mongodb_connection_string
+   RAZORPAY_KEY_ID=your_razorpay_key_id
+   RAZORPAY_KEY_SECRET=your_razorpay_key_secret
+   JWT_SECRET=your_jwt_secret
+   PORT = port
+   CLIENT_ID = frontend_link
+   AWS_REGION = aws_region_bucket
+   ACCESS_KEY = aws_iam_access_key
+   SECRET_KEY = aws_iam_secret_key
+   BUCKET_NAME = aws_bucket_s3
+   GOOGLE_CLIENT_ID = google_auth_client_id
+   GOOGLE_CLIENT_SECRET = google_auth_client_secret
+   HH_EMAIL = smtp_email_address
+   HH_PASSWORD = password
+   ```
+4. Start the server:
+   ```bash
+   npm start
+   ```
+
+
+---
+
+## Contributing
+Feel free to contribute by submitting issues or pull requests. Follow the standard guidelines for coding and documentation.
+
+---
+
+
+## Contact
+For any queries or support, contact [rikibanik@icloud.com](mailto:rikibanik@icloud.com).
+

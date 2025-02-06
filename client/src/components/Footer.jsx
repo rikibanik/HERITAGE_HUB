@@ -3,7 +3,7 @@ import React from 'react'
 const Footer = () => {
   return (
     <footer id="footer" className="bg-gray-900 text-gray-300">
-      <p class="text-lg text-white  text-center pt-5 ">
+      <p className="text-lg text-white  text-center pt-5 ">
         **This website is for project purposes only and has no affiliation with any museum or other official sites.**
       </p>
 

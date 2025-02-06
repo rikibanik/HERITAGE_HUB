@@ -14,6 +14,7 @@ const Googlebtn = () => {
                         credentials: 'include',
                         headers: {
                             'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${localStorage.getItem('token')}`,
                         },
                         body: JSON.stringify({code: authResult['code']}),
                     }

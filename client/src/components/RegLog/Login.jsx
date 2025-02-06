@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
@@ -6,12 +6,19 @@ import Googlebtn from './Googlebtn';
 
 const Login = () => {
 
+    const [token, setToken] = useState('');
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [LoginFrom, setLoginFrom] = useState({
         email: "",
         password: "",
     })
+
+    useEffect(() => {
+        localStorage.setItem("token", token);
+    }, [token])
+
+
     const handlechange = (event) => {
         setLoginFrom({ ...LoginFrom, [event.target.name]: event.target.value });
     }
@@ -24,6 +31,7 @@ const Login = () => {
                 credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 },
                 body: JSON.stringify(LoginFrom),
             });
@@ -31,7 +39,8 @@ const Login = () => {
                 throw new Error('Login failed!')
             }
             const data = await response.json();
-            // console.log('ResponseLogin:', data);
+            setToken(data.result.token);
+            console.log('ResponseLogin:', data);
             if (data.result.error === "Invalid email") {
                 toast.error('Invalid email!', {
                     position: "top-right",
@@ -67,9 +76,6 @@ const Login = () => {
             setLoading(false);
         }
     }
-    // console.log(form)
-
-    //auth things
 
     return (
         <>
@@ -86,7 +92,7 @@ const Login = () => {
                 theme="dark"
                 transition={Bounce}
             />
-            <div id="AuthContainer" className="min-h-screen min-w-[300px] px-4 flex flex-col items-center justify-center bg-gray-50">
+            <div id="AuthContainer" className="min-h-screen min-w-[300px] p-4 flex flex-col items-center justify-center bg-gray-50">
                 <div className="w-full max-w-md p-8 space-y-4 bg-white rounded-xl shadow-lg">
                     <div className="text-center space-y-2">
                         <h1 className="text-2xl font-bold text-gray-900">Welcome Back</h1>

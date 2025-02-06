@@ -13,13 +13,17 @@ export default function PopUp({ type }) {
                 {
                     method: "GET",
                     credentials: 'include',
-                    headers: { 'Content-Type': 'application/json' }
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    },
                 }
             )
             if (!res.ok) {
                 throw new Error('Logout failed!')
             }
-            window.location.href = '/'
+            localStorage.removeItem('token');
+            window.location.href = '/';
 
         } catch (error) {
             console.error(error);

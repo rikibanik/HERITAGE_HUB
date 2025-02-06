@@ -20,7 +20,7 @@ router.post('/login', [
 ], userController.loginUser);
 router.get('/', async (req, res) => {
     try{ 
-    const token = req.cookies.token
+    const token = req.cookies.token || (req.header('Authorization') && req.header('Authorization').split(' ')[1]);
     const decode = jwt.verify(token, process.env.JWT_SECRET);
     const userData = await userModel.findOne({ "_id": decode._id })
     res.status(201).json(userData)

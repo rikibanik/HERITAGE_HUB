@@ -63,7 +63,7 @@ const Register = () => {
     return (
         <>
             <ToastContainer />
-            <div id="AuthContainer" className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
+            <div id="AuthContainer" className="min-h-screen min-w-[300px] p-4 flex flex-col items-center justify-center bg-gray-50">
                 <div className="w-full max-w-md p-6 space-y-4 bg-white rounded-xl shadow-lg">
                     <div className="text-center space-y-1">
                         <h2 className="text-xl font-bold text-gray-900">Welcome To Heritage Hub</h2>

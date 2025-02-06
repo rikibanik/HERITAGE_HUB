@@ -135,7 +135,10 @@ const Booking = () => {
             const response = await fetch(`${import.meta.env.VITE_HOST}/order/booknow`, {
                 method: "POST",
                 credentials: 'include',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                },
                 body: JSON.stringify(obj),
             });
 
@@ -159,7 +162,10 @@ const Booking = () => {
                     const verifyRes = await fetch(`${import.meta.env.VITE_HOST}/order/verify-payment`, {
                         method: "POST",
                         credentials: 'include',
-                        headers: { 'Content-Type': 'application/json' },
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                        },
                         body: JSON.stringify(response),
                     });
                     const orderId = data._id;
@@ -170,6 +176,10 @@ const Booking = () => {
                         const res = await fetch(`${import.meta.env.VITE_HOST}/order/order-details/${orderId}`, {
                             method: "POST",
                             credentials: 'include',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                            },
                         });
                         if (!res.ok) {
                             throw new Error('order details could not be fetched');

@@ -15,12 +15,14 @@ export default function AuthorPopup() {
                 credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
-                }
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                },
             });
 
             if (!res.ok) {
                 throw new Error('Error logging out!');
             }
+            localStorage.removeItem('token');
             navigate('/login');
             setOpen(false);
         } catch (error) {

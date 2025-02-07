@@ -46,16 +46,21 @@ const Register = () => {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ name: { firstname: userInfo.firstname, lastname: userInfo.lastname }, email: userInfo.email, password: userInfo.password })
+                body: JSON.stringify({ name: { firstname: userInfo.firstname, lastname: userInfo.lastname }, email: userInfo.email, password: userInfo.password }),
+                credentials: "include" 
             });
             if (!response.ok) {
-                throw new Error("error generating otp");
+                console.log(response)
+                throw new Error(response.message);
             }
+            
             setUserInfo({ ...userInfo, otpStatus: true });
             setComponent("OTP");
         } catch (error) {
-            console.log(error);
+            console.log(error)
+            toast.warning(error.message);
         } finally {
+            
             setLoading(false);
         }
     };

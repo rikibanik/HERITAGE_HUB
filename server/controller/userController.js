@@ -24,7 +24,7 @@ module.exports.registerUser = async (req, res) => {
         httpOnly: true,  // Prevents JavaScript from accessing it
         secure: process.env.NODE_ENV === 'production',   // Set to `true` if using HTTPS
         sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'lax',
-        partioned: process.env.NODE_ENV === 'production'  // Adjust for cross-site requests
+        partitioned: process.env.NODE_ENV === 'production'  // Adjust for cross-site requests
     }).status(201).json({ result });
 
 };
@@ -61,15 +61,21 @@ module.exports.generateOtp = async (req, res) => {
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-
+    // console.log(req.body)
     const { email, name, password } = req.body;
+    const exist = await userModel.findOne({ email });
+    // console.log(exist)
+    if (exist) {
+        return res.status(401).json({ error: "Account with this email exist. please Login" })
+    }
+    
     const hashedPassword = await userModel.hashPassword(password);
     const { user } = await userService.registerUser({ email, name, password: hashedPassword })
-    console.log(email);
+    console.log(user);
     try {
         const otpGen = await otpService.sendOTP(email);
         if (otpGen.status == false) {
-            res.status(400).json(otpGen)
+           return  res.status(400).json(otpGen)
         }
         res.status(200).json({ message: "OTP SENT SUCCESSFULLY" })
     } catch (error) {

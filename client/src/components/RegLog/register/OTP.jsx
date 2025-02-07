@@ -60,26 +60,25 @@ const OTP = () => {
         e.preventDefault();
         setUserInfo({ ...userInfo, otpStatus: false });
         setLoading(true);
+
         try {
             const response = await fetch(`${import.meta.env.VITE_HOST}/user/verify-otp`, {
                 method: "POST",
+                credentials: "include",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(
-                    {
-                        email: userInfo.email,
-                        otp: otp.reduce((acc, otp) => {
-                            return acc + otp;
-                        }, "")
-                    }
-                )
+                body: JSON.stringify({
+                    name: { firstname: userInfo.firstname, lastname: userInfo.lastname }, email: userInfo.email,
+                    password: userInfo.password,
+                    otp: otp.join("")
+                })
             });
             if (!response.ok) {
                 const err = await response.json();
                 throw err;
             }
-            navigate('/login');
+            navigate('/');
         } catch (error) {
             console.log(error);
             toast.error(error.message);
@@ -97,6 +96,7 @@ const OTP = () => {
         try {
             const response = await fetch("http://localhost:3000/user/generate-otp", {
                 method: "POST",
+                credentials: "include",
                 headers: {
                     "Content-Type": "application/json"
                 },

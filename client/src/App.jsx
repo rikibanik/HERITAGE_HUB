@@ -17,7 +17,7 @@ function App() {
       email: "",
       password: "",
       confirmPassword: "",
-      otp: "",
+      // otp: "",
       otpStatus: false,
     }
   )

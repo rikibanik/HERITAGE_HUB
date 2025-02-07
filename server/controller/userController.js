@@ -62,16 +62,14 @@ module.exports.generateOtp = async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
     // console.log(req.body)
-    const { email, name, password } = req.body;
+    const { email } = req.body;
     const exist = await userModel.findOne({ email });
     // console.log(exist)
     if (exist) {
         return res.status(401).json({ error: "Account with this email exist. please Login" })
     }
     
-    const hashedPassword = await userModel.hashPassword(password);
-    const { user } = await userService.registerUser({ email, name, password: hashedPassword })
-    console.log(user);
+
     try {
         const otpGen = await otpService.sendOTP(email);
         if (otpGen.status == false) {
@@ -88,13 +86,24 @@ module.exports.verifyOtp = async (req, res) => {
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-    const { email, otp } = req.body;
+    const { email, otp, name, password } = req.body;
     try {
         const verify = await otpService.verifyOTP(email, otp);
+
+        const hashedPassword = await userModel.hashPassword(password);
+        const { user, token } = await userService.registerUser({ email, name, password: hashedPassword })
+        console.log(user);
         // res.json(verify)
         if (verify.status) {
             // update user status to verified...
             await userService.updateUserStatus(email);
+            console.log("sanu",token)
+            res.cookie('token', token, {
+                httpOnly: true,  // Prevents JavaScript from accessing it
+                secure: process.env.NODE_ENV === 'production',   // Set to `true` if using HTTPS
+                sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'lax',
+                partioned: process.env.NODE_ENV === 'production'  // Adjust for cross-site requests
+            })
             res.status(201).json(verify);
         }
         else {

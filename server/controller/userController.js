@@ -97,7 +97,6 @@ module.exports.verifyOtp = async (req, res) => {
         if (verify.status) {
             // update user status to verified...
             await userService.updateUserStatus(email);
-            console.log("sanu",token)
             res.cookie('token', token, {
                 httpOnly: true,  // Prevents JavaScript from accessing it
                 secure: process.env.NODE_ENV === 'production',   // Set to `true` if using HTTPS

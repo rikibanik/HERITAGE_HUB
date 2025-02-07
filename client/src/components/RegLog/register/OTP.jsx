@@ -104,13 +104,13 @@ const OTP = () => {
             });
             if (!response.ok) {
                 const err = await response.json();
-                console.log(err);
-                throw new Error("error generating otp");
+                throw err;
             }
             startTimer();
             setUserInfo({ ...userInfo, otpStatus: true });
         } catch (error) {
             console.log(error);
+            toast.error(error.message || error.error || "Something went wrong!")
         } finally {
             setResendLoading(false);
         }

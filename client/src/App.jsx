@@ -2,12 +2,12 @@ import './App.css'
 import Home from './components/home/Home'
 import UserDashBoard from './components/dashboard/UserDashBoard'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Login from './components/RegLog/Login'
 import MuseumPage from './components/museum/MuseumPage'
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { ContextComponent, ContextUserInfo } from './components/context/context'
-import Default from './components/RegLog/register/Default'
 import React, { useState } from 'react'
+import RegisterDefault from './components/RegLog/register/RegisterDefault'
+import LoginDefault from './components/RegLog/login/LoginDefault'
 
 function App() {
   const [component, setComponent] = useState("Register");
@@ -17,7 +17,6 @@ function App() {
       email: "",
       password: "",
       confirmPassword: "",
-      // otp: "",
       otpStatus: false,
     }
   )
@@ -31,8 +30,8 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/dashboard" element={<UserDashBoard />} />
 
-                <Route path="/login" element={<Login />} />
-                <Route path='/register' element={<Default />} />
+                <Route path="/login" element={<LoginDefault />} />
+                <Route path='/register' element={<RegisterDefault />} />
 
 
                 <Route path="/museum" element={<MuseumPage />} />

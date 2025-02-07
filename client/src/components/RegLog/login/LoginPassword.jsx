@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import Googlebtn from './Googlebtn';
+import Googlebtn from '../Googlebtn';
 
-const Login = () => {
+const LoginPassword = ({ setComponent }) => {
 
     const [token, setToken] = useState('');
     const navigate = useNavigate();
@@ -169,19 +169,13 @@ const Login = () => {
                         </Link>
 
                     </p>
-                    <div className="relative">
-                        <div className="absolute inset-0 flex items-center">
-                            <div className="w-full border-t border-gray-300"></div>
-                        </div>
-                        <div className="relative flex justify-center text-sm">
-                            <span className="bg-white text-gray-500">Or continue with</span>
-                        </div>
-                    </div>
-                    <Googlebtn />
+                    <button onClick={() => setComponent("default")} type="button" className="w-full text-sm text-gray-600 hover:text-gray-800">
+                        ← Back to login options
+                    </button>
                 </div>
             </div>
         </>
     )
 }
 
-export default Login
+export default LoginPassword

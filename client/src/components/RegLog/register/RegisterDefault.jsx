@@ -3,7 +3,7 @@ import OTP from './OTP';
 import Register from './Register';
 import { ContextComponent } from '../../context/context';
 
-const Default = () => {
+const RegisterDefault = () => {
 
     const { component, setComponent } = useContext(ContextComponent);
     
@@ -23,4 +23,4 @@ const Default = () => {
     );
 };
 
-export default Default;
+export default RegisterDefault;

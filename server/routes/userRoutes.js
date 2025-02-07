@@ -30,7 +30,7 @@ router.get('/', async (req, res) => {
 })
 router.post('/generate-otp',userController.generateOtp);
 router.post('/verify-otp', userController.verifyOtp);
-router.post('generate-otp-login', userController.generateOtpToLogin);
+router.post('/generate-otp-login', userController.generateOtpToLogin);
 router.post('/verify-otp-login', userController.verifyOtpLogin);
 router.get('/logout',authMiddleware.authUser,userController.logoutUser);
 

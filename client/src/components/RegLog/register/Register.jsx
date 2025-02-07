@@ -44,7 +44,8 @@ const Register = () => {
             const response = await fetch(`${import.meta.env.VITE_HOST}/user/generate-otp`, {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 },
                 body: JSON.stringify({ email: userInfo.email }),
                 credentials: "include"

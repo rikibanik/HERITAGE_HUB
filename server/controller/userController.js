@@ -104,3 +104,53 @@ module.exports.verifyOtp = async (req, res) => {
         res.status(400).json({ message: e.message });
     }
 }
+module.exports.generateOtpToLogin= async (req, res)=>{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+
+        return res.status(400).json({ errors: errors.array() });
+    }
+    const email=  req.body.email;
+    const exist = await userModel.findOne({ email });
+    // console.log(exist)
+    if (!exist) {
+        return res.status(401).json({ error: "Account with this email exist. please Login" })
+    }
+    try {
+        const otpGen = await otpService.sendOTP(email);
+        if (otpGen.status == false) {
+           return  res.status(400).json(otpGen)
+        }
+        res.status(200).json({ message: "OTP SENT SUCCESSFULLY" })
+    } catch (error) {
+        res.status(400).json({ message: error.message })
+    }
+}
+module.exports.verifyOtpLogin = async(req,res)=>{
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+    const { email, otp } = req.body;
+    try {
+        const user = await userModel.findOne({ email });
+        const verify = await otpService.verifyOTP(email, otp);
+        const token = await user.generateAuthToken()
+        if (verify.status) {
+            res.cookie('token', token, {
+                    httpOnly: true,  // Prevents JavaScript from accessing it
+                    secure: process.env.NODE_ENV === 'production',   // Set to `true` if using HTTPS
+                    sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'lax',
+                    partioned: process.env.NODE_ENV === 'production'  // Adjust for cross-site requests
+            })
+            res.status(201).json({ user,token });
+
+        }
+        else {
+            res.status(500).json({ message: verify.message })
+        }
+    } catch (e) {
+        res.status(400).json({ message: e.message });
+    }
+}

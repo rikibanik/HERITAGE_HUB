@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FcGoogle, FcPrevious } from 'react-icons/fc';
-import { ContextComponent, ContextUserInfo } from '../../context/context';
+import { FcPrevious } from 'react-icons/fc';
+import { ContextUserInfo } from '../../context/context';
 import { toast, ToastContainer } from 'react-toastify';
 import Googlebtn from '../Googlebtn';
 
-const OTP = () => {
+const OTP = ({ setComponent }) => {
 
     const navigate = useNavigate()
     const [timer, setTimer] = useState(60);
@@ -13,11 +13,17 @@ const OTP = () => {
     const [resendLoading, setResendLoading] = useState(false);
     const { userInfo, setUserInfo } = useContext(ContextUserInfo);
     const [loading, setLoading] = useState(false);
-    const { component, setComponent } = useContext(ContextComponent);
     const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+
+
+    const startTimer = () => {
+        setIsTimerActive(true);
+        setTimer(60);
+    };
 
     useEffect(() => {
         if (userInfo.otpStatus) {
+            startTimer();
             toast.success("OTP sent successfully!")
         }
     }, [userInfo.otpStatus])
@@ -33,11 +39,6 @@ const OTP = () => {
         }
         return () => clearInterval(interval);
     }, [isTimerActive, timer]);
-
-    const startTimer = () => {
-        setTimer(60);
-        setIsTimerActive(true);
-    };
 
     const inputsRef = useRef([]);
     const handleChange = (index, value) => {
@@ -122,7 +123,8 @@ const OTP = () => {
             <div id="AuthContainer" className="min-h-screen min-w-[300px] p-4 flex flex-col items-center justify-center bg-gray-50">
                 <div className="w-full max-w-md p-6 space-y-4 bg-white rounded-xl shadow-lg">
                     <div className="flex items-center justify-center  w-full">
-                        <FcPrevious className='cursor-pointer' onClick={() => setComponent("Register")} />
+                        {!isTimerActive && !resendLoading && !loading && <FcPrevious className='cursor-pointer' onClick={() => setComponent("Register")} />}
+
                         <h2 className="text-2xl font-bold text-center px-4">
                             OTP Verification
                         </h2>
@@ -151,7 +153,7 @@ const OTP = () => {
                         <div className="text-center mb-6">
                             <button type='button' disabled={resendLoading || isTimerActive} onClick={handleResendOTP} className="text-blue-600 hover:text-blue-800 text-sm">
                                 {resendLoading ? "Resending..." : isTimerActive ? `Resend in ${timer}s` :
-                                    "Didn't receive code? Resend"
+                                    !loading && "Didn't receive code? Resend"
                                 }
                             </button>
                         </div>

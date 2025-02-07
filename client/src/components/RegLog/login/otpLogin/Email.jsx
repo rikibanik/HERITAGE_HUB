@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import OTP from './OTP';
+import { ToastContainer } from 'react-toastify';
 
 const Email = ({ setComponent }) => {
 
@@ -39,6 +40,7 @@ const Email = ({ setComponent }) => {
 
     return (
         <>
+            <ToastContainer />
             {newComponent === "email" ?
 
                 <div id="AuthContainer" className="min-h-screen min-w-[300px] p-4 flex flex-col items-center justify-center bg-gray-50">

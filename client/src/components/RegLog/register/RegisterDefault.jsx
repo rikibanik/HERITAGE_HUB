@@ -1,22 +1,21 @@
-import React, { useContext } from 'react';
+import React, { useState } from 'react';
 import OTP from './OTP';
 import Register from './Register';
-import { ContextComponent } from '../../context/context';
 
 const RegisterDefault = () => {
 
-    const { component, setComponent } = useContext(ContextComponent);
-    
+    const [component, setComponent] = useState("Register");
+
     return (
         <>
             {(() => {
                 switch (component) {
                     case 'OTP':
-                        return <OTP />;
+                        return <OTP setComponent={setComponent} />;
                     case 'Register':
-                        return <Register />
+                        return <Register setComponent={setComponent}/>
                     default:
-                        return <Register />;
+                        return <Register setComponent={setComponent}/>;
                 }
             })()}
         </>

@@ -1,13 +1,12 @@
 import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ContextComponent, ContextUserInfo } from '../../context/context';
+import { ContextUserInfo } from '../../context/context';
 import { ToastContainer, toast } from 'react-toastify';
 import Googlebtn from '../Googlebtn';
 
-const Register = () => {
+const Register = ({setComponent}) => {
 
     const { userInfo, setUserInfo } = useContext(ContextUserInfo);
-    const { component, setComponent } = useContext(ContextComponent);
     const [loading, setLoading] = useState(false);
 
     const [showPassword, setShowPassword] = useState(false);

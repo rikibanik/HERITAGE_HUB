@@ -109,7 +109,8 @@ const OTP = ({ email, setNewComponent }) => {
             <div id="AuthContainer" className="min-h-screen min-w-[300px] p-4 flex flex-col items-center justify-center bg-gray-50">
                 <div className="w-full max-w-md p-6 space-y-4 bg-white rounded-xl shadow-lg">
                     <div className="flex items-center justify-center  w-full">
-                        <FcPrevious className='cursor-pointer' onClick={() => setNewComponent("email")} />
+                        {!isTimerActive && !resendLoading && !loading && <FcPrevious className='cursor-pointer' onClick={() => setNewComponent("email")} />}
+
                         <h2 className="text-2xl font-bold text-center px-4">
                             OTP Verification
                         </h2>
@@ -138,7 +139,7 @@ const OTP = ({ email, setNewComponent }) => {
                         <div className="text-center mb-6">
                             <button type='button' disabled={resendLoading || isTimerActive} onClick={handleResendOTP} className="text-blue-600 hover:text-blue-800 text-sm">
                                 {resendLoading ? "Resending..." : isTimerActive ? `Resend in ${timer}s` :
-                                    "Didn't receive code? Resend"
+                                    !loading && "Didn't receive code? Resend"
                                 }
                             </button>
                         </div>

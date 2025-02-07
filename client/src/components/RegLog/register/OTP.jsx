@@ -76,11 +76,13 @@ const OTP = () => {
                 )
             });
             if (!response.ok) {
-                throw new Error("error generating otp");
+                const err = await response.json();
+                throw err;
             }
             navigate('/login');
         } catch (error) {
             console.log(error);
+            toast.error(error.message);
         } finally {
             setLoading(false);
         }
@@ -89,8 +91,9 @@ const OTP = () => {
     const handleResendOTP = async (e) => {
         e.preventDefault();
         setUserInfo({ ...userInfo, otpStatus: false })
-        console.log({ name: { firstname: userInfo.firstname, lastname: userInfo.lastname }, email: userInfo.email, password: userInfo.password })
         setResendLoading(true);
+
+        // console.log({ name: { firstname: userInfo.firstname, lastname: userInfo.lastname }, email: userInfo.email, password: userInfo.password })
         try {
             const response = await fetch("http://localhost:3000/user/generate-otp", {
                 method: "POST",
@@ -100,6 +103,8 @@ const OTP = () => {
                 body: JSON.stringify({ name: { firstname: userInfo.firstname, lastname: userInfo.lastname }, email: userInfo.email, password: userInfo.password })
             });
             if (!response.ok) {
+                const err = await response.json();
+                console.log(err);
                 throw new Error("error generating otp");
             }
             startTimer();

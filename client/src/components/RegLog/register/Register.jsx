@@ -38,7 +38,7 @@ const Register = () => {
             toast.warning("Passwords do not match!");
             return;
         }
-        console.log({ name: { firstname: userInfo.firstname, lastname: userInfo.lastname }, email: userInfo.email, password: userInfo.password })
+        // console.log({ name: { firstname: userInfo.firstname, lastname: userInfo.lastname }, email: userInfo.email, password: userInfo.password })
         setLoading(true);
         try {
             const response = await fetch(`${import.meta.env.VITE_HOST}/user/generate-otp`, {
@@ -47,20 +47,20 @@ const Register = () => {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({ name: { firstname: userInfo.firstname, lastname: userInfo.lastname }, email: userInfo.email, password: userInfo.password }),
-                credentials: "include" 
+                credentials: "include"
             });
             if (!response.ok) {
-                console.log(response)
-                throw new Error(response.message);
+                const err = await response.json();
+                throw err;
             }
-            
+
             setUserInfo({ ...userInfo, otpStatus: true });
             setComponent("OTP");
         } catch (error) {
-            console.log(error)
-            toast.warning(error.message);
+            console.log(error);
+            toast.error(error.error || "Something went wrong!");
         } finally {
-            
+
             setLoading(false);
         }
     };

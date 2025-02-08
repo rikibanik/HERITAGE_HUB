@@ -67,7 +67,7 @@ module.exports.generateOtp = async (req, res) => {
     // console.log(exist)
     if (exist) {
         return res.status(401).json({ error: "Account with this email exist. please Login" })
-    }
+    }   
     
 
     try {
@@ -120,7 +120,7 @@ module.exports.generateOtpToLogin= async (req, res)=>{
     }
     const email=  req.body.email;
     const exist = await userModel.findOne({ email });
-    // console.log(exist)
+    console.log(email)
     if (!exist) {
         return res.status(401).json({ error: "Account with this email exist. please Login" })
     }

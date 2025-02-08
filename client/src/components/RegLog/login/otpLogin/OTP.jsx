@@ -13,6 +13,7 @@ const OTP = ({ email, setNewComponent }) => {
     const [otp, setOtp] = useState(["", "", "", "", "", ""]);
 
     useEffect(() => {
+        startTimer(60);
         toast.success("OTP sent successfully!")
     }, [])
 

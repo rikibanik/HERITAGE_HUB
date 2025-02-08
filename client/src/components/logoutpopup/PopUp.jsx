@@ -5,9 +5,11 @@ import { BiLogOut } from "react-icons/bi"
 
 export default function PopUp({ type }) {
     // type could be "prfDrpDwnLgt" or "MyPrfLgt"
+    const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false)
 
     const handleLogout = async () => {
+        setLoading(true);
         try {
             const res = await fetch(`${import.meta.env.VITE_HOST}/user/logout`,
                 {
@@ -27,6 +29,8 @@ export default function PopUp({ type }) {
 
         } catch (error) {
             console.error(error);
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -53,15 +57,31 @@ export default function PopUp({ type }) {
                         </p>
                     </div>
                     <div className="flex gap-4">
-                        <button onClick={handleLogout} className="flex-1 bg-indigo-600 text-white px-2 py-1 rounded-lg hover:bg-indigo-700 transition duration-300">
-                            Logout
-                        </button>
-                        <button
-                            className="flex-1 bg-indigo-600 text-white px-2 py-1 rounded-lg hover:bg-indigo-700 transition duration-300"
-                            onClick={() => setOpen(false)}
-                        >
-                            Cancel
-                        </button>
+                        {loading ?
+                            <>
+                                <div className="flex w-full items-center justify-center bg-indigo-600 text-white px-2 py-1 rounded-lg hover:bg-indigo-700 transition duration-300">
+                                    <svg className="animate-spin h-5 w-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"
+                                        ></circle>
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"
+                                        ></path>
+                                    </svg>
+                                    Signing Out...
+                                </div>
+                            </>
+                            :
+                            <>
+                                <button onClick={handleLogout} className="flex-1 bg-indigo-600 text-white px-2 py-1 rounded-lg hover:bg-indigo-700 transition duration-300">
+                                    Logout
+                                </button>
+                                <button
+                                    className="flex-1 bg-indigo-600 text-white px-2 py-1 rounded-lg hover:bg-indigo-700 transition duration-300"
+                                    onClick={() => setOpen(false)}
+                                >
+                                    Cancel
+                                </button>
+                            </>
+                        }
                     </div>
                 </div>
             </Modal>

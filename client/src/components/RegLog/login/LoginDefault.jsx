@@ -12,7 +12,7 @@ const LoginDefault = () => {
     return (
         <>
             <Header value="Register" />
-            <div id="AuthContainer" className="min-h-screen min-w-[300px] p-4 flex flex-col items-center bg-gray-50 mt-[64px]">
+            <div id="AuthContainer" className="h-[calc(100vh-64px)] min-w-[300px] p-4 flex flex-col justify-center items-center bg-gray-50 mt-[64px]">
                 {component === "default" ?
                     <div className="w-full max-w-md p-8 space-y-4 bg-white rounded-xl shadow-lg">
                         <h2 className="text-2xl font-bold mb-6 text-center">Welcome Back</h2>

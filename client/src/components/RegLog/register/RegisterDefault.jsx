@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import OTP from './OTP';
 import Register from './Register';
+import Header from '../Navbar';
 
 const RegisterDefault = () => {
 
@@ -8,16 +9,20 @@ const RegisterDefault = () => {
 
     return (
         <>
-            {(() => {
-                switch (component) {
-                    case 'OTP':
-                        return <OTP setComponent={setComponent} />;
-                    case 'Register':
-                        return <Register setComponent={setComponent}/>
-                    default:
-                        return <Register setComponent={setComponent}/>;
-                }
-            })()}
+
+            <Header value="Login" />
+            <div id="AuthContainer" className="min-h-screen min-w-[300px] p-4 flex flex-col items-center bg-gray-50 mt-[64px]">
+                {(() => {
+                    switch (component) {
+                        case 'OTP':
+                            return <OTP setComponent={setComponent} />;
+                        case 'Register':
+                            return <Register setComponent={setComponent} />
+                        default:
+                            return <Register setComponent={setComponent} />;
+                    }
+                })()}
+            </div>
         </>
     );
 };

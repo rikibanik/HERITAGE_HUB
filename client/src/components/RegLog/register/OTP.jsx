@@ -120,7 +120,6 @@ const OTP = ({ setComponent }) => {
     return (
         <>
             <ToastContainer />
-            <div id="AuthContainer" className="min-h-screen min-w-[300px] p-4 flex flex-col items-center justify-center bg-gray-50">
                 <div className="w-full max-w-md p-6 space-y-4 bg-white rounded-xl shadow-lg">
                     <div className="flex items-center justify-center  w-full">
                         {!isTimerActive && !resendLoading && !loading && <FcPrevious className='cursor-pointer' onClick={() => setComponent("Register")} />}
@@ -189,7 +188,6 @@ const OTP = ({ setComponent }) => {
                     </div>
                     <Googlebtn />
                 </div>
-            </div>
         </>
     );
 }

@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import LoginPassword from './LoginPassword'
 import Email from './otpLogin/Email'
 import { Link } from 'react-router-dom'
-import { FcGoogle } from 'react-icons/fc'
 import Googlebtn from '../Googlebtn'
+import Header from '../Navbar'
 
 const LoginDefault = () => {
 
@@ -11,8 +11,9 @@ const LoginDefault = () => {
 
     return (
         <>
-            {component === "default" ?
-                <div id="AuthContainer" className="min-h-screen min-w-[300px] p-4 flex flex-col items-center justify-center bg-gray-50">
+            <Header value="Register" />
+            <div id="AuthContainer" className="min-h-screen min-w-[300px] p-4 flex flex-col items-center justify-center bg-gray-50">
+                {component === "default" ?
                     <div className="w-full max-w-md p-8 space-y-4 bg-white rounded-xl shadow-lg">
                         <h2 className="text-2xl font-bold mb-6 text-center">Welcome Back</h2>
                         <div className="space-y-4">
@@ -45,10 +46,10 @@ const LoginDefault = () => {
 
                     </div>
 
-                </div>
 
-                : component === "otpLogin" ? <Email setComponent={setComponent} /> : component === "passwordLogin" && <LoginPassword setComponent={setComponent} />
-            }
+                    : component === "otpLogin" ? <Email setComponent={setComponent} /> : component === "passwordLogin" && <LoginPassword setComponent={setComponent} />
+                }
+            </div>
         </>
     )
 }

@@ -37,7 +37,7 @@ const Description = () => {
                             <img src={MuseumData.venue.imgLink} alt="Museum" className="h-full w-full  object-cover opacity-40" />
                         </div>
 
-                        <div className="relative max-w-7xl mx-auto h-[calc(100vh-64px)] px-4 sm:px-6 lg:px-8 flex items-center">
+                        <div className="relative max-w-7xl mx-auto min-h-[calc(100vh-64px)] px-4 sm:px-6 lg:px-8 flex items-center">
                             <div>
                                 <h1 className="text-4xl md:text-6xl font-bold mb-4">{MuseumData.venue.name}</h1>
                                 <p className="text-xl md:text-2xl mb-6">{MuseumData.venue.description.line}</p>

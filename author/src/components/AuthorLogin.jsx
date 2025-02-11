@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
 const AuthorLogin = () => {
     const navigate = useNavigate()
+    const [token, setToken] = useState("")
     const [LoginFrom, setLoginFrom] = useState({
         email: "",
         password: "",
@@ -12,6 +13,12 @@ const AuthorLogin = () => {
     const handlechange = (event) => {
         setLoginFrom({ ...LoginFrom, [event.target.name]: event.target.value });
     }
+
+    useEffect(() => {
+        localStorage.setItem("token", token);
+    }, [token])
+
+
     const handleSubmit = async (e) => {
         // preventdefault to stop reloading after submit for testing
         e.preventDefault();
@@ -39,8 +46,8 @@ const AuthorLogin = () => {
                 });
                 throw new Error('Login failed!')
             }
-            // console.log('ResponseLogin:', data);
-            // navigate("/author", { state: data });
+            const data = await response.json();
+            setToken(data.token)
             navigate("/");
         } catch (error) {
             console.error('Error:', error);

@@ -18,16 +18,18 @@ const Author = () => {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 },
             });
-            const data = await response.json();
             if (!response.ok) {
-                if ((data.message && data.message.includes("No token")) || (data.error && data.error.includes("Unauthorised"))) {
-                    navigate('/login');
+                const err = await response.json();
+                if (/Invalid|No token|Unauthorised/.test(err.message || err.error)) {
+                    navigate("/login");
+                    return;
                 }
-                throw new Error('response not ok for getting author data!')
+                throw err;
             }
+            const data = await response.json();
             setAuthorData(data)
         } catch (error) {
-            console.error('Error:', error);
+            console.error(error);
         }
     }
     useEffect(() => {

@@ -24,7 +24,7 @@ module.exports.loginAuthor = async (req,res)=>{
             }
             
         );
-        res.status(201).json({ message: "Successfully logged in" });
+        res.status(201).json({ message: "Successfully logged in", token: result.token });
     } catch (error) {
         res.status(400).json({error});
     }

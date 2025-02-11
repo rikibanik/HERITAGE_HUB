@@ -19,7 +19,7 @@ module.exports.loginAuthor = async (req,res)=>{
         res.cookie('token', result.token,{
                  httpOnly: true,  // Prevents JavaScript from accessing it
                  secure: process.env.NODE_ENV === 'production',   // Set to `true` if using HTTPS
-           sameSite: process.env.NODE_ENV === 'production' ?'None': 'lax',
+                    sameSite: process.env.NODE_ENV === 'production' ?'None': 'lax',
                 partioned: process.env.NODE_ENV === 'production'  // Adjust for cross-site requests
             }
             

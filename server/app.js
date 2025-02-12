@@ -33,8 +33,8 @@ app.set('view engine', 'ejs');
 
 const path = require('path');
 const _dirname = path.dirname("")
-const buildpath = path.join(_dirname, "../client/dist");
-app.use(express.static(buildpath));
+// const buildpath = path.join(_dirname, "../client/dist");
+// app.use(express.static(buildpath));
 // ------------------------------------------
 // TOO BE REMOVED LATER
 const authMiddleware = require('./middleware/authMiddleware')

@@ -36,36 +36,36 @@ const _dirname = path.dirname("")
 const buildpath = path.join(_dirname, "../client/dist");
 app.use(express.static(buildpath));
 // ------------------------------------------
-//TOO BE REMOVED LATER
-// const authMiddleware = require('./middleware/authMiddleware')
-// app.get('/',(req,res)=>{
-//     const token = req.cookies.token || (req.header('Authorization') && req.header('Authorization').split(' ')[1]);
-//     if(token){
-//         res.redirect('/add-venue')
-//     }
-//     res.render('admin');
-// });
-// app.get('/add-venue',authMiddleware.authAdmin, (req,res)=>{
-//     res.render('index');
-// });
-// const Venue = require('./db/models/venueModel');
+// TOO BE REMOVED LATER
+const authMiddleware = require('./middleware/authMiddleware')
+app.get('/',(req,res)=>{
+    const token = req.cookies.token || (req.header('Authorization') && req.header('Authorization').split(' ')[1]);
+    if(token){
+        res.redirect('/add-venue')
+    }
+    res.render('admin');
+});
+app.get('/add-venue',authMiddleware.authAdmin, (req,res)=>{
+    res.render('index');
+});
+const Venue = require('./db/models/venueModel');
 
-// app.get('/list-venues', authMiddleware.authAdmin, async (req, res) => {
-//     try {
-//         // Fetch all venues from the database
-//         const venues = await Venue.find();
+app.get('/list-venues', authMiddleware.authAdmin, async (req, res) => {
+    try {
+        // Fetch all venues from the database
+        const venues = await Venue.find();
 
-//         // Render the EJS template and pass the venues data
-//         res.render('list', { venues });
-//     } catch (err) {
-//         console.error('Error fetching venues:', err);
+        // Render the EJS template and pass the venues data
+        res.render('list', { venues });
+    } catch (err) {
+        console.error('Error fetching venues:', err);
 
-//         // Handle errors gracefully
-//         res.status(500).json({ message: 'Server error while fetching venues' });
-//     }
-// });
+        // Handle errors gracefully
+        res.status(500).json({ message: 'Server error while fetching venues' });
+    }
+});
 
-//-----------------------------------------
+// -----------------------------------------
 
 
 app.use('/venue', venueRoutes);

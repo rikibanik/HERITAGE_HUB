@@ -51,9 +51,9 @@ module.exports.loginAdmin = async (req,res)=>{
         httpOnly: true,  // Prevents JavaScript from accessing it
         secure: false,   // Set to `true` if using HTTPS
         sameSite: 'lax'  // Adjust for cross-site requests
-    });
-    res.status(201).json({status: true});
-    
+    }).redirect('/add-venue');
+    // res.status(201).json({status: true});
+   
 }
 module.exports.addAuthor = async (req,res)=>{
     const errors = validationResult(req);

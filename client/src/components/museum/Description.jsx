@@ -7,7 +7,7 @@ import { Link as ElementLink } from 'react-scroll';
 const Description = () => {
 
     const { MuseumData, setMuseumData } = useContext(ContextMuseum)
-    // console.log(MuseumData);
+    console.log(MuseumData);
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
 

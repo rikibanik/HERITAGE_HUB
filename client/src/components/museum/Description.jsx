@@ -14,7 +14,7 @@ const Description = () => {
     const id = queryParams.get("id");
     const name = queryParams.get("name");
 
-    console.log(id)
+    // console.log(id)
     useEffect(() => {
         const venueId = id;
         fetch(`${import.meta.env.VITE_HOST}/venue/museum/${venueId}`)

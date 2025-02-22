@@ -10,7 +10,7 @@ module.exports.authAdmin = async (req, res, next) => {
         // Extract token from cookies or Authorization header
         const token = req.cookies.token || (req.header('Authorization') && req.header('Authorization').split(' ')[1]);
         if (!token) {
-            return res.status(401).json({ message: 'No token provided' });
+            return res.status(401).send('<script>alert("Please log in again"); window.location.href="/";</script>');
         }
 
         // Verify if the token is valid
@@ -20,13 +20,14 @@ module.exports.authAdmin = async (req, res, next) => {
         const isBlackListed = await blackList.findOne({ token });
         if (isBlackListed) {
             res.clearCookie('token');
-            return res.status(401).redirect('/');
+            return res.status(401).send('<script>alert("Please log in again"); window.location.href="/";</script>');
         }
 
         // Fetch the admin from the database
         const admin = await adminModel.findById(decode._id);
         if (!admin) {
-            return res.status(401).json({ message: 'Unauthorized: Admin not found' });
+            return res.status(401).send('<script>alert("Please log in again"); window.location.href="/";</script>');
+            //.json({ message: 'Unauthorized: Admin not found' });
         }
 
         // Attach admin and token to the request object

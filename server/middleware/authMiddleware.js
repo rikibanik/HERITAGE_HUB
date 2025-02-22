@@ -20,7 +20,7 @@ module.exports.authAdmin = async (req, res, next) => {
         const isBlackListed = await blackList.findOne({ token });
         if (isBlackListed) {
             res.clearCookie('token');
-            return res.status(401).json({ message: 'Unauthorized: Token is blacklisted' });
+            return res.status(401).redirect('/');
         }
 
         // Fetch the admin from the database

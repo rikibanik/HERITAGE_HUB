@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import MuseumPage from './components/museum/MuseumPage'
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { ContextUserInfo } from './components/context/context'
-import React, { useState } from 'react'
+import  { useState } from 'react'
 import RegisterDefault from './components/RegLog/register/RegisterDefault'
 import LoginDefault from './components/RegLog/login/LoginDefault'
 
@@ -20,6 +20,7 @@ function App() {
       otpStatus: false,
     }
   )
+  
   return (
     <>
       <BrowserRouter>

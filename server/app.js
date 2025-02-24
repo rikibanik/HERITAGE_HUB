@@ -13,11 +13,7 @@ const authRoutes = require('./routes/authRoutes');
 const orderRoutes = require('./routes/orderRoutes')
 app.use(cors({
   origin: (origin, callback) => {
-    // if (origin === 'http://localhost:5173' || origin === 'http://192.168.28.242:5173') {
-      callback(null, true); // Allow the request
-    // } else {
-    //   callback(new Error('Not allowed by CORS')); // Block the request
-    // }
+    callback(null, true); 
   },
   credentials: true, // Allow cookies and credentials
 }));
@@ -66,6 +62,7 @@ app.get('/list-venues', authMiddleware.authAdmin, async (req, res) => {
 });
 
 // -----------------------------------------
+// eventNames.apply(assert function authRoutes controller)
 
 
 app.use('/venue', venueRoutes);

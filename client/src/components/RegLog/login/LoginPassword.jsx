@@ -40,7 +40,7 @@ const LoginPassword = ({ setComponent }) => {
             }
             const data = await response.json();
             setToken(data.result.token);
-            console.log('ResponseLogin:', data);
+            // console.log('ResponseLogin:', data);
             if (data.result.error === "Invalid email") {
                 toast.error('Invalid email!', {
                     position: "top-right",

@@ -13,7 +13,7 @@ const Events = () => {
                             Book Your Next <span className="text-yellow-400">Adventure</span>
                         </h1>
                         <p className="text-xl md:text-2xl text-gray-200 mb-8 max-w-3xl mx-auto">
-                            Discover and book tickets for the most exciting events happening around you
+                            Discover and book tickets for the most exciting adventure
                         </p>
 
                         {/* <!-- Search Box --> */}

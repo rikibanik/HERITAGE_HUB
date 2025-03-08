@@ -38,14 +38,14 @@ const Find = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="bg-white rounded-2xl shadow-xl p-8">
             <div className="text-center mb-10">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Find Your Perfect Event</h2>
-              <p className="text-lg text-gray-600">Search through thousands of events happening near you</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Find Your Perfect Adventure</h2>
+              <p className="text-lg text-gray-600">Search through hundreds of attractions</p>
             </div>
 
             <div className="max-w-4xl mx-auto">
               <form className="space-y-6">
                 <div className="relative">
-                  <input type="text" placeholder="Search for events, venues, or artists..."
+                  <input type="text" placeholder="Search for adventures, attractions, and more..."
                     className="w-full pl-12 pr-4 py-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent" />
                   <i className="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl"></i>
                 </div>
@@ -88,17 +88,6 @@ const Find = () => {
                         className="w-full pl-4 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent" />
                     </div>
                   </div>
-
-                  <div className="flex items-center space-x-4">
-                    <label className="inline-flex items-center">
-                      <input type="checkbox" className="form-checkbox h-5 w-5 text-indigo-600" />
-                      <span className="ml-2 text-gray-700">Online Events</span>
-                    </label>
-                    <label className="inline-flex items-center">
-                      <input type="checkbox" className="form-checkbox h-5 w-5 text-indigo-600" />
-                      <span className="ml-2 text-gray-700">In-Person Events</span>
-                    </label>
-                  </div>
                 </div>
 
                 <div className="text-center">
@@ -109,7 +98,7 @@ const Find = () => {
                 </div>
               </form>
 
-              <div className="mt-8 text-center">
+              {/* <div className="mt-8 text-center">
                 <p className="text-sm text-gray-600 mb-2">Popular Searches:</p>
                 <div className="flex flex-wrap justify-center gap-2">
                   <button className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-sm text-gray-700 transition duration-300">Concerts</button>
@@ -117,7 +106,7 @@ const Find = () => {
                   <button className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-sm text-gray-700 transition duration-300">Theater Shows</button>
                   <button className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-sm text-gray-700 transition duration-300">Festivals</button>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

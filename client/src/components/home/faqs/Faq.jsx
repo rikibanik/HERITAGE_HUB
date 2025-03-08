@@ -46,7 +46,7 @@ const Faq = () => {
 
           </div>
 
-          <div className="mt-12 text-center bg-white rounded-xl p-8">
+          {/* <div className="mt-12 text-center bg-white rounded-xl p-8">
             <h3 className="text-xl font-bold text-gray-900 mb-4">Still Have Questions?</h3>
             <p className="text-gray-600 mb-6">Our Chat Bot is here to assist you 24/7</p>
             <div className="flex flex-wrap justify-center gap-4">
@@ -55,7 +55,7 @@ const Faq = () => {
                 Chat Bot
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

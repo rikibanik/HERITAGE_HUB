@@ -6,26 +6,27 @@ import 'react-accessible-accordion/dist/fancy-example.css';
 const Payment = () => {
     const faqs = [
         {
-            question: 'How do I receive my tickets/payment?',
+            question: 'What payment methods do you accept?',
             answer:
-                'After your purchase is confirmed, your e-tickets will be sent to your registered email address immediately. You can also access them anytime from your account dashboard.',
+                'We accept all major credit cards, PayPal, and UPI. All payments are processed securely through rajorpay payment gateway.',
         },
         {
-            question: "Can I get a refund if I can't attend the event?",
+            question: 'Can I pay in installments?',
             answer:
-                'Yes, refunds are available up to 48 hours before the event start time. Please check our refund policy for specific terms and conditions.',
+                'Currently, we do not offer installment payments. However, we are exploring options to introduce this feature in the future.',
         },
         {
-            question: 'What my methods do you accept?',
+            question: 'Do you provide invoices for my purchases?',
             answer:
-                'We accept all major credit cards, PayPal, and Apple Pay. All payments are processed securely through our payment gateway.',
+                'Yes, invoices are automatically generated and sent to your registered email after a successful payment. You can also download them from your account dashboard.',
         },
         {
-            question: 'Is it safe to buy tickets online?',
+            question: 'Do you offer refunds for failed transactions?',
             answer:
-                'Yes, our platform uses industry-standard SSL encryption to protect your personal and payment information. We also verify all events and sellers.',
+                'Yes, if your payment fails but the amount is deducted, it will be automatically refunded within 5-7 business days. If you face any issues, please contact our support team.',
         },
     ];
+    
 
     return (
         faqs.map((items, index) => {

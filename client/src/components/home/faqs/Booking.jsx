@@ -6,26 +6,27 @@ import 'react-accessible-accordion/dist/fancy-example.css';
 const Booking = () => {
     const faqs = [
         {
-            question: 'How do I receive my tickets/booking?',
+            question: 'How do I receive my tickets after booking?',
             answer:
-                'After your purchase is confirmed, your e-tickets will be sent to your registered email address immediately. You can also access them anytime from your account dashboard.',
+                'After your booking is confirmed, your e-tickets will be sent to your registered email address immediately. You can also access them anytime from your account dashboard.',
         },
         {
-            question: "Can I get a refund if I can't attend the event?",
+            question: "Can I get a refund if I can't attend?",
             answer:
                 'Yes, refunds are available up to 48 hours before the event start time. Please check our refund policy for specific terms and conditions.',
         },
         {
-            question: 'What payment methods do you accept?',
+            question: 'Can I modify my booking details after purchase?',
             answer:
-                'We accept all major credit cards, PayPal, and Apple Pay. All payments are processed securely through our payment gateway.',
+                'We are currently offering only self-paced modifications. However, we are actively working on introducing guided booking modifications soon.',
         },
         {
             question: 'Is it safe to buy tickets online?',
             answer:
-                'Yes, our platform uses industry-standard SSL encryption to protect your personal and payment information. We also verify all events and sellers.',
+                'Yes, our platform uses industry-standard encryption to protect your personal and payment information. We also verify all events and sellers.',
         },
     ];
+
 
     return (
         faqs.map((items, index) => {

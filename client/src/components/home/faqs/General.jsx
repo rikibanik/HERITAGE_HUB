@@ -7,24 +7,24 @@ const General = () => {
 
     const faqs = [
         {
-            question: 'How do I receive my tickets/general?',
+            question: 'How do I receive my adventure passes?',
             answer:
-                'After your purchase is confirmed, your e-tickets will be sent to your registered email address immediately. You can also access them anytime from your account dashboard.',
+                'Once your booking is confirmed, your digital adventure pass will be emailed to you instantly. You can also access it anytime from your account dashboard.',
         },
         {
-            question: "Can I get a refund if I can't attend the event?",
+            question: "What should I bring for my experience?",
             answer:
-                'Yes, refunds are available up to 48 hours before the event start time. Please check our refund policy for specific terms and conditions.',
+                'Each adventure is different! Generally, we recommend bringing comfortable clothing, proper footwear, and any essentials like water bottles or sunscreen. Check the experience details for specific requirements.',
         },
         {
-            question: 'What payment methods do you accept?',
+            question: 'Are these experiences guided or self-paced?',
             answer:
-                'We accept all major credit cards, PayPal, and Apple Pay. All payments are processed securely through our payment gateway.',
+                'We currently offer only self-paced experiences, allowing you to explore at your own pace. However, we are actively working on adding guided experiences soon!',
         },
         {
-            question: 'Is it safe to buy tickets online?',
+            question: 'Is there an age restriction for certain experiences?',
             answer:
-                'Yes, our platform uses industry-standard SSL encryption to protect your personal and payment information. We also verify all events and sellers.',
+                'Some experiences may have age restrictions for safety reasons, such as extreme sports or adventure trails. Check the experience details before booking.',
         },
     ];
 

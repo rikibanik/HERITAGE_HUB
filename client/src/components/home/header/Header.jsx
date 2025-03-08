@@ -44,7 +44,7 @@ const Header = () => {
                 <div className="flex justify-between items-center h-16">
 
                     {/* <!-- Mobile Navigation Menu --> */}
-                    <div className="md:hidden">
+                    <div className="lg:hidden">
                         <Sidebar />
                     </div>
 
@@ -53,7 +53,7 @@ const Header = () => {
                     </div>
 
                     {/* <!-- Desktop Navigation --> */}
-                    <nav className="hidden md:flex space-x-8">
+                    <nav className="hidden lg:flex space-x-8">
                         {SidebarData.map((items, index) => {
                             return (<ElementLink key={index} to={items.to} smooth={true} duration={500} className="text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium transition-colors duration-300 cursor-pointer">{items.title}</ElementLink>)
 

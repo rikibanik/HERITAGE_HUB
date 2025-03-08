@@ -50,7 +50,7 @@ const Contacts = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Our Location</h3>
-                    <p className="text-gray-600">123 Event Street, Suite 200<br />New York, NY 10001</p>
+                    <p className="text-gray-600">Uttar Pradesh<br />Uttar Pradesh, India</p>
                   </div>
                 </div>
 
@@ -60,7 +60,7 @@ const Contacts = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Phone Support</h3>
-                    <p className="text-gray-600">+1 (555) 123-4567<br />Mon-Fri: 9am - 6pm EST</p>
+                    <p className="text-gray-600">+91 123456789<br />Mon - Fri <br /> 9am - 6pm</p>
                   </div>
                 </div>
 
@@ -70,7 +70,7 @@ const Contacts = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Email Us</h3>
-                    <p className="text-gray-600">support@tickethub.com<br />business@tickethub.com</p>
+                    <p className="text-gray-600">support@heritagehub.com<br />business@heritagehub.com</p>
                   </div>
                 </div>
               </div>

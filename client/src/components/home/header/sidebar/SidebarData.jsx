@@ -13,7 +13,7 @@ import FeaturedEvents from "../../FeaturedEvents";
 
 export const SidebarData = [
     {
-        title: "Events",
+        title: "Adventures",
         to: "events",
         element: <Events />,
         icon: <FaIcons.FaCalendarAlt />,

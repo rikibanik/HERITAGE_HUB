@@ -3,7 +3,7 @@ const router = express.Router();
 const {body} = require('express-validator');
 const adminControllers = require('../controller/adminController');
 const authMiddleware = require('../middleware/authMiddleware');
-
+const slotGenerator = require('../utils/slotGenerator');
 
 router.post('/register',[
     body('name').isLength({min:5}).withMessage("Name must be atleast 5 characters long"),
@@ -33,4 +33,6 @@ router.post('/add-author', [
         .withMessage("Permissions must be one of ['all', 'read', 'write']")
 ], authMiddleware.authAdmin, adminControllers.addAuthor);
 router.get('/logout',authMiddleware.authAdmin,adminControllers.logoutAdmin);
+// router.get('/add-auto-slots',slotGenerator.autoGenerateSlots);
+
 module.exports = router;

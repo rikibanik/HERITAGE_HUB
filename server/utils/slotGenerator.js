@@ -50,19 +50,22 @@ const autoGenerateSlots = async () => {
         return 0;
     }
 };
-
-cron.schedule(
-    '0 0 * * *', // Cron expression for midnight
-    async () => {
-        console.log('Running autoGenerateSlots task at midnight (IST)...');
-        try {
-            await autoGenerateSlots();
-            console.log('Slots generated successfully');
-        } catch (error) {
-            console.error('Error generating slots:', error);
+if(process.env.NODE_ENV === 'production'){
+    cron.schedule(
+        '0 0 * * *', // Cron expression for midnight
+        async () => {
+            console.log('Running autoGenerateSlots task at midnight (IST)...');
+            try {
+                await autoGenerateSlots();
+                console.log('Slots generated successfully');
+            } catch (error) {
+                console.error('Error generating slots:', error);
+            }
+        },
+        {
+            timezone: 'Asia/Kolkata', // Set timezone to IST
         }
-    },
-    {
-        timezone: 'Asia/Kolkata', // Set timezone to IST
-    }
-);
+    );
+    
+   
+}

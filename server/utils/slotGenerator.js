@@ -50,14 +50,19 @@ const autoGenerateSlots = async () => {
         return 0;
     }
 };
-if(process.env.NODE_ENV === 'production'){
+
     cron.schedule(
         '0 0 * * *', // Cron expression for midnight
         async () => {
             console.log('Running autoGenerateSlots task at midnight (IST)...');
             try {
+                if(process.env.NODE_ENV === 'production'){
                 await autoGenerateSlots();
                 console.log('Slots generated successfully');
+                }
+                else{
+                    console.log('Slots not generated in development mode');
+                }
             } catch (error) {
                 console.error('Error generating slots:', error);
             }
@@ -68,4 +73,4 @@ if(process.env.NODE_ENV === 'production'){
     );
     
    
-}
+

@@ -9,7 +9,7 @@ const autoGenerateSlots = async () => {
         const elasticCapacity = 50;
         const dateTime = new Date();
         const date = dateTime.toISOString().split('T')[0]; // YYYY-MM-DD format
-        const museums = await venueModel.find({}, '_id workingHours').limit(10);
+        const museums = await venueModel.find({}, '_id workingHours');
 
         for (const museum of museums) {
             

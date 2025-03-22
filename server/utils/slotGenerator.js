@@ -52,7 +52,7 @@ const autoGenerateSlots = async () => {
 };
 
     cron.schedule(
-        '0 0 * * *', // Cron expression for midnight
+        '10 0 * * *', // Cron expression for midnight
         async () => {
             console.log('Running autoGenerateSlots task at midnight (IST)...');
             try {
@@ -68,6 +68,7 @@ const autoGenerateSlots = async () => {
             }
         },
         {
+            scheduled: true,
             timezone: 'Asia/Kolkata', // Set timezone to IST
         }
     );

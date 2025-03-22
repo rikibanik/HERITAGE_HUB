@@ -59,7 +59,7 @@ module.exports.addVenue = async (req, res) => {
             phNo: req.body.phNo,
             email: req.body.email,
             imgLink: imgLink
-             // Use the correct field from S3
+          
         };
 
         const result = await venueService.addVenue(venue);

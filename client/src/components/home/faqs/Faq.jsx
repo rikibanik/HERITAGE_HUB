@@ -7,11 +7,11 @@ const Faq = () => {
   const [activeComponent, setActiveComponent] = useState('general'); // Default to 'MyProfile'
 
   return (
-    <section id="faq" className="py-16 bg-gray-50">
+    <section id="faq" className="py-16 bg-gray-50 dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
-          <p className="text-lg text-gray-600">Find answers to common questions about our ticket booking service</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 dark:text-white">Frequently Asked Questions</h2>
+          <p className="text-lg text-gray-600 dark:text-gray-300">Find answers to common questions about our ticket booking service</p>
         </div>
 
         <div className="max-w-3xl mx-auto">

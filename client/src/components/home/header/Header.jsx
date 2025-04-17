@@ -4,6 +4,7 @@ import { Link as ElementLink } from 'react-scroll'
 import ProfileDropdown from './ProfileDropdown'
 import Sidebar from './sidebar/Sidebar'
 import { SidebarData } from './sidebar/SidebarData'
+import Theme from '../../Theme'
 
 const Header = () => {
 
@@ -39,7 +40,7 @@ const Header = () => {
     }, [])
 
     return (
-        <header id="header" className="fixed top-0 left-0 w-full bg-white shadow-md z-50">
+        <header id="header" className="fixed top-0 left-0 w-full bg-white dark:bg-gray-900 shadow-md z-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6">
                 <div className="flex justify-between items-center h-16">
 
@@ -48,14 +49,15 @@ const Header = () => {
                         <Sidebar />
                     </div>
 
-                    <div className="flex-shrink-0 flex items-center flex-col">
+                    <div className="flex-shrink-0 flex items-center gap-4">
+                        <Theme></Theme>
                         <h1 className="text-2xl font-bold text-indigo-600"><a href="/">HeritageHub</a></h1>
                     </div>
 
                     {/* <!-- Desktop Navigation --> */}
                     <nav className="hidden lg:flex space-x-8">
                         {SidebarData.map((items, index) => {
-                            return (<ElementLink key={index} to={items.to} smooth={true} duration={500} className="text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium transition-colors duration-300 cursor-pointer">{items.title}</ElementLink>)
+                            return (<ElementLink key={index} to={items.to} smooth={true} duration={500} className="text-gray-700 dark:text-gray-300 hover:text-indigo-600 px-3 py-2 text-sm font-medium transition-colors duration-300 cursor-pointer">{items.title}</ElementLink>)
 
                         })}
                     </nav>

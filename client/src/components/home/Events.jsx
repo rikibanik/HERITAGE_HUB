@@ -2,6 +2,9 @@ import React from 'react'
 import Search from './Search'
 
 const Events = () => {
+
+    const isDark = document.documentElement.classList.contains('dark');
+
     return (
         <>
 
@@ -39,7 +42,7 @@ const Events = () => {
 
                 {/* <!-- Decorative Elements --> */}
                 <div className="absolute bottom-0 left-0 w-full">
-                    <svg className="w-full h-16 text-white" preserveAspectRatio="none" viewBox="0 0 1440 48">
+                    <svg className="w-full h-16 text-gray-50 dark:text-gray-900" preserveAspectRatio="none" viewBox="0 0 1440 48">
                         <path fill="currentColor" d="M0 48h1440V0C1440 0 1080 48 720 48C360 48 0 0 0 0v48z"></path>
                     </svg>
                 </div>

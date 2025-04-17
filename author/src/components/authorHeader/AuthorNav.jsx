@@ -8,9 +8,9 @@ const AuthorNav = ({ authorData }) => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6">
                 <div className="flex justify-between items-center h-16">
 
-                    <div className="flex-shrink-0 flex items-center flex-col">
+                    <a className="flex-shrink-0 flex items-center flex-col">
                         <h1 className="text-2xl font-bold text-indigo-600">HeritageHub</h1>
-                    </div>
+                    </a>
 
                     {/* <!-- Right Side Icons --> */}
                     <div className="flex items-center space-x-4">

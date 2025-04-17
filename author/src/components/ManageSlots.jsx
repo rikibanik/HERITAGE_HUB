@@ -103,43 +103,44 @@ const ManageSlots = () => {
                         ) : (
                             <>
                                 <div className="overflow-x-auto">
-                                    <table className="min-w-full divide-y divide-gray-200 text-center">
-                                        <thead>
-                                            <tr className="bg-gray-50 text-center">
-                                                {tableHeading.map((data, index) => {
-                                                    return (
-                                                        <th key={index} className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider ">
+                                    <div className="max-h-96 overflow-y-auto">
+                                        <table className="min-w-full divide-y divide-gray-200 text-center">
+                                            <thead className="bg-gray-50 sticky top-0 z-10">
+                                                <tr>
+                                                    {tableHeading.map((data, index) => (
+                                                        <th key={index} className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50">
                                                             {data}
                                                         </th>
-                                                    )
-                                                })}
-                                            </tr>
-                                        </thead>
-                                        <tbody className="bg-white divide-y divide-gray-200">
-                                            {slotData.map((slot) => (
-                                                <tr key={slot._id} className="hover:bg-gray-50">
-                                                    <td className="px-6 py-4">
-                                                        <div className="flex space-x-2 justify-center">
-                                                            <TbListDetails title='Details' className='cursor-pointer' onClick={() => handleDetailsClick(slot)} />
-                                                            <BiEdit title='Edit' className='cursor-pointer' onClick={() => handleEditClick(slot)} />
-                                                        </div>
-                                                    </td>
-                                                    <td className="px-6 py-4">{formatDate(slot.date)}</td>
-                                                    <td className="px-6 py-4">
-                                                        {formatTime(slot.slots.startTime.hour, slot.slots.startTime.minute)}
-                                                    </td>
-                                                    <td className="px-6 py-4">
-                                                        {formatTime(slot.slots.endTime.hour, slot.slots.endTime.minute)}
-                                                    </td>
-                                                    <td className="px-6 py-4">{slot.maxCapacity}</td>
-                                                    <td className="px-6 py-4">{slot.elasticCapacity}</td>
-                                                    <td className="px-6 py-4">{slot.currentBookings}</td>
-
+                                                    ))}
                                                 </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody className="bg-white divide-y divide-gray-200">
+                                                {slotData.map((slot) => (
+                                                    <tr key={slot._id} className="hover:bg-gray-50">
+                                                        <td className="px-6 py-4">
+                                                            <div className="flex space-x-2 justify-center">
+                                                                <TbListDetails title='Details' className='cursor-pointer' onClick={() => handleDetailsClick(slot)} />
+                                                                <BiEdit title='Edit' className='cursor-pointer' onClick={() => handleEditClick(slot)} />
+                                                            </div>
+                                                        </td>
+                                                        <td className="px-6 py-4">{formatDate(slot.date)}</td>
+                                                        <td className="px-6 py-4">
+                                                            {formatTime(slot.slots.startTime.hour, slot.slots.startTime.minute)}
+                                                        </td>
+                                                        <td className="px-6 py-4">
+                                                            {formatTime(slot.slots.endTime.hour, slot.slots.endTime.minute)}
+                                                        </td>
+                                                        <td className="px-6 py-4">{slot.maxCapacity}</td>
+                                                        <td className="px-6 py-4">{slot.elasticCapacity}</td>
+                                                        <td className="px-6 py-4">{slot.currentBookings}</td>
+
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
+
                             </>
                         )}
                     </div>

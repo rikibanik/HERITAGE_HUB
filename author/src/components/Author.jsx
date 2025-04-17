@@ -4,6 +4,8 @@ import ManageSlots from './ManageSlots'
 import AuthorNav from './authorHeader/AuthorNav'
 import Footer from './Footer'
 import { useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion';
+// import { Loader2 } from 'lucide-react';
 
 const Author = () => {
     const navigate = useNavigate();
@@ -47,7 +49,31 @@ const Author = () => {
                         {/* Analytics.jsx is in ManageSlots.jsx */}
                     </main>
                     <Footer />
-                </> : "Loading..."
+                </> :
+                <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-indigo-100 to-indigo-300">
+                    <motion.div
+                        className="text-4xl font-bold text-indigo-900 mb-4"
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1 }}
+                    >
+                        HeritageHub
+                    </motion.div>
+                    <motion.div
+                        className="text-lg text-indigo-700 mb-6"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.5, duration: 1 }}
+                    >
+                        Preserving culture
+                    </motion.div>
+                    <motion.div
+                        className="animate-spin rounded-full border-t-4 border-b-4 border-indigo-800 h-16 w-16"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ type: "spring", stiffness: 100 }}
+                    />
+                </div>
             }
         </>
     )

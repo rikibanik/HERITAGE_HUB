@@ -100,22 +100,22 @@ const Contacts = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">First Name</label>
-                    <input type="text" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent" />
+                    <input type="text" className="w-full px-4 py-3 border dark:bg-gray-900 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent" />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Last Name</label>
-                    <input type="text" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent" />
+                    <input type="text" className="w-full px-4 py-3 border dark:bg-gray-900 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent" />
                   </div>
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Email Address</label>
-                  <input type="email" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent" />
+                  <input type="email" className="w-full px-4 py-3 border dark:bg-gray-900 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent" />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Subject</label>
-                  <select className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent">
+                  <select className="w-full px-4 py-3 border dark:bg-gray-900 dark:text-gray-300 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent">
                     <option value="">Select a subject</option>
                     <option value="booking">Booking Issue</option>
                     <option value="refund">Refund Request</option>
@@ -126,7 +126,7 @@ const Contacts = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Message</label>
-                  <textarea rows="4" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"></textarea>
+                  <textarea rows="4" className="w-full px-4 py-3 border dark:bg-gray-900 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"></textarea>
                 </div>
 
                 <button onClick={handleSendMessage} type="submit" className="w-full bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition duration-300">

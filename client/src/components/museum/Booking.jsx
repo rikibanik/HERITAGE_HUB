@@ -226,16 +226,16 @@ const Booking = () => {
                 theme="dark"
                 transition={Bounce}
             />
-            <section id="BookingForm" className="py-20 bg-neutral-900">
+            <section id="BookingForm" className="py-20 bg-gray-50 dark:bg-gray-900">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-16 ">
-                        <h2 className="text-3xl font-bold text-white mb-4">Book Your Visit</h2>
+                        <h2 className="text-3xl font-bold mb-4 dark:text-white">Book Your Visit</h2>
                         <div className="w-24 h-1 bg-indigo-600 mx-auto"></div>
                     </div>
-                    <form onSubmit={handlePayment} id="visitorForm" className="bg-white rounded-lg shadow-xl p-8">
+                    <form onSubmit={handlePayment} id="visitorForm" className="bg-white rounded-lg dark:bg-gray-800 shadow-xl p-8">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label htmlFor="visit-date" className="block text-neutral-700 font-medium mb-2">Visit Date</label>
+                                <label htmlFor="visit-date" className="block text-neutral-700 font-medium mb-2 dark:text-gray-300">Visit Date</label>
                                 <input
                                     value={selectedDate}
                                     onChange={handleDateChange}
@@ -243,19 +243,19 @@ const Booking = () => {
                                     id="visit-date"
                                     name="visit-date"
                                     required
-                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                                    className="w-full px-4 py-2 border dark:bg-gray-900 dark:text-gray-300 placeholder:dark:text-gray-400 border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
                                 />
                             </div>
                         </div>
 
                         {/* Select Slot */}
                         <div className="mt-8">
-                            <h3 className="text-lg font-semibold text-neutral-900 mb-4">Select an Available Slot</h3>
+                            <h3 className="text-lg font-semibold text-neutral-900 mb-4 dark:text-white">Select an Available Slot</h3>
                             <div>
                                 <select
                                     value={selectedSlot}
                                     onChange={handleSlotChange}
-                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                                    className="w-full px-4 py-2 border dark:bg-gray-900 dark:text-gray-300 border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
                                 >
                                     {availableSlots.length > 0 ? (
                                         <>
@@ -276,10 +276,10 @@ const Booking = () => {
 
                         {/* Visitor Count Inputs */}
                         <div className="mt-8">
-                            <h3 className="text-lg font-semibold text-neutral-900 mb-4">Number of Visitors</h3>
+                            <h3 className="text-lg font-semibold text-neutral-900 mb-4 dark:text-white">Number of Visitors</h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label htmlFor="indian-adults" className="block text-neutral-700 mb-2">Indian Adults (₹{MuseumData.venue.fare.indianAdult})</label>
+                                    <label htmlFor="indian-adults" className="block text-neutral-700 mb-2 dark:text-gray-300">Indian Adults (₹{MuseumData.venue.fare.indianAdult})</label>
                                     <input
                                         type="number"
                                         id="indian-adults"
@@ -287,12 +287,12 @@ const Booking = () => {
                                         min="0"
                                         value={visitorCounts.indianAdults}
                                         onChange={handleVisitorCountChange}
-                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                                        className="w-full px-4 py-2 border dark:bg-gray-900 dark:text-gray-300 placeholder:dark:text-gray-400 border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
                                     />
                                 </div>
 
                                 <div>
-                                    <label htmlFor="indian-children" className="block text-neutral-700 mb-2">Indian Children (₹{MuseumData.venue.fare.indianChild})</label>
+                                    <label htmlFor="indian-children" className="block text-neutral-700 mb-2 dark:text-gray-300">Indian Children (₹{MuseumData.venue.fare.indianChild})</label>
                                     <input
                                         type="number"
                                         id="indian-children"
@@ -300,12 +300,12 @@ const Booking = () => {
                                         min="0"
                                         value={visitorCounts.indianChildren}
                                         onChange={handleVisitorCountChange}
-                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                                        className="w-full px-4 py-2 border dark:bg-gray-900 dark:text-gray-300 placeholder:dark:text-gray-400 border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
                                     />
                                 </div>
 
-                                <div>
-                                    <label htmlFor="foreign-adults" className="block text-neutral-700 mb-2">Foreign Adults (₹{MuseumData.venue.fare.foreignAdult})</label>
+                                <div> 
+                                    <label htmlFor="foreign-adults" className="block text-neutral-700 mb-2 dark:text-gray-300">Foreign Adults (₹{MuseumData.venue.fare.foreignAdult})</label>
                                     <input
                                         type="number"
                                         id="foreign-adults"
@@ -313,12 +313,12 @@ const Booking = () => {
                                         min="0"
                                         value={visitorCounts.foreignAdults}
                                         onChange={handleVisitorCountChange}
-                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                                        className="w-full px-4 py-2 border dark:bg-gray-900 dark:text-gray-300 placeholder:dark:text-gray-400 border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
                                     />
                                 </div>
 
                                 <div>
-                                    <label htmlFor="foreign-children" className="block text-neutral-700 mb-2">Foreign Children (₹{MuseumData.venue.fare.foreignChild})</label>
+                                    <label htmlFor="foreign-children" className="block text-neutral-700 mb-2 dark:text-gray-300">Foreign Children (₹{MuseumData.venue.fare.foreignChild})</label>
                                     <input
                                         type="number"
                                         id="foreign-children"
@@ -326,7 +326,7 @@ const Booking = () => {
                                         min="0"
                                         value={visitorCounts.foreignChildren}
                                         onChange={handleVisitorCountChange}
-                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                                        className="w-full px-4 py-2 border dark:bg-gray-900 dark:text-gray-300 placeholder:dark:text-gray-400 border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
                                     />
                                 </div>
                             </div>
@@ -334,7 +334,7 @@ const Booking = () => {
 
                         {/* Display Total Price */}
                         <div className="mt-8">
-                            <h3 className="text-lg font-semibold text-neutral-900 mb-4">Total Price: ₹{calculatePrice()}</h3>
+                            <h3 className="text-lg font-semibold text-neutral-900 mb-4 dark:text-white">Total Price: ₹{calculatePrice()}</h3>
                         </div>
 
                         {/* Booking Button */}

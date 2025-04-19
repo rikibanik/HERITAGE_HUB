@@ -1,9 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import AddSlots from './AddSlots';
-import { DateTime } from 'luxon';
 import { BiEdit } from 'react-icons/bi';
 import { TbListDetails } from 'react-icons/tb'
 import Analytics from './Analytics';
+
+export const formatDate = (date) => {
+    // date received is like: 2025-02-01T00:00:00.000Z
+    return new Date(date.split("T")[0]).toLocaleDateString("en-GB", { day: "2-digit", month: "short" })
+    // return new Date(date.split("T")[0]).toLocaleDateString("en-GB", { day: "2-digit", month: "short" }).replace(" ", ", ")
+}
+
+export const formatTime = (hour, minute) => {
+    const amPm = hour < 12 ? 'AM' : 'PM';
+    let hour12 = hour % 12;
+    if (hour12 === 0) hour12 = 12;
+    return `${hour12.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} ${amPm}`;
+};
 
 const ManageSlots = () => {
 
@@ -13,18 +25,6 @@ const ManageSlots = () => {
     const [slotData, setSlotData] = useState([]);
     const [isEditing, setIsEditing] = useState(null);
     const [selectedSlot, setSelectedSlot] = useState(null);
-
-    const formatDate = (date) => {
-        // date received is like: 2025-02-01T00:00:00.000Z
-        return new Date(date.split("T")[0]).toLocaleDateString("en-GB", { day: "2-digit", month: "short" }).replace(" ", ", ")
-    }
-
-    const formatTime = (hour, minute) => {
-        const amPm = hour < 12 ? 'AM' : 'PM';
-        let hour12 = hour % 12;
-        if (hour12 === 0) hour12 = 12;
-        return `${hour12.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} ${amPm}`;
-    };
 
     const getData = async () => {
         try {

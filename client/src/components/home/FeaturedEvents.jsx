@@ -3,7 +3,7 @@ import React from 'react'
 const events = [
   {
     tag: "HERITAGE",
-    tagColor: "bg-blue-500",
+    tagColor: "bg-blue-400",
     date: "10 Mar 2024",
     title: "Taj Mahal Heritage Walk",
     location: "Agra, India",
@@ -11,7 +11,7 @@ const events = [
   },
   {
     tag: "CULTURE",
-    tagColor: "bg-green-500",
+    tagColor: "bg-green-400",
     date: "22 Apr 2024",
     title: "Indian Museum Exploration",
     location: "Kolkata, India",
@@ -19,7 +19,7 @@ const events = [
   },
   {
     tag: "ADVENTURE",
-    tagColor: "bg-yellow-500",
+    tagColor: "bg-yellow-400",
     date: "5 May 2024",
     title: "Rajasthan Desert Safari",
     location: "Jaisalmer, India",

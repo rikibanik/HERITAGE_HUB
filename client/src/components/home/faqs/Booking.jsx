@@ -36,7 +36,7 @@ const Booking = () => {
                         <AccordionItemHeading className="w-full px-6 text-left focus:outline-none">
                             <AccordionItemButton className="py-4 flex items-center justify-between transition ease-in-out">
                                 <span className="font-semibold text-gray-900 dark:text-white">{items.question}</span>
-                                <i className="fas fa-chevron-down text-gray-500 transition-transform duration-300 dark:text-whitew"></i>
+                                <i className="fas fa-chevron-down text-gray-500 transition-transform duration-300 dark:text-white"></i>
                             </AccordionItemButton>
                         </AccordionItemHeading>
                         <AccordionItemPanel>

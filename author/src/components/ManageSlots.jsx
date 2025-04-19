@@ -115,7 +115,7 @@ const ManageSlots = () => {
                                                 </tr>
                                             </thead>
                                             <tbody className="bg-white divide-y divide-gray-200">
-                                                {slotData.map((slot) => (
+                                                {slotData.slice().reverse().map((slot) => (
                                                     <tr key={slot._id} className="hover:bg-gray-50">
                                                         <td className="px-6 py-4">
                                                             <div className="flex space-x-2 justify-center">

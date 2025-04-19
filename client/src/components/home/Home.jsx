@@ -16,12 +16,18 @@ const Home = () => {
         return (
           <Element key={index} name={items.to}>
             {items.element}
+            {items.to !== "events" && (
+              <hr className="border-t border-gray-300 dark:border-gray-700" />
+            )}
           </Element>
         )
       })}
       <BookingProcess />
+      <hr className="border-t border-gray-300 dark:border-gray-700" />
       <Reviews />
+      <hr className="border-t border-gray-300 dark:border-gray-700" />
       <Contacts />
+      <hr className="border-t border-gray-300 dark:border-gray-700" />
       <Footer />
     </main>
   )

@@ -24,60 +24,60 @@ const VisitingInfo = () => {
     }
 
     return (
-        <section id="About" className="py-20 bg-white">
+        <section id="About" className="py-20 bg-white dark:bg-gray-900">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-16 ">
-                    <h2 className="text-3xl font-bold text-neutral-900 mb-4">Visiting Information</h2>
+                    <h2 className="text-3xl font-bold text-neutral-900 mb-4 dark:text-white">Visiting Information</h2>
                     <div className="w-24 h-1 bg-indigo-600 mx-auto"></div>
                 </div>
 
                 <div className="space-y-6 Right">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
 
-                        <div className="bg-neutral-50 p-6 rounded-lg shadow-sm">
-                            <h3 className="text-xl font-semibold text-neutral-900 mb-2">Location</h3>
-                            <p className="flex flex-col text-neutral-600">
+                        <div className="bg-neutral-50 dark:bg-gray-800 p-6 rounded-lg shadow-sm">
+                            <h3 className="text-xl font-semibold text-neutral-900 mb-2 dark:text-white">Location</h3>
+                            <p className="flex flex-col text-neutral-600 dark:text-gray-300">
                                 <span>{MuseumData.venue.location.address}</span>
                                 <span>{MuseumData.venue.location.city + ", " + MuseumData.venue.location.state}</span>
                                 <span>PIN: {MuseumData.venue.location.pin}</span>
                             </p>
                         </div>
 
-                        <div className="bg-neutral-50 p-6 rounded-lg shadow-sm">
-                            <h3 className="text-xl font-semibold text-neutral-900 mb-2">Contact</h3>
+                        <div className="bg-neutral-50 dark:bg-gray-800 p-6 rounded-lg shadow-sm">
+                            <h3 className="text-xl font-semibold text-neutral-900 mb-2 dark:text-white">Contact</h3>
                             <div className="text-neutral-600">
-                                <p>Phone: <a href="tel:5422595095" className="hover:text-indigo-600">{MuseumData.venue.phNo}</a></p>
-                                <p>Email: <a href="mailto:info@sarnathmuseum.com" className="hover:text-indigo-600">{MuseumData.venue.email}</a></p>
+                                <p className='dark:text-gray-300'>Phone: <a href="tel:5422595095" className="hover:text-indigo-600 dark:text-gray-300">{MuseumData.venue.phNo}</a></p>
+                                <p className='dark:text-gray-300'>Email: <a href="mailto:info@sarnathmuseum.com" className="hover:text-indigo-600 dark:text-gray-300">{MuseumData.venue.email}</a></p>
                             </div>
                         </div>
                         {/* </div> */}
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div className="bg-neutral-50 rounded-lg p-8 shadow-lg Left">
-                            <h3 className="text-2xl font-bold text-neutral-900 mb-6">Ticket Prices</h3>
+                        <div className="bg-neutral-50 dark:bg-gray-800 rounded-lg p-8 shadow-lg Left">
+                            <h3 className="text-2xl font-bold text-neutral-900 mb-6 dark:text-white">Ticket Prices</h3>
                             <div className="space-y-4">
                                 <div className="flex justify-between items-center border-b border-neutral-200 pb-4">
-                                    <span className="text-neutral-700 font-medium">Indian Adults</span>
+                                    <span className="text-neutral-700 font-medium dark:text-gray-300">Indian Adults</span>
                                     <span className="text-lg font-bold text-indigo-600">₹{MuseumData.venue.fare.indianAdult}</span>
                                 </div>
                                 <div className="flex justify-between items-center border-b border-neutral-200 pb-4">
-                                    <span className="text-neutral-700 font-medium">Indian Children</span>
+                                    <span className="text-neutral-700 font-medium dark:text-gray-300">Indian Children</span>
                                     <span className="text-lg font-bold text-indigo-600">₹{MuseumData.venue.fare.indianChild}</span>
                                 </div>
                                 <div className="flex justify-between items-center border-b border-neutral-200 pb-4">
-                                    <span className="text-neutral-700 font-medium">Foreign Adults</span>
+                                    <span className="text-neutral-700 font-medium dark:text-gray-300">Foreign Adults</span>
                                     <span className="text-lg font-bold text-indigo-600">₹{MuseumData.venue.fare.foreignAdult}</span>
                                 </div>
                                 <div className="flex justify-between items-center">
-                                    <span className="text-neutral-700 font-medium">Foreign Children</span>
+                                    <span className="text-neutral-700 font-medium dark:text-gray-300">Foreign Children</span>
                                     <span className="text-lg font-bold text-indigo-600">₹{MuseumData.venue.fare.foreignChild}</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="bg-neutral-50 rounded-lg p-8 shadow-lg Right">
-                            <h3 className="text-2xl font-bold text-neutral-900 mb-6">Opening Hours</h3>
+                        <div className="bg-neutral-50 dark:bg-gray-800 rounded-lg p-8 shadow-lg Right">
+                            <h3 className="text-2xl font-bold text-neutral-900 mb-6 dark:text-white">Opening Hours</h3>
                             <div className="space-y-6">
                                 <div className="flex items-center space-x-4">
                                     <div className="p-3 bg-indigo-600 rounded-full">
@@ -86,8 +86,8 @@ const VisitingInfo = () => {
                                         </svg>
                                     </div>
                                     <div>
-                                        <p className="text-neutral-900 font-medium">Working Hours</p>
-                                        <p className="text-neutral-600">{formatTime(MuseumData.venue.workingHours.opening.hour, MuseumData.venue.workingHours.opening.minute)} - {formatTime(MuseumData.venue.workingHours.closing.hour, MuseumData.venue.workingHours.closing.minute)}</p>
+                                        <p className="text-neutral-900 font-medium dark:text-white">Working Hours</p>
+                                        <p className="text-neutral-600 dark:text-gray-300">{formatTime(MuseumData.venue.workingHours.opening.hour, MuseumData.venue.workingHours.opening.minute)} - {formatTime(MuseumData.venue.workingHours.closing.hour, MuseumData.venue.workingHours.closing.minute)}</p>
                                     </div>
                                 </div>
 
@@ -98,7 +98,7 @@ const VisitingInfo = () => {
                                         </svg>
                                     </div>
                                     <div>
-                                        <p className="text-neutral-900 font-medium">Working Days</p>
+                                        <p className="text-neutral-900 font-medium dark:text-white">Working Days</p>
                                         <div className="text-neutral-600 flex gap-2 flex-wrap mt-1">
                                             {week.map((week, index) => {
                                                 return (

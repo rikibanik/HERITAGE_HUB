@@ -4,7 +4,7 @@ import { BiLock } from 'react-icons/bi';
 
 const LogoutBooking = () => {
     return (
-        <div className="relative flex justify-center items-center">
+        <div className="relative flex justify-center items-center dark:bg-gray-900 pt-20 pb-20">
             <div className="group relative overflow-hidden rounded-lg shadow-lg Up">
                 <img
                     src="https://heritagehubimages.s3.us-east-2.amazonaws.com/uploads/f9747a4f-3a2e-4169-9e60-70f2895eb2b6"

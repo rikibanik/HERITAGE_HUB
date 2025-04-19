@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import ProfileDropdown from '../home/header/ProfileDropdown'
 import { ContextCheckLogin } from '../context/context'
+import Theme from '../Theme'
 
 
 const Header = () => {
@@ -39,11 +40,12 @@ const Header = () => {
     }, [])
 
     return (
-        <header id="header" className="fixed top-0 left-0 w-full bg-white shadow-md z-50">
+        <header id="header" className="fixed top-0 left-0 w-full bg-white dark:bg-gray-900 shadow-md z-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6">
                 <div className="flex justify-between items-center h-16">
 
-                    <div className="flex-shrink-0 flex items-center flex-col">
+                    <div className="flex-shrink-0 flex items-center gap-4">
+                        <Theme></Theme>
                         <h1 className="text-2xl font-bold text-indigo-600"><a href="/">HeritageHub</a></h1>
                     </div>
 

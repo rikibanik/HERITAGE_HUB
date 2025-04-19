@@ -2,10 +2,10 @@ import React from 'react'
 
 const Gallery = () => {
   return (
-    <section id="Gallery" className="py-20 bg-white">
+    <section id="Gallery" className="py-20 bg-white dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16 ">
-          <h2 className="text-3xl font-bold text-neutral-900 mb-4">Museum Gallery</h2>
+          <h2 className="text-3xl font-bold text-neutral-900 mb-4 dark:text-white">Museum Gallery</h2>
           <div className="w-24 h-1 bg-indigo-600 mx-auto"></div>
         </div>
 
@@ -21,7 +21,7 @@ const Gallery = () => {
           </div>
 
           <div className="relative overflow-hidden rounded-lg shadow-lg Up">
-            <div className="h-64 bg-neutral-200 flex items-center justify-center">
+            <div className="h-64 bg-neutral-200 dark:bg-gray-800 flex items-center justify-center">
               <svg className="w-20 h-20 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
               </svg>
@@ -29,7 +29,7 @@ const Gallery = () => {
           </div>
 
           <div className="relative overflow-hidden rounded-lg shadow-lg Up">
-            <div className="h-64 bg-neutral-200 flex items-center justify-center">
+            <div className="h-64 bg-neutral-200 dark:bg-gray-800 flex items-center justify-center">
               <svg className="w-20 h-20 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
               </svg>
@@ -38,7 +38,7 @@ const Gallery = () => {
         </div>
 
         <div className="mt-12 text-center ">
-          <p className="text-neutral-600 mb-6">Experience the rich heritage and historical artifacts</p>
+          <p className="text-neutral-600 mb-6 dark:text-gray-300">Experience the rich heritage and historical artifacts</p>
         </div>
       </div>
     </section>

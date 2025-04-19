@@ -19,33 +19,37 @@ const MuseumPage = () => {
     return (
         <>
             <ContextConfirmOrder.Provider value={{ confirmOrder, setConfirmOrder }}>
-                    <ContextCheckLogin.Provider value={{ resData, setResData }}>
-                        <ContextMuseum.Provider value={{ MuseumData, setMuseumData }}>
-                            <main className='min-w-[320px]'>
-                                <Navbar />
+                <ContextCheckLogin.Provider value={{ resData, setResData }}>
+                    <ContextMuseum.Provider value={{ MuseumData, setMuseumData }}>
+                        <main className='min-w-[320px]'>
+                            <Navbar />
 
-                                {/* <Header/> */}
-                                <Description />
-                                {MuseumData &&
-                                    <>
-                                        <Element name='visitinginfo'>
-                                            <VisitingInfo />
-                                        </Element>
-                                        <Element name='booking'>
-                                            {resData && resData.email ?
-                                                <Booking />
-                                                : <LogoutBooking />}
-                                        </Element>
-                                        <Element name='gallery'>
-                                            <Gallery />
-                                        </Element>
-                                        <Collections />
-                                        <Footer />
-                                    </>
-                                }
-                            </main>
-                        </ContextMuseum.Provider>
-                    </ContextCheckLogin.Provider>
+                            {/* <Header/> */}
+                            <Description />
+                            {MuseumData &&
+                                <>
+                                    <Element name='visitinginfo'>
+                                        <VisitingInfo />
+                                    </Element>
+                                    <Element name='booking'>
+                                        <hr className="border-t border-gray-300 dark:border-gray-700" />
+                                        {resData && resData.email ?
+                                            <Booking />
+                                            : <LogoutBooking />}
+                                    </Element>
+                                    <Element name='gallery'>
+                                        <hr className="border-t border-gray-300 dark:border-gray-700" />
+                                        <Gallery />
+                                    </Element>
+                                    <hr className="border-t border-gray-300 dark:border-gray-700" />
+                                    <Collections />
+                                    <hr className="border-t border-gray-300 dark:border-gray-700" />
+                                    <Footer />
+                                </>
+                            }
+                        </main>
+                    </ContextMuseum.Provider>
+                </ContextCheckLogin.Provider>
             </ContextConfirmOrder.Provider>
         </>
     )

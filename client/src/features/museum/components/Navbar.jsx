@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
-import ProfileDropdown from '../home/header/ProfileDropdown'
-import { ContextCheckLogin } from '../context/context'
-import Theme from '../Theme'
+import ProfileDropdown from '../../home/header/ProfileDropdown'
+import { ContextCheckLogin } from '../../../context/context'
+import Theme from '../../Theme'
 
 
 const Header = () => {

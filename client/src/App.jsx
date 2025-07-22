@@ -1,13 +1,13 @@
 import './App.css'
-import Home from './components/home/Home'
-import UserDashBoard from './components/dashboard/UserDashBoard'
+import Home from './features/home/Home'
+import UserDashBoard from './features/dashboard/UserDashBoard'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import MuseumPage from './components/museum/MuseumPage'
+import MuseumPage from './features/museum/components/MuseumPage'
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import { ContextUserInfo } from './components/context/context'
+import { ContextUserInfo } from './context/context'
 import  { useState } from 'react'
-import RegisterDefault from './components/RegLog/register/RegisterDefault'
-import LoginDefault from './components/RegLog/login/LoginDefault'
+import RegisterDefault from './features/auth/register/RegisterDefault'
+import LoginDefault from './features/auth/login/LoginDefault'
 
 function App() {
 

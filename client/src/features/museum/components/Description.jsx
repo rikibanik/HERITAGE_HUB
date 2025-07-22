@@ -1,32 +1,34 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useLocation } from 'react-router-dom';
-import { ContextMuseum } from '../context/context';
-import Loading from '../dashboard/Loading';
+import { ContextMuseum } from '../../../context/context';
+import Loading from '../../dashboard/Loading';
 import { Link as ElementLink } from 'react-scroll';
+import { useGetMuseumQuery } from '../museumApi';
+import { selectMuseumId } from '../museumSlice';
+import { useSelector } from 'react-redux';
 
 const Description = () => {
 
-    const { MuseumData, setMuseumData } = useContext(ContextMuseum)
+    // const { MuseumData, setMuseumData } = useContext(ContextMuseum)
     // console.log(MuseumData);
-    const location = useLocation();
-    const queryParams = new URLSearchParams(location.search);
 
-    const id = queryParams.get("id");
-    const name = queryParams.get("name");
+    const museumId = useSelector(selectMuseumId);
+    const { data: MuseumData, isLoading } = useGetMuseumQuery(museumId);
+    // const name = queryParams.get("name");
 
     // console.log(id)
-    useEffect(() => {
-        const venueId = id;
-        fetch(`${import.meta.env.VITE_HOST}/venue/museum/${venueId}`)
-            .then(response => response.json())
-            .then(data => {
-                setMuseumData(data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+    // useEffect(() => {
+    //     const venueId = id;
+    //     fetch(`${import.meta.env.VITE_HOST}/venue/museum/${venueId}`)
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             setMuseumData(data);
+    //         })
+    //         .catch(error => {
+    //             console.error('Error:', error);
+    //         });
 
-    }, [])
+    // }, [])
 
     return (
         <>

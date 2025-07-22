@@ -1,9 +1,14 @@
 import React, { useContext } from 'react'
-import { ContextMuseum } from '../context/context'
+import { ContextMuseum } from '../../../context/context'
 import { Link as ElementLink } from 'react-scroll'
+import { useParams } from 'react-router-dom';
+import { useGetMuseumQuery } from '../museumApi';
+import { useSelector } from 'react-redux';
+import { selectMuseumId } from '../museumSlice';
 
 const VisitingInfo = () => {
-    const { MuseumData, setMuseumData } = useContext(ContextMuseum)
+    const museumId = useSelector(selectMuseumId);
+    const { data: MuseumData } = useGetMuseumQuery(museumId);
     const week = [
         "Monday",
         "Tuesday",

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FcPrevious } from 'react-icons/fc';
-import { ContextUserInfo } from '../../context/context';
+import { ContextUserInfo } from '../../../context/context';
 import { toast, ToastContainer } from 'react-toastify';
 import Googlebtn from '../Googlebtn';
 

@@ -1,8 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { ContextMuseum, ContextCheckLogin, ContextConfirmOrder } from '../context/context';
+import { ContextMuseum, ContextCheckLogin, ContextConfirmOrder } from '../../../context/context';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import SuccessBookingPopup from './SuccessBookingPopup';
 import SuccessBookingSkeleton from './SuccessBookingShimmer';
+import { useGetMuseumQuery, useGetVenueSlotsQuery, useLazyGetVenueSlotsQuery } from '../museumApi';
+import { useParams } from 'react-router-dom';
+import { selectMuseumId } from '../museumSlice';
+import { useSelector } from 'react-redux';
 
 const Booking = () => {
     const [orderDetails, setOrderDetails] = useState(null)
@@ -16,7 +20,9 @@ const Booking = () => {
     // this loading state is to handle paying... loading effect
     const [loading, setLoading] = useState(false);
 
-    const { MuseumData } = useContext(ContextMuseum);
+    // const { MuseumData } = useContext(ContextMuseum);
+    const museumId = useSelector(selectMuseumId);
+    const { data: MuseumData } = useGetMuseumQuery(museumId);
     // console.log(MuseumData)
 
     // availableSlots is the data received after selecting date
@@ -43,30 +49,28 @@ const Booking = () => {
         return `${hour12.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} ${amPm}`;
     };
 
+    const [
+        triggerGetSlots,
+        { data: slotsData, isSuccess: slotsSuccess, isLoading: slotsLoading }
+    ] = useLazyGetVenueSlotsQuery();
 
     const handleDateChange = (e) => {
         const date = e ? e.target.value : new Date().toISOString().split("T")[0];
         setSelectedDate(date);
-
-        fetch(`${import.meta.env.VITE_HOST}/venue/slot/${MuseumData.venue._id}/${date}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                setAvailableSlots(data.slots);
-                // setSelectedSlot('select');
-                setVisitorCounts({
-                    indianAdults: 0,
-                    indianChildren: 0,
-                    foreignAdults: 0,
-                    foreignChildren: 0
-                });
-            })
-            .catch((error) => console.error('Error:', error));
+        triggerGetSlots({ venueId: MuseumData.venue._id, date });
     };
+
+    useEffect(() => {
+        if (slotsSuccess) {
+            setAvailableSlots(slotsData.slots);
+            setVisitorCounts({
+                indianAdults: 0,
+                indianChildren: 0,
+                foreignAdults: 0,
+                foreignChildren: 0
+            });
+        }
+    }, [slotsSuccess, slotsData]);
 
     // this useEffect is for handleDateChange() as there's no change in date input field upon page reload, which doesn't set available slots for that date even if it's available
     useEffect(() => {
@@ -304,7 +308,7 @@ const Booking = () => {
                                     />
                                 </div>
 
-                                <div> 
+                                <div>
                                     <label htmlFor="foreign-adults" className="block text-neutral-700 mb-2 dark:text-gray-300">Foreign Adults (₹{MuseumData.venue.fare.foreignAdult})</label>
                                     <input
                                         type="number"

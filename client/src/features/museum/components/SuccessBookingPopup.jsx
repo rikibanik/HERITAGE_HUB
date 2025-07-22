@@ -1,15 +1,20 @@
 import React, { useState } from "react";
 import { MdCancel } from "react-icons/md";
-import { ContextConfirmOrder, ContextMuseum } from "../context/context";
+import { ContextConfirmOrder, ContextMuseum } from "../../../context/context";
 import { useContext, useEffect } from "react";
 import { useWindowSize } from "react-use";
 import Confetti from 'react-confetti';
 import Shimmer from "./SuccessBookingShimmer";
 import { toast, ToastContainer, Bounce } from "react-toastify";
+import { useGetMuseumQuery } from "../museumApi";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectMuseumId } from "../museumSlice";
 
 const SuccessBookingPopup = ({ availableSlots, selectedSlot, orderDetails }) => {
 
-    const { MuseumData } = useContext(ContextMuseum);
+    const museumId = useSelector(selectMuseumId);
+    const {data: MuseumData} = useGetMuseumQuery(museumId);
     const slotInfo = availableSlots.filter((slot) => slot._id === selectedSlot);
     const { confirmOrder, setConfirmOrder } = useContext(ContextConfirmOrder);
     const [isConfettiActive, setIsConfettiActive] = useState(false);

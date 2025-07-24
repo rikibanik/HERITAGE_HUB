@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
+import { useAddSlotMutation } from '../authorApi';
 
 const AddSlots = ({ rerenderManageSlots }) => {
+    
     const { rerender, setRerender } = rerenderManageSlots;
-
-    // const convertTimeTwoDigit
     const [addSlotData, setAddSlotData] = useState({
         date: new Date().toISOString().split("T")[0],
         slots: {
@@ -33,7 +33,6 @@ const AddSlots = ({ rerenderManageSlots }) => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        // console.log(name, value)
 
         if (name === 'startTime' || name === 'endTime') {
             const [hour, minute] = value.split(':');
@@ -57,27 +56,14 @@ const AddSlots = ({ rerenderManageSlots }) => {
         }
     };
 
+    const [addSlot] = useAddSlotMutation();
+
     const handleAddData = async (e) => {
         e.preventDefault();
-        try {
-            const res = await fetch(`${import.meta.env.VITE_HOST}/author/add-slot`, {
-                method: 'POST',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                },
-                body: JSON.stringify(addSlotData),
-            });
-
-            if (!res.ok) {
-                throw new Error('Error while adding Slot!');
-            }
+        addSlot(addSlotData).unwrap().then(() => {
             handleCloseModal();
-            setRerender(!rerender)
-        } catch (error) {
-            console.error(error);
-        }
+            setRerender(!rerender);
+        })
     };
 
     return (

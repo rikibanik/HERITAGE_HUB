@@ -3,47 +3,18 @@ import { useState } from "react"
 import Modal from './Modal'
 import { BiLogOut } from "react-icons/bi"
 import { useNavigate } from 'react-router-dom'
+import { useLogoutAuthorMutation } from "../../authorApi";
 
 export default function AuthorPopup() {
-    const navigate = useNavigate();
     const [open, setOpen] = useState(false)
+    const [logout] = useLogoutAuthorMutation();
 
     const handleLogout = async () => {
-        try {
-            const res = await fetch(`${import.meta.env.VITE_HOST}/author/logout`, {
-                method: 'GET',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                },
-            });
-
-            if (!res.ok) {
-                throw new Error('Error logging out!');
-            }
-            localStorage.removeItem('token');
-            navigate('/login');
-            setOpen(false);
-        } catch (error) {
-            console.error(error);
-        }
-        // console.log("logout clicked")
-        // try {
-        //     const res = await fetch(`${import.meta.env.VITE_HOST}/user/logout`,
-        //         {
-        //             method: "GET",
-        //             credentials: 'include',
-        //         }
-        //     )
-        //     if (!res.ok) {
-        //         throw new Error('Logout failed!')
-        //     }
-        //     window.location.href = '/'
-
-        // } catch (error) {
-        //     console.error(error);
-        // }
+        logout().unwrap()
+            .then(() => {
+                localStorage.removeItem('token');
+                window.location.replace('/login');
+            })
     }
 
 

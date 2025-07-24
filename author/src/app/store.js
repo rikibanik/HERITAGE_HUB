@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import {authorApi} from '../../../author/src/components/authorApi';
+import { authorApi } from '../features/authorApi';
 
 export default configureStore({
     reducer: {

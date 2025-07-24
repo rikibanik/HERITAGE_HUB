@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { useLoginAuthorMutation } from '../authorApi';
 
 const AuthorLogin = () => {
     const navigate = useNavigate()
@@ -9,6 +10,7 @@ const AuthorLogin = () => {
         email: "",
         password: "",
     })
+    const [showPassword, setShowPassword] = useState(false);
     // console.log(LoginFrom)
     const handlechange = (event) => {
         setLoginFrom({ ...LoginFrom, [event.target.name]: event.target.value });
@@ -18,41 +20,18 @@ const AuthorLogin = () => {
         localStorage.setItem("token", token);
     }, [token])
 
+    const [login] = useLoginAuthorMutation();
 
     const handleSubmit = async (e) => {
-        // preventdefault to stop reloading after submit for testing
         e.preventDefault();
-        try {
-            const response = await fetch(`${import.meta.env.VITE_HOST}/author/login`, {
-                method: 'POST',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                },
-                body: JSON.stringify(LoginFrom),
-            });
-            if (!response.ok) {
-                toast.error('Invalid credential!', {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: false,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                    transition: Bounce,
-                });
-                throw new Error('Login failed!')
-            }
-            const data = await response.json();
-            setToken(data.token)
-            navigate("/");
-        } catch (error) {
-            console.error('Error:', error);
-        }
+        login(LoginFrom).unwrap().then((data) => {
+            setToken(data.token);
+            navigate('/');
+        }).catch((error) => {
+            toast.error(error.data?.message || error.data?.error || 'Error logging in');
+        });
     }
+
     return (
         <>
             <ToastContainer
@@ -97,14 +76,25 @@ const AuthorLogin = () => {
                                     className="block text-sm font-medium text-gray-700">Password
                                     <span className='text-red-600'> *</span>
                                 </label>
-                                <input
-                                    value={LoginFrom.password}
-                                    onChange={handlechange}
-                                    type="password" id="password"
-                                    name="password"
-                                    minLength={5}
-                                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                    required />
+                                <div className="relative">
+                                    <input
+                                        value={LoginFrom.password}
+                                        onChange={handlechange}
+                                        type={showPassword ? "text" : "password"}
+                                        id="password"
+                                        name="password"
+                                        minLength={5}
+                                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        required />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="absolute inset-y-0 right-0 px-3 flex items-center text-sm text-gray-600 focus:outline-none"
+                                        tabIndex={-1}
+                                    >
+                                        {showPassword ? "Hide" : "Show"}
+                                    </button>
+                                </div>
                             </div>
 
                             <div className="flex items-center justify-between">

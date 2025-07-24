@@ -15,7 +15,7 @@ const AuthorProfile = ({ authorData }) => {
     // console.log(authorData);
     return (
         <section id="profile" className="p-6">
-            <div className="max-w-4xl mx-auto">
+            <div className="max-w-6xl mx-auto">
                 {/* Author Details */}
                 <div className="bg-white rounded-lg border border-gray-200 p-6 mb-8">
                     <h2 className="text-lg font-semibold text-gray-900 mb-4">Author Details</h2>

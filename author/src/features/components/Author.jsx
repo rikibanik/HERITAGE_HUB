@@ -5,38 +5,20 @@ import AuthorNav from './authorHeader/AuthorNav'
 import Footer from './Footer'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion';
-// import { Loader2 } from 'lucide-react';
+import { useGetAuthorDetailsQuery } from '../authorApi'
 
 const Author = () => {
     const navigate = useNavigate();
     const [authorData, setAuthorData] = useState(null)
-    const getAuthorData = async () => {
-        try {
-            const response = await fetch(`${import.meta.env.VITE_HOST}/author/dashboard`, {
-                method: 'GET',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                },
-            });
-            if (!response.ok) {
-                const err = await response.json();
-                if (/Invalid|No token|Unauthorised/.test(err.message || err.error)) {
-                    navigate("/login");
-                    return;
-                }
-                throw err;
-            }
-            const data = await response.json();
-            setAuthorData(data)
-        } catch (error) {
-            console.error(error);
-        }
-    }
+
+    const { data: authorDetails, error, isLoading } = useGetAuthorDetailsQuery();
     useEffect(() => {
-        getAuthorData();
-    }, [])
+        if (authorDetails) {
+            setAuthorData(authorDetails);
+        } else if (error) {
+            navigate("/login");
+        }
+    }, [authorDetails, error, navigate]);
 
     return (
         <>

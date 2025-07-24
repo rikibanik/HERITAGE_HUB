@@ -11,10 +11,10 @@ const Analytics = ({ slotData }) => {
     const [data, setData] = useState([]);
     const [chartType, setChartType] = useState('bar');
 
-    const sum = slotData.reduce((acc, value) => acc + value.currentBookings, 0)
+    const sum = slotData.slotList.reduce((acc, value) => acc + value.currentBookings, 0)
 
     const getBookingTrendsData = (slotData) => {
-        return slotData.map((slot) => ({
+        return slotData.slotList.map((slot) => ({
             fullDate: new Date(slot.date).toDateString(),
             date: formatDate(slot.date),
             bookings: slot.currentBookings,

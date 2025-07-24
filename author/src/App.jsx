@@ -1,6 +1,6 @@
 import React from 'react'
-import Author from './components/Author'
-import AuthorLogin from './components/AuthorLogin'
+import Author from './features/components/Author'
+import AuthorLogin from './features/components/AuthorLogin'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 const App = () => {

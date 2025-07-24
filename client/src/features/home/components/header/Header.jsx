@@ -4,8 +4,8 @@ import { Link as ElementLink } from 'react-scroll'
 import ProfileDropdown from './ProfileDropdown'
 import Sidebar from './sidebar/Sidebar'
 import { SidebarData } from './sidebar/SidebarData'
-import Theme from '../../Theme'
-import { useGetUserQuery } from '../../auth/authApi'
+import Theme from '../../../Theme'
+import { useGetUserQuery } from '../../../auth/authApi'
 
 const Header = () => {
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaSearch, FaSpinner } from "react-icons/fa";
-import { useGetMuseumEntriesQuery } from "./homeApi";
+import { useGetMuseumEntriesQuery } from "../homeApi";
 
 const Search = () => {
     const navigate = useNavigate();

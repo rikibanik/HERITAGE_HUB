@@ -2,10 +2,22 @@ import React, { useState } from 'react';
 import OTP from './OTP';
 import Register from './Register';
 import Header from '../Navbar';
+import { useGetUserQuery } from '../authApi';
+import { Navigate } from 'react-router-dom';
+import ClientLoading from '../../ClientLoading';
 
 const RegisterDefault = () => {
 
     const [component, setComponent] = useState("Register");
+    const { data, isLoading } = useGetUserQuery();
+
+    if (data) {
+        return <Navigate to='/' replace />;
+    }
+
+    if (isLoading) {
+        return <ClientLoading />;
+    }
 
     return (
         <>

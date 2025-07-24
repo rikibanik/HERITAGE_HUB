@@ -1,11 +1,11 @@
 import React from 'react'
-import Header from './header/Header'
-import Contacts from './Contacts'
+import Header from './components/header/Header'
+import Contacts from './components/Contacts'
 import Footer from '../Footer'
 import { Element } from 'react-scroll'
-import { SidebarData } from './header/sidebar/SidebarData'
-import BookingProcess from './BookingProcess'
-import Reviews from './Reviews'
+import { SidebarData } from './components/header/sidebar/SidebarData'
+import BookingProcess from './components/BookingProcess'
+import Reviews from './components/Reviews'
 
 const Home = () => {
 

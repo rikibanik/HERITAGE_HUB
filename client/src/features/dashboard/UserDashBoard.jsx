@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import MyProfile from './MyProfile'
-import MyTickets from './MyTickets'
-import PurchaseHistory from './PurchaseHistory'
-import Loading from './Loading'
+import MyProfile from './components/MyProfile'
+import MyTickets from './components/MyTickets'
+import PurchaseHistory from './components/PurchaseHistory'
+import Loading from './components/Loading'
 import { useNavigate } from 'react-router-dom'
-import { useGetUserQuery } from '../../auth/authApi'
+import { useGetUserQuery } from '../auth/authApi'
 
 const DashNav = [
   {

@@ -1,18 +1,10 @@
-import React, { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React from 'react'
+import { Link } from 'react-router-dom'
 import { useGetUserQuery } from './authApi';
 
 const Header = ({ value }) => {
 
-    const navigate = useNavigate()
-    const [loading, setLoading] = useState(true);
-    const { data, isSuccess } = useGetUserQuery();
-
-    useEffect(() => {
-        if (isSuccess) {
-            navigate('/');
-        }
-    }, [isSuccess]);
+    const { data, isSuccess, isLoading: loading } = useGetUserQuery();
 
     return (
         <header id="header" className="fixed top-0 left-0 w-full bg-white shadow-md z-50">

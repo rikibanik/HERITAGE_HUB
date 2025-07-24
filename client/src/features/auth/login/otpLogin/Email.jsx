@@ -32,7 +32,6 @@ const Email = ({ setComponent }) => {
     return (
         <>
             {newComponent === "email" ?
-
                 <div className="w-full max-w-md p-8 space-y-4 bg-white rounded-xl shadow-lg">
                     <h2 className="text-2xl font-bold mb-6 text-center">Email Verification</h2>
                     <form onSubmit={handleSendOTP} className="space-y-4">

@@ -1,7 +1,7 @@
 // App.jsx
 
 import React from 'react';
-import Author from './features/components/Author';
+import Author from './features/Author';
 import AuthorLogin from './features/components/AuthorLogin';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ToastContainer, Bounce } from 'react-toastify';

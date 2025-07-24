@@ -1,13 +1,25 @@
 import React, { useState } from 'react'
 import LoginPassword from './LoginPassword'
 import Email from './otpLogin/Email'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import Googlebtn from '../Googlebtn'
 import Header from '../Navbar'
+import { useGetUserQuery } from '../authApi'
+import AuthorLoading from '../../../../../author/src/features/components/AuthorLoading'
+import ClientLoading from '../../ClientLoading'
 
 const LoginDefault = () => {
 
     const [component, setComponent] = useState("default")
+    const { data, isLoading } = useGetUserQuery();
+
+    if (data) {
+        return <Navigate to='/' replace />
+    }
+
+    if (isLoading) {
+        return <ClientLoading />;
+    }
 
     return (
         <>

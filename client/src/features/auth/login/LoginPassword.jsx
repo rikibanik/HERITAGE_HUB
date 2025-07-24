@@ -14,10 +14,6 @@ const LoginPassword = ({ setComponent }) => {
         password: "",
     })
 
-    useEffect(() => {
-        localStorage.setItem("token", token);
-    }, [token])
-
     const [login, { isLoading: loading }] = useLoginMutation();
 
     const handleSubmit = async (e) => {
@@ -27,6 +23,10 @@ const LoginPassword = ({ setComponent }) => {
             navigate('/');
         });
     }
+
+    useEffect(() => {
+        localStorage.setItem("token", token);
+    }, [token])
 
 
     const handlechange = (event) => {

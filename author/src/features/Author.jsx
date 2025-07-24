@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import AuthorProfile from './AuthorProfile'
-import ManageSlots from './ManageSlots'
-import AuthorNav from './authorHeader/AuthorNav'
-import Footer from './Footer'
+import AuthorProfile from './components/AuthorProfile'
+import ManageSlots from './components/ManageSlots'
+import AuthorNav from './components/authorHeader/AuthorNav'
+import Footer from './components/Footer'
 import { useNavigate } from 'react-router-dom'
-import { useGetAuthorDetailsQuery } from '../authorApi'
-import AuthorLoading from './AuthorLoading'
+import { useGetAuthorDetailsQuery } from './authorApi'
+import AuthorLoading from './components/AuthorLoading'
 
 const Author = () => {
     const navigate = useNavigate();

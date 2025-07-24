@@ -1,8 +1,8 @@
 import './App.css'
 import Home from './features/home/Home'
-import UserDashBoard from './features/dashboard/components/UserDashBoard'
+import UserDashBoard from './features/dashboard/UserDashBoard'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import MuseumPage from './features/museum/components/MuseumPage'
+import MuseumPage from './features/museum/MuseumPage'
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { ContextUserInfo } from './context/context'
 import { useState } from 'react'

@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom'
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import Googlebtn from '../Googlebtn';
+import { useLoginMutation } from '../authApi';
 
 const LoginPassword = ({ setComponent }) => {
 
     const [token, setToken] = useState('');
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
     const [LoginFrom, setLoginFrom] = useState({
         email: "",
         password: "",
@@ -18,63 +18,19 @@ const LoginPassword = ({ setComponent }) => {
         localStorage.setItem("token", token);
     }, [token])
 
+    const [login, { isLoading: loading }] = useLoginMutation();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        login(LoginFrom).unwrap().then((data) => {
+            setToken(data.result.token);
+            navigate('/');
+        });
+    }
+
 
     const handlechange = (event) => {
         setLoginFrom({ ...LoginFrom, [event.target.name]: event.target.value });
-    }
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        try {
-            const response = await fetch(`${import.meta.env.VITE_HOST}/user/login`, {
-                method: 'POST',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                },
-                body: JSON.stringify(LoginFrom),
-            });
-            if (!response.ok) {
-                throw new Error('Login failed!')
-            }
-            const data = await response.json();
-            setToken(data.result.token);
-            // console.log('ResponseLogin:', data);
-            if (data.result.error === "Invalid email") {
-                toast.error('Invalid email!', {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: false,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                    transition: Bounce,
-                });
-                return;
-            }
-            else if (data.result.error == "Invalid password") {
-                toast.error('Invalid password!', {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: false,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                    transition: Bounce,
-                });
-                return;
-            }
-            navigate('/');
-        } catch (error) {
-            console.error('Error:', error);
-        } finally {
-            setLoading(false);
-        }
     }
 
     return (

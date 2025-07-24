@@ -1,6 +1,6 @@
 import './App.css'
 import Home from './features/home/Home'
-import UserDashBoard from './features/dashboard/UserDashBoard'
+import UserDashBoard from './features/dashboard/components/UserDashBoard'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import MuseumPage from './features/museum/components/MuseumPage'
 import { GoogleOAuthProvider } from '@react-oauth/google';

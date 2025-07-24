@@ -4,15 +4,14 @@ import { FcPrevious } from 'react-icons/fc';
 import { ContextUserInfo } from '../../../context/context';
 import { toast, ToastContainer } from 'react-toastify';
 import Googlebtn from '../Googlebtn';
+import { useSendOTPMutation, useVerifyOTPMutation } from '../authApi';
 
 const OTP = ({ setComponent }) => {
 
     const navigate = useNavigate()
     const [timer, setTimer] = useState(60);
     const [isTimerActive, setIsTimerActive] = useState(false);
-    const [resendLoading, setResendLoading] = useState(false);
     const { userInfo, setUserInfo } = useContext(ContextUserInfo);
-    const [loading, setLoading] = useState(false);
     const [otp, setOtp] = useState(["", "", "", "", "", ""]);
 
 
@@ -24,7 +23,6 @@ const OTP = ({ setComponent }) => {
     useEffect(() => {
         if (userInfo.otpStatus) {
             startTimer();
-            toast.success("OTP sent successfully!")
         }
     }, [userInfo.otpStatus])
 
@@ -41,6 +39,7 @@ const OTP = ({ setComponent }) => {
     }, [isTimerActive, timer]);
 
     const inputsRef = useRef([]);
+
     const handleChange = (index, value) => {
         if (!/^\d*$/.test(value)) return;
         const newOtp = [...otp];
@@ -57,137 +56,111 @@ const OTP = ({ setComponent }) => {
         }
     };
 
+    const [verifyOTP, { isLoading: loading, isError: isVerifyOTPError, error: verifyOTPError }] = useVerifyOTPMutation();
+
     const handleVerifyOTP = async (e) => {
         e.preventDefault();
         setUserInfo({ ...userInfo, otpStatus: false });
-        setLoading(true);
-
-        try {
-            const response = await fetch(`${import.meta.env.VITE_HOST}/user/verify-otp`, {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    name: { firstname: userInfo.firstname, lastname: userInfo.lastname }, email: userInfo.email,
-                    password: userInfo.password,
-                    otp: otp.join("")
-                })
-            });
-            if (!response.ok) {
-                const err = await response.json();
-                throw err;
-            }
-            navigate('/');
-        } catch (error) {
-            console.log(error);
-            toast.error(error.message);
-        } finally {
-            setLoading(false);
-        }
+        verifyOTP({ name: { firstname: userInfo.firstname, lastname: userInfo.lastname }, email: userInfo.email, password: userInfo.password, otp: otp.join("") }).unwrap().then(() => { navigate('/'); });
     };
+
+    const [sendOTP, { isLoading: resendLoading, isError: isSendOTPError, error: sendOTPError }] = useSendOTPMutation();
 
     const handleResendOTP = async (e) => {
         e.preventDefault();
-        setUserInfo({ ...userInfo, otpStatus: false })
-        setResendLoading(true);
+        setUserInfo({ ...userInfo, otpStatus: false });
 
-        // console.log({ name: { firstname: userInfo.firstname, lastname: userInfo.lastname }, email: userInfo.email, password: userInfo.password })
-        try {
-            const response = await fetch("http://localhost:3000/user/generate-otp", {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ name: { firstname: userInfo.firstname, lastname: userInfo.lastname }, email: userInfo.email, password: userInfo.password })
+        sendOTP({ name: { firstname: userInfo.firstname, lastname: userInfo.lastname }, email: userInfo.email, password: userInfo.password }).unwrap()
+            .then(() => {
+                startTimer();
+                setUserInfo({ ...userInfo, otpStatus: true });
+            })
+            .catch((error) => {
+                console.log(error);
+                toast.error(error.message || error.error || "Something went wrong!");
             });
-            if (!response.ok) {
-                const err = await response.json();
-                throw err;
-            }
-            startTimer();
-            setUserInfo({ ...userInfo, otpStatus: true });
-        } catch (error) {
-            console.log(error);
-            toast.error(error.message || error.error || "Something went wrong!")
-        } finally {
-            setResendLoading(false);
-        }
     }
+
+    useEffect(() => {
+        if (isSendOTPError) {
+            toast.error(sendOTPError.data.error || sendOTPError.data.message || "Failed to resend OTP. Please try again.");
+        }
+        if (isVerifyOTPError) {
+            toast.error(verifyOTPError.data.error || verifyOTPError.data.message || "Failed to verify OTP. Please try again.");
+        }
+    }, [isSendOTPError, isVerifyOTPError]);
 
     return (
         <>
             <ToastContainer />
-                <div className="w-full max-w-md p-6 space-y-4 bg-white rounded-xl shadow-lg">
-                    <div className="flex items-center justify-center  w-full">
-                        {!isTimerActive && !resendLoading && !loading && <FcPrevious className='cursor-pointer' onClick={() => setComponent("Register")} />}
+            <div className="w-full max-w-md p-6 space-y-4 bg-white rounded-xl shadow-lg">
+                <div className="flex items-center justify-center  w-full">
+                    {!isTimerActive && !resendLoading && !loading && <FcPrevious className='cursor-pointer' onClick={() => setComponent("Register")} />}
 
-                        <h2 className="text-2xl font-bold text-center px-4">
-                            OTP Verification
-                        </h2>
+                    <h2 className="text-2xl font-bold text-center px-4">
+                        OTP Verification
+                    </h2>
+                </div>
+
+                <p className="text-center text-gray-600 mb-6">
+                    Enter the verification code sent to your email
+                </p>
+                <form onSubmit={handleVerifyOTP}>
+                    <div className="flex flex-wrap justify-center gap-2 mb-6">
+                        {otp.map((value, index) => (
+                            <input
+                                key={index}
+                                type="text"
+                                maxLength="1"
+                                value={value}
+                                onChange={(e) => handleChange(index, e.target.value)}
+                                onKeyDown={(e) => handleKeyDown(index, e)}
+                                ref={(el) => (inputsRef.current[index] = el)}
+                                className="w-12 h-12 text-center text-xl border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                required
+                            />
+                        ))}
                     </div>
 
-                    <p className="text-center text-gray-600 mb-6">
-                        Enter the verification code sent to your email
-                    </p>
-                    <form onSubmit={handleVerifyOTP}>
-                        <div className="flex flex-wrap justify-center gap-2 mb-6">
-                            {otp.map((value, index) => (
-                                <input
-                                    key={index}
-                                    type="text"
-                                    maxLength="1"
-                                    value={value}
-                                    onChange={(e) => handleChange(index, e.target.value)}
-                                    onKeyDown={(e) => handleKeyDown(index, e)}
-                                    ref={(el) => (inputsRef.current[index] = el)}
-                                    className="w-12 h-12 text-center text-xl border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                    required
-                                />
-                            ))}
-                        </div>
-
-                        <div className="text-center mb-6">
-                            <button type='button' disabled={resendLoading || isTimerActive} onClick={handleResendOTP} className="text-blue-600 hover:text-blue-800 text-sm">
-                                {resendLoading ? "Resending..." : isTimerActive ? `Resend in ${timer}s` :
-                                    !loading && "Didn't receive code? Resend"
-                                }
-                            </button>
-                        </div>
-
-                        <button disabled={loading} type="submit" className="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 flex justify-center items-center">
-                            {loading ?
-                                <>
-                                    <svg className="animate-spin h-5 w-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"
-                                        ></circle>
-                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"
-                                        ></path>
-                                    </svg>
-                                    Verifying OTP...
-                                </>
-                                : "Verify OTP"
+                    <div className="text-center mb-6">
+                        <button type='button' disabled={resendLoading || isTimerActive} onClick={handleResendOTP} className="text-blue-600 hover:text-blue-800 text-sm">
+                            {resendLoading ? "Resending..." : isTimerActive ? `Resend in ${timer}s` :
+                                !loading && "Didn't receive code? Resend"
                             }
                         </button>
-                    </form>
-                    <p className="text-center text-sm text-gray-600">
-                        Already have an account?
-                        <Link to='/login'>
-                            <button className="ml-1 font-medium text-blue-600 hover:text-blue-800">Log in</button>
-                        </Link>
-                    </p>
-                    <div className="relative">
-                        <div className="absolute inset-0 flex items-center">
-                            <div className="w-full border-t border-gray-300"></div>
-                        </div>
-                        <div className="relative flex justify-center text-sm">
-                            <span className="bg-white text-gray-500">Or continue with</span>
-                        </div>
                     </div>
-                    <Googlebtn />
+
+                    <button disabled={loading} type="submit" className="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 flex justify-center items-center">
+                        {loading ?
+                            <>
+                                <svg className="animate-spin h-5 w-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"
+                                    ></circle>
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"
+                                    ></path>
+                                </svg>
+                                Verifying OTP...
+                            </>
+                            : "Verify OTP"
+                        }
+                    </button>
+                </form>
+                <p className="text-center text-sm text-gray-600">
+                    Already have an account?
+                    <Link to='/login'>
+                        <button className="ml-1 font-medium text-blue-600 hover:text-blue-800">Log in</button>
+                    </Link>
+                </p>
+                <div className="relative">
+                    <div className="absolute inset-0 flex items-center">
+                        <div className="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div className="relative flex justify-center text-sm">
+                        <span className="bg-white text-gray-500">Or continue with</span>
+                    </div>
                 </div>
+                <Googlebtn />
+            </div>
         </>
     );
 }

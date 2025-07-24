@@ -14,9 +14,10 @@ import { useGetMuseumQuery } from '../museumApi'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectMuseumId, setMuseumId } from '../museumSlice'
+import { useGetUserQuery } from '../../auth/authApi'
 
 export default function MuseumPage() {
-    const [resData, setResData] = useState(null)
+    const {data: resData} = useGetUserQuery();
     const dispatch = useDispatch();
     const [searchParams] = useSearchParams();
     const id = searchParams.get('id');
@@ -33,7 +34,7 @@ export default function MuseumPage() {
     return (
         <>
             <ContextConfirmOrder.Provider value={{ confirmOrder, setConfirmOrder }}>
-                <ContextCheckLogin.Provider value={{ resData, setResData }}>
+                {/* <ContextCheckLogin.Provider value={{ resData, setResData }}> */}
                     {/* <ContextMuseum.Provider value={{ MuseumData, setMuseumData }}> */}
                     <main className='min-w-[320px]'>
                         <Navbar />
@@ -63,7 +64,7 @@ export default function MuseumPage() {
                         }
                     </main>
                     {/* </ContextMuseum.Provider> */}
-                </ContextCheckLogin.Provider>
+                {/* </ContextCheckLogin.Provider> */}
             </ContextConfirmOrder.Provider>
         </>
     )

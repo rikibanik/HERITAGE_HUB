@@ -5,39 +5,11 @@ import ProfileDropdown from './ProfileDropdown'
 import Sidebar from './sidebar/Sidebar'
 import { SidebarData } from './sidebar/SidebarData'
 import Theme from '../../Theme'
+import { useGetUserQuery } from '../../auth/authApi'
 
 const Header = () => {
 
-    const [loading, setLoading] = useState(true);
-    const [resData, setResData] = useState(null)
-    // console.log(resData)
-    const getData = async () => {
-        try {
-            const res = await fetch(`${import.meta.env.VITE_HOST}/user`,
-                {
-                    method: "GET",
-                    credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                    },
-                }
-            )
-            if (!res.ok) {
-                throw new Error('user not logged in!')
-            }
-            const data = await res.json()
-            setResData(data)
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setLoading(false)
-        }
-
-    }
-    useEffect(() => {
-        getData()
-    }, [])
+    const { data: resData, isLoading: loading } = useGetUserQuery();
 
     return (
         <header id="header" className="fixed top-0 left-0 w-full bg-white dark:bg-gray-900 shadow-md z-50">

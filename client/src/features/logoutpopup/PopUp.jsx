@@ -2,36 +2,17 @@
 import { useState } from "react"
 import Modal from "./Modal"
 import { BiLogOut } from "react-icons/bi"
+import { useLogoutMutation } from "../auth/authApi";
 
 export default function PopUp({ type }) {
-    // type could be "prfDrpDwnLgt" or "MyPrfLgt"
-    const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false)
-
+    const [logout, { isLoading: loading }] = useLogoutMutation();
     const handleLogout = async () => {
-        setLoading(true);
-        try {
-            const res = await fetch(`${import.meta.env.VITE_HOST}/user/logout`,
-                {
-                    method: "GET",
-                    credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                    },
-                }
-            )
-            if (!res.ok) {
-                throw new Error('Logout failed!')
-            }
+
+        logout().unwrap().then(() => {
             localStorage.removeItem('token');
             window.location.href = '/';
-
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setLoading(false);
-        }
+        })
     }
 
 

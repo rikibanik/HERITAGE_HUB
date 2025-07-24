@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import Loading from "./Loading";
-import PopUp from "../logoutpopup/PopUp";
+import PopUp from "../../logoutpopup/PopUp";
+import { useGetUserQuery } from "../../auth/authApi";
 
 const MyProfile = () => {
-    const [resData, setResData] = useState(null)
+    const { data: resData, isLoading: loading, isSuccess } = useGetUserQuery();
     // console.log("MyProfile", resData)
     const [editField, setEditField] = useState(false);
     const [profile, setProfile] = useState({
@@ -18,33 +19,45 @@ const MyProfile = () => {
         setProfile({ ...profile, name: { ...profile.name, [field]: e.target.value } });
     };
 
-    const getData = async () => {
-        try {
-            const res = await fetch(`${import.meta.env.VITE_HOST}/user`,
-                {
-                    method: "GET",
-                    credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                    },
-                }
-            )
-            if (!res.ok) {
-                throw new Error('user not logged in!')
-            }
-            const data = await res.json()
-            setResData(data)
-            setProfile({ ...profile, name: { ...profile.name, firstname: data.name.firstname, lastname: data.name.lastname } })
-            // console.log(data)
-        } catch (error) {
-            console.error(error);
-        }
-    }
 
     useEffect(() => {
-        getData()
-    }, [])
+        if (resData && isSuccess) {
+            setProfile({
+                name: {
+                    firstname: resData.name.firstname,
+                    lastname: resData.name.lastname,
+                },
+            });
+        }
+    }, [resData, isSuccess]);
+
+    // const getData = async () => {
+    //     try {
+    //         const res = await fetch(`${import.meta.env.VITE_HOST}/user`,
+    //             {
+    //                 method: "GET",
+    //                 credentials: 'include',
+    //                 headers: {
+    //                     'Content-Type': 'application/json',
+    //                     'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    //                 },
+    //             }
+    //         )
+    //         if (!res.ok) {
+    //             throw new Error('user not logged in!')
+    //         }
+    //         const data = await res.json()
+    //         setResData(data)
+    //         setProfile({ ...profile, name: { ...profile.name, firstname: data.name.firstname, lastname: data.name.lastname } })
+    //         // console.log(data)
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // }
+
+    // useEffect(() => {
+    //     getData()
+    // }, [])
 
     const handleSave = () => {
         // console.log(profile)

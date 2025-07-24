@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import OTP from './OTP';
 import { ToastContainer, toast } from 'react-toastify';
+import { useSendOTPLoginMutation } from '../../authApi';
 
 const Email = ({ setComponent }) => {
 
-    const [loading, setLoading] = useState(false);
     const [newComponent, setNewComponent] = useState("email");
     const [email, setEmail] = useState("");
 
@@ -13,30 +13,21 @@ const Email = ({ setComponent }) => {
         setEmail(e.target.value);
     }
 
+    const [sendOTPLogin, { isLoading: loading, isError, error }] = useSendOTPLoginMutation();
+
     const handleSendOTP = async (e) => {
         e.preventDefault();
-        setLoading(true);
-        try {
-            const response = await fetch(`${import.meta.env.VITE_HOST}/user/generate-otp-login`, {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ email: email })
-            });
-            if (!response.ok) {
-                const err = await response.json();
-                throw err;
-            }
-            setNewComponent("OTP");
-        } catch (error) {
-            console.log(error);
-            toast.error(error.error || error.message || "Something went wrong!");
-        } finally {
-            setLoading(false);
-        }
+        sendOTPLogin(email).unwrap()
+            .then(() => {
+                setNewComponent("OTP");
+            })
     }
+
+    useEffect(() => {
+        if (isError) {
+            toast.error(error.data.error || error.data.message || "Failed to send OTP. Please try again.");
+        }
+    }, [isError]);
 
     return (
         <>

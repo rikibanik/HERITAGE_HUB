@@ -7,11 +7,12 @@ import { useGetMuseumQuery, useGetVenueSlotsQuery, useLazyGetVenueSlotsQuery } f
 import { useParams } from 'react-router-dom';
 import { selectMuseumId } from '../museumSlice';
 import { useSelector } from 'react-redux';
+import { useGetUserQuery } from '../../auth/authApi';
 
 const Booking = () => {
     const [orderDetails, setOrderDetails] = useState(null)
 
-    const { resData, setResData } = useContext(ContextCheckLogin);
+    const { data: resData } = useGetUserQuery();
     const { confirmOrder, setConfirmOrder } = useContext(ContextConfirmOrder);
 
     // this effect state is for handeling effect just after payment

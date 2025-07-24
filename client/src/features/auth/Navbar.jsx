@@ -1,40 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useGetUserQuery } from './authApi';
 
 const Header = ({ value }) => {
 
     const navigate = useNavigate()
     const [loading, setLoading] = useState(true);
+    const { data, isSuccess } = useGetUserQuery();
 
-    const getData = async () => {
-        try {
-            const res = await fetch(`${import.meta.env.VITE_HOST}/user`,
-                {
-                    method: "GET",
-                    credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                    },
-                }
-            )
-            if (!res.ok) {
-                throw new Error('user not logged in!')
-            }
-            const data = await res.json()
-            if (data.email) {
-                navigate('/')
-            }
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setLoading(false)
-        }
-
-    }
     useEffect(() => {
-        getData()
-    }, [])
+        if (isSuccess) {
+            navigate('/');
+        }
+    }, [isSuccess]);
 
     return (
         <header id="header" className="fixed top-0 left-0 w-full bg-white shadow-md z-50">

@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom'
 import { ContextUserInfo } from '../../../context/context';
 import { ToastContainer, toast } from 'react-toastify';
 import Googlebtn from '../Googlebtn';
+import { useSendOTPMutation } from '../authApi';
 
 const Register = ({setComponent}) => {
 
     const { userInfo, setUserInfo } = useContext(ContextUserInfo);
-    const [loading, setLoading] = useState(false);
 
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -31,39 +31,26 @@ const Register = ({setComponent}) => {
             [event.target.name]: event.target.value,
         });
     }
+
+    const [sendOTP, { isLoading: loading, isError, error }] = useSendOTPMutation();
     const handleSendOTP = async (e) => {
         e.preventDefault();
         if (userInfo.password !== userInfo.confirmPassword) {
             toast.warning("Passwords do not match!");
             return;
         }
-        // console.log({ name: { firstname: userInfo.firstname, lastname: userInfo.lastname }, email: userInfo.email, password: userInfo.password })
-        setLoading(true);
-        try {
-            const response = await fetch(`${import.meta.env.VITE_HOST}/user/generate-otp`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                },
-                body: JSON.stringify({ email: userInfo.email }),
-                credentials: "include"
-            });
-            if (!response.ok) {
-                const err = await response.json();
-                throw err;
-            }
 
+        sendOTP({email: userInfo.email}).unwrap().then(() => {
             setUserInfo({ ...userInfo, otpStatus: true });
             setComponent("OTP");
-        } catch (error) {
-            console.log(error);
-            toast.error(error.error || "Something went wrong!");
-        } finally {
-
-            setLoading(false);
-        }
+        });
     };
+
+    useEffect(() => {
+        if (isError) {
+            toast.error(error.data.error || error.data.message || "Failed to send OTP. Please try again.");
+        }
+    }, [isError]);
 
     return (
         <>

@@ -1,15 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FcGoogle, FcPrevious } from 'react-icons/fc';
+import { FcPrevious } from 'react-icons/fc';
 import { toast, ToastContainer } from 'react-toastify';
+import { useSendOTPLoginMutation, useVerifyOTPLoginMutation } from '../../authApi';
 
 const OTP = ({ email, setNewComponent }) => {
 
     const navigate = useNavigate()
     const [timer, setTimer] = useState(60);
     const [isTimerActive, setIsTimerActive] = useState(false);
-    const [resendLoading, setResendLoading] = useState(false);
-    const [loading, setLoading] = useState(false);
     const [otp, setOtp] = useState(["", "", "", "", "", ""]);
 
     useEffect(() => {
@@ -51,58 +50,36 @@ const OTP = ({ email, setNewComponent }) => {
         }
     };
 
+    const [verifyOTPLogin, { isLoading: loading, isError: isVerifyOTPLoginError, error: verifyOTPLoginError }] = useVerifyOTPLoginMutation();
+
     const handleVerifyOTP = async (e) => {
         e.preventDefault();
-        setLoading(true);
-
-        try {
-            const response = await fetch(`${import.meta.env.VITE_HOST}/user/verify-otp-login`, {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ email: email, otp: otp.join("") })
-            });
-            if (!response.ok) {
-                const err = await response.json();
-                throw err;
-            }
+        verifyOTPLogin({ email, otp }).unwrap().then(() => {
             navigate('/');
-        } catch (error) {
-            console.log(error);
-            toast.error(error.message);
-        } finally {
-            setLoading(false);
-        }
+        })
     };
+
+
+
+    const [sendOTPLogin, { isLoading: resendLoading, isError: isSendingOTPLoginError, error: sendingOTPLoginError }] = useSendOTPLoginMutation();
 
     const handleResendOTP = async (e) => {
         e.preventDefault();
-        setResendLoading(true);
-
-        try {
-            const response = await fetch(`${import.meta.env.VITE_HOST}/user/generate-otp-login`, {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ email: email })
-            });
-            if (!response.ok) {
-                const err = await response.json();
-                throw err;
-            }
-            startTimer();
-            toast.success("OTP sent successfully!")
-        } catch (error) {
-            console.log(error);
-            toast.error(error.message || error.error || "Something went wrong!")
-        } finally {
-            setResendLoading(false);
-        }
+        sendOTPLogin(email).unwrap()
+            .then(() => {
+                startTimer();
+                toast.success("OTP sent successfully!");
+            })
     }
+
+    useEffect(() => {
+        if (isSendingOTPLoginError) {
+            toast.error(sendingOTPLoginError.data.error || sendingOTPLoginError.data.message || "Failed to resend OTP. Please try again.");
+        }
+        if (isVerifyOTPLoginError) {
+            toast.error(error.data.error || error.data.message || "Failed to verify OTP. Please try again.");
+        }
+    }, [isSendingOTPLoginError, isVerifyOTPLoginError]);
 
     return (
         <>

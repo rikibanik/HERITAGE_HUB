@@ -5,9 +5,10 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import MuseumPage from './features/museum/components/MuseumPage'
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { ContextUserInfo } from './context/context'
-import  { useState } from 'react'
+import { useState } from 'react'
 import RegisterDefault from './features/auth/register/RegisterDefault'
 import LoginDefault from './features/auth/login/LoginDefault'
+import { ToastContainer, Bounce } from 'react-toastify'
 
 function App() {
 
@@ -20,12 +21,25 @@ function App() {
       otpStatus: false,
     }
   )
-  
+
   return (
     <>
       <BrowserRouter>
         <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
           <ContextUserInfo.Provider value={{ userInfo, setUserInfo }}>
+            <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick={false}
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="dark"
+              transition={Bounce}
+            />
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/dashboard" element={<UserDashBoard />} />

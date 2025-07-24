@@ -4,10 +4,12 @@ import Modal from './Modal'
 import { BiLogOut } from "react-icons/bi"
 import { useNavigate } from 'react-router-dom'
 import { useLogoutAuthorMutation } from "../../authorApi";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 export default function AuthorPopup() {
     const [open, setOpen] = useState(false)
-    const [logout] = useLogoutAuthorMutation();
+    const [logout, { isLoading: isLoggingOut, isError, error }] = useLogoutAuthorMutation();
 
     const handleLogout = async () => {
         logout().unwrap()
@@ -16,6 +18,12 @@ export default function AuthorPopup() {
                 window.location.replace('/login');
             })
     }
+
+    useEffect(() => {
+        if (isError) {
+            toast.error(error.data?.message || error.data?.error || "Logout failed");
+        }
+    }, [isError, error]);
 
 
     return (
@@ -34,8 +42,10 @@ export default function AuthorPopup() {
                         </p>
                     </div>
                     <div className="flex gap-4">
-                        <button onClick={handleLogout} className="flex-1 bg-indigo-600 text-white px-2 py-1 rounded-lg hover:bg-indigo-700 transition duration-300">
-                            Logout
+                        <button onClick={handleLogout}
+                            disabled={isLoggingOut}
+                            className={`flex-1 bg-red-600 text-white px-2 py-1 rounded-lg hover:bg-red-700 transition duration-300 ${isLoggingOut ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}>
+                            {isLoggingOut ? "Logout..." : "Logout"}
                         </button>
                         <button
                             className="flex-1 bg-indigo-600 text-white px-2 py-1 rounded-lg hover:bg-indigo-700 transition duration-300"

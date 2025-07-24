@@ -43,21 +43,7 @@ const MyProfile = () => {
         toast.success('Data saved successfully!');
     }
 
-    return (
-        <>
-            <ToastContainer
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick={false}
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="dark"
-                transition={Bounce}
-            />
+    return (       
             < div className="w-full min-h-[507.2px] flex justify-center items-center">
                 {resData && resData.email ?
                     <div className="border border-gray-200 shadow-lg transition duration-300 flex flex-col items-center justify-center p-6 w-2/5 min-w-[225px] rounded-xl">
@@ -135,8 +121,6 @@ const MyProfile = () => {
                     </div>
                     : <Loading type="spinningBubbles" color="blue" />}
             </div >
-        </>
-
     );
 };
 

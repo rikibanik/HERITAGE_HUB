@@ -62,7 +62,7 @@ module.exports.logoutAuthor = async (req, res) => {
     res.clearCookie('token');
     const token = req.cookies.token || (req.header('Authorization') && req.header('Authorization').split(' ')[1]);
     await blackList.create({ token });
-    res.status(200).redirect('/');
+    res.status(200).json({ message: "Logged out successfully" });
 }
 
 module.exports.getSlots = async (req, res) => {

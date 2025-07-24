@@ -82,8 +82,6 @@ const OTP = ({ email, setNewComponent }) => {
     }, [isSendingOTPLoginError, isVerifyOTPLoginError]);
 
     return (
-        <>
-            <ToastContainer />
             <div className="w-full max-w-md p-6 space-y-4 bg-white rounded-xl shadow-lg">
                 <div className="flex items-center justify-center  w-full">
                     {!isTimerActive && !resendLoading && !loading && <FcPrevious className='cursor-pointer' onClick={() => setNewComponent("email")} />}
@@ -143,7 +141,6 @@ const OTP = ({ email, setNewComponent }) => {
                     </Link>
                 </p>
             </div>
-        </>
     );
 }
 

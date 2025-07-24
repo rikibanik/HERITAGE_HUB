@@ -5,35 +5,10 @@ const Find = () => {
   const handleSearchEvents = (e) => {
     // can either use e.preventDefault or make type="button"
     e.preventDefault();
-    toast.info('Search button working!', {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-      transition: Bounce,
-    });
+    toast.info('Search button working!');
   }
 
   return (
-    <>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-        transition={Bounce}
-      />
-
       <section id="search" className="py-16 bg-gray-100 dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
@@ -111,7 +86,6 @@ const Find = () => {
           </div>
         </div>
       </section>
-    </>
   )
 }
 

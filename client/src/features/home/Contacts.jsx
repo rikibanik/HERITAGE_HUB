@@ -9,23 +9,6 @@ const Contacts = () => {
   }
 
   return (
-
-    <>
-
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-        transition={Bounce}
-      />
-
       <section id="contact" className="py-16 bg-whiten dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -127,7 +110,7 @@ const Contacts = () => {
           </div>
         </div>
       </section>
-    </>
+
   )
 }
 

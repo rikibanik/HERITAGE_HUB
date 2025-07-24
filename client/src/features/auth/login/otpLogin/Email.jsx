@@ -31,7 +31,6 @@ const Email = ({ setComponent }) => {
 
     return (
         <>
-            <ToastContainer />
             {newComponent === "email" ?
 
                 <div className="w-full max-w-md p-8 space-y-4 bg-white rounded-xl shadow-lg">

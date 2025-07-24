@@ -42,7 +42,7 @@ export const authorApi = createApi({
         logoutAuthor: builder.mutation({
             query: () => ({
                 url: 'author/logout',
-                method: 'POST',
+                method: 'GET',
             }),
             invalidatesTags: ['AuthorDetails'],
         }),

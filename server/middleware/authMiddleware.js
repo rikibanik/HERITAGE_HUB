@@ -80,7 +80,6 @@ module.exports.authAuthor = async (req, res, next) => {
         if (!token) {
             return res.status(401).json({ message: 'No token provided' });
         }
-
         // Verify if the token is valid
         const decode = jwt.verify(token, process.env.JWT_SECRET);
 

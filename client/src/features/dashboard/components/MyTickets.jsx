@@ -4,8 +4,6 @@ import { useGetTicketOrderDetailsQuery } from '../dashboardApi';
 
 const MyTickets = () => {
 
-    // const [error, setError] = useState('');
-    // const [loading, setLoading] = useState(true);
     const [totalTickets, setTotalTickets] = useState(0)
     const [myTicketDetails, setMyTicketDetails] = useState([]);
 
@@ -22,44 +20,6 @@ const MyTickets = () => {
     };
 
     const { data: ticketOrderDetails, error: error, isLoading: loading, isSuccess } = useGetTicketOrderDetailsQuery();
-
-    // const MyTicketOrderDetails = async () => {
-    //     try {
-    //         const response = await fetch(`${import.meta.env.VITE_HOST}/order/myorders`, {
-    //             method: "GET",
-    //             credentials: "include",
-    //             headers: { 'Content-Type': 'application/json' },
-    //         })
-    //         if (!response.ok) {
-    //             throw new Error('response error fetching my ticket order details!')
-    //         }
-    //         const data = await response.json();
-    //         setTotalTickets(data.orders.length);
-    //         setMyTicketDetails(data.orders.filter((items) => {
-    //             const currentTime = new Date();
-    //             const eventDate = new Date(items.slotId.date);
-    //             const eventHour = items.slotId.slots.endTime.hour;
-    //             const eventMinute = items.slotId.slots.endTime.minute;
-
-    //             const eventEndTime = new Date(eventDate);
-    //             eventEndTime.setHours(eventHour, eventMinute, 0, 0);
-
-    //             return eventEndTime >= currentTime;
-    //         }));
-
-    //     }
-    //     catch (error) {
-    //         setError(error);
-    //         console.log(error);
-    //     }
-    //     finally {
-    //         setLoading(false);
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     MyTicketOrderDetails();
-    // }, [])
 
     useEffect(() => {
         if (ticketOrderDetails && isSuccess) {

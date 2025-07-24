@@ -5,17 +5,7 @@ const Contacts = () => {
 
   const handleSendMessage = (e) => {
     e.preventDefault();
-    toast.success('Message sent successfully!', {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-      transition: Bounce,
-    });
+    toast.success('Message sent successfully!');
   }
 
   return (
@@ -96,26 +86,26 @@ const Contacts = () => {
 
             <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8">
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Send us a Message</h3>
-              <form className="space-y-6">
+              <form onSubmit={handleSendMessage} className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">First Name</label>
-                    <input type="text" className="w-full px-4 py-3 border dark:bg-gray-900 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent" />
+                    <input type="text" required className="w-full px-4 py-3 border dark:bg-gray-900 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent" />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Last Name</label>
-                    <input type="text" className="w-full px-4 py-3 border dark:bg-gray-900 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent" />
+                    <input type="text" required className="w-full px-4 py-3 border dark:bg-gray-900 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent" />
                   </div>
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Email Address</label>
-                  <input type="email" className="w-full px-4 py-3 border dark:bg-gray-900 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent" />
+                  <input type="email" required className="w-full px-4 py-3 border dark:bg-gray-900 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent" />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Subject</label>
-                  <select className="w-full px-4 py-3 border dark:bg-gray-900 dark:text-gray-300 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent">
+                  <select required className="w-full px-4 py-3 border dark:bg-gray-900 dark:text-gray-300 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent">
                     <option value="">Select a subject</option>
                     <option value="booking">Booking Issue</option>
                     <option value="refund">Refund Request</option>
@@ -126,10 +116,10 @@ const Contacts = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Message</label>
-                  <textarea rows="4" className="w-full px-4 py-3 border dark:bg-gray-900 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"></textarea>
+                  <textarea required rows="4" className="w-full px-4 py-3 border dark:bg-gray-900 dark:text-white border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"></textarea>
                 </div>
 
-                <button onClick={handleSendMessage} type="submit" className="w-full bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition duration-300">
+                <button type="submit" className="w-full bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition duration-300">
                   Send Message
                 </button>
               </form>

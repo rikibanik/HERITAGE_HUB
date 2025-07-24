@@ -11,7 +11,7 @@ export default function PopUp({ type }) {
 
         logout().unwrap().then(() => {
             localStorage.removeItem('token');
-            window.location.href = '/';
+            window.location.replace('/');
         })
     }
 

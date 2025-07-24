@@ -33,13 +33,14 @@ export const SidebarData = [
         icon: <BiIcons.BiCategoryAlt />,
         cName: "nav-text"
     },
-    {
-        title: "Find",
-        to: "find",
-        element: <Find />,
-        icon: <FaIcons.FaSearch />,
-        cName: "nav-text"
-    },
+    // TOOD:
+    // {
+    //     title: "Find",
+    //     to: "find",
+    //     element: <Find />,
+    //     icon: <FaIcons.FaSearch />,
+    //     cName: "nav-text"
+    // },
     {
         title: "FAQs",
         to: "faq",

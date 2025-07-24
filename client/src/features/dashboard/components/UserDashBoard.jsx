@@ -7,56 +7,28 @@ import Loading from './Loading'
 import { useNavigate } from 'react-router-dom'
 import { useGetUserQuery } from '../../auth/authApi'
 
+const DashNav = [
+  {
+    active: "profile",
+    icon: "fas fa-user",
+    name: "My Profile"
+  },
+  {
+    active: "tickets",
+    icon: "fas fa-ticket-alt",
+    name: "My Tickets"
+  },
+  {
+    active: "history",
+    icon: "fas fa-history",
+    name: "Purchase History"
+  },
+]
+
 const UserDashBoard = () => {
   const navigate = useNavigate();
-  const [activeComponent, setActiveComponent] = useState('profile'); // Default to 'MyProfile'
-  // const [resData, setResData] = useState(null)
-  const {data: resData, isLoading: loading} = useGetUserQuery();
-  // console.log("MyProfile", resData)
-  // const getData = async () => {
-  //   try {
-  //     const res = await fetch(`${import.meta.env.VITE_HOST}/user`,
-  //       {
-  //         method: "GET",
-  //         credentials: 'include',
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //           'Authorization': `Bearer ${localStorage.getItem('token')}`,
-  //       },
-  //       }
-  //     )
-  //     if (!res.ok) {
-  //       window.location.href = "/register";
-  //       throw new Error('user not logged in!')
-  //     }
-  //     const data = await res.json()
-  //     setResData(data)
-  //     // console.log(data)
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
-  // useEffect(() => {
-  //   getData()
-  // }, [])
-
-  const DashNav = [
-    {
-      active: "profile",
-      icon: "fas fa-user",
-      name: "My Profile"
-    },
-    {
-      active: "tickets",
-      icon: "fas fa-ticket-alt",
-      name: "My Tickets"
-    },
-    {
-      active: "history",
-      icon: "fas fa-history",
-      name: "Purchase History"
-    },
-  ]
+  const [activeComponent, setActiveComponent] = useState('profile');
+  const { data: resData } = useGetUserQuery();
 
   return (
     <>

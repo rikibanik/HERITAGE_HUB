@@ -90,10 +90,11 @@ const Reviews = () => {
                 </div>
 
                 <div className="text-center mt-12">
-                    <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-lg transition duration-300 inline-flex items-center">
+                    {/* TODO: */}
+                    {/* <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-lg transition duration-300 inline-flex items-center">
                         <i className="fas fa-pencil-alt mr-2"></i>
                         Share Your Experience
-                    </button>
+                    </button> */}
                 </div>
 
                 <div className="flex flex-wrap justify-center items-center gap-8 mt-16">

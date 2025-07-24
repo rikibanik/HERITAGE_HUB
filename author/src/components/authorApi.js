@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-export const museumApi = createApi({
-    reducerPath: 'museumApi',
+export const authorApi = createApi({
+    reducerPath: 'authorApi',
     baseQuery: fetchBaseQuery({
         baseUrl: `${import.meta.env.VITE_HOST}/`,
         credentials: 'include',
@@ -31,4 +31,4 @@ export const {
     useGetMuseumQuery,
     useGetVenueSlotsQuery,
     useLazyGetVenueSlotsQuery,
-} = museumApi;
+} = authorApi;

@@ -6,7 +6,6 @@ import { useGetUserQuery } from "../../auth/authApi";
 
 const MyProfile = () => {
     const { data: resData, isLoading: loading, isSuccess } = useGetUserQuery();
-    // console.log("MyProfile", resData)
     const [editField, setEditField] = useState(false);
     const [profile, setProfile] = useState({
         name: {
@@ -31,67 +30,17 @@ const MyProfile = () => {
         }
     }, [resData, isSuccess]);
 
-    // const getData = async () => {
-    //     try {
-    //         const res = await fetch(`${import.meta.env.VITE_HOST}/user`,
-    //             {
-    //                 method: "GET",
-    //                 credentials: 'include',
-    //                 headers: {
-    //                     'Content-Type': 'application/json',
-    //                     'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    //                 },
-    //             }
-    //         )
-    //         if (!res.ok) {
-    //             throw new Error('user not logged in!')
-    //         }
-    //         const data = await res.json()
-    //         setResData(data)
-    //         setProfile({ ...profile, name: { ...profile.name, firstname: data.name.firstname, lastname: data.name.lastname } })
-    //         // console.log(data)
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     getData()
-    // }, [])
-
     const handleSave = () => {
-        // console.log(profile)
         const fname = profile.name.firstname;
         const lname = profile.name.lastname;
         if (fname.length < 3 || lname.length < 3) {
-            toast.error(`${fname.length < 3 ? "First Name" : "Last Name"} must be at least 3 characters long`, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: false,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-                transition: Bounce,
-            });
+            toast.error(`${fname.length < 3 ? "First Name" : "Last Name"} must be at least 3 characters long`);
             return;
         }
         if (fname === resData.name.firstname && lname === resData.name.lastname) {
-            // only then send a post request
         }
         setEditField(false)
-        toast.success('Data saved successfully!', {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-            transition: Bounce,
-        });
+        toast.success('Data saved successfully!');
     }
 
     return (

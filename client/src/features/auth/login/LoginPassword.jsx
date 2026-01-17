@@ -14,7 +14,11 @@ const LoginPassword = ({ setComponent }) => {
         password: "",
     })
 
-    const [login, { isLoading: loading }] = useLoginMutation();
+    const [login, { isLoading: loading, isError, error }] = useLoginMutation();
+
+    const handlechange = (event) => {
+        setLoginFrom({ ...LoginFrom, [event.target.name]: event.target.value });
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -25,13 +29,14 @@ const LoginPassword = ({ setComponent }) => {
     }
 
     useEffect(() => {
+        if (isError) {
+            toast.error(error.data.error || error.data.message || "Failed to login. Please try again.");
+        }
+    }, [isError]);
+
+    useEffect(() => {
         localStorage.setItem("token", token);
     }, [token])
-
-
-    const handlechange = (event) => {
-        setLoginFrom({ ...LoginFrom, [event.target.name]: event.target.value });
-    }
 
     return (
         <div className="w-full max-w-md p-8 space-y-4 bg-white rounded-xl shadow-lg">

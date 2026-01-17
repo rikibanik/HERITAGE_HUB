@@ -16,7 +16,7 @@ export const dashboardApi = createApi({
     tagTypes: ['TicketOrderDetails'],
     endpoints: (builder) => ({
         getTicketOrderDetails: builder.query({
-            query: () => 'orders/myorders',
+            query: () => 'order/myorders',
             providesTags: ['TicketOrderDetails'],
         }),
     }),

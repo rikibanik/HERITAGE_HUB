@@ -8,6 +8,7 @@ import { useSendOTPMutation } from '../authApi';
 const Register = ({ setComponent }) => {
 
     const { userInfo, setUserInfo } = useContext(ContextUserInfo);
+    console.log(userInfo);
 
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -40,7 +41,7 @@ const Register = ({ setComponent }) => {
             return;
         }
 
-        sendOTP({ email: userInfo.email }).unwrap().then(() => {
+        sendOTP(userInfo.email).unwrap().then(() => {
             setUserInfo({ ...userInfo, otpStatus: true });
             setComponent("OTP");
         });

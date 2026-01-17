@@ -42,10 +42,10 @@ export const authApi = createApi({
             }),
         }),
         verifyOTP: builder.mutation({
-            query: ({ email, otp }) => ({
+            query: ({ name, email, password, otp }) => ({
                 url: 'user/verify-otp',
                 method: 'POST',
-                body: { email, otp },
+                body: { name, email, password, otp },
             }),
             invalidatesTags: ['UserData'],
         }),

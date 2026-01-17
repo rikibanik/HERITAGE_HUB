@@ -5,7 +5,6 @@ import { Link, Navigate } from 'react-router-dom'
 import Googlebtn from '../Googlebtn'
 import Header from '../Navbar'
 import { useGetUserQuery } from '../authApi'
-import AuthorLoading from '../../../../../author/src/features/components/AuthorLoading'
 import ClientLoading from '../../ClientLoading'
 
 const LoginDefault = () => {

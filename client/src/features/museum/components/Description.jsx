@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React from 'react'
 import { useLocation } from 'react-router-dom';
 import { ContextMuseum } from '../../../context/context';
 import Loading from '../../dashboard/components/Loading';
@@ -7,7 +7,7 @@ import { useGetMuseumQuery } from '../museumApi';
 import { selectMuseumId } from '../museumSlice';
 import { useSelector } from 'react-redux';
 
-const Description = () => {
+const Description = ({ onBookNow }) => {
 
     const museumId = useSelector(selectMuseumId);
     const { data: MuseumData, isLoading } = useGetMuseumQuery(museumId);
@@ -30,9 +30,13 @@ const Description = () => {
 
                                 <div className="flex flex-wrap gap-4">
                                     <div className='flex gap-4  '>
-                                        <ElementLink smooth={true} duration={500} to="booking" className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300 cursor-pointer">
+                                        <button
+                                            type="button"
+                                            onClick={() => onBookNow && onBookNow()}
+                                            className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300 cursor-pointer"
+                                        >
                                             Book Now
-                                        </ElementLink>
+                                        </button>
                                         <ElementLink smooth={true} duration={500} to="gallery" className="inline-block bg-transparent border-2 border-white hover:bg-white hover:text-neutral-900 text-white font-bold py-3 px-8 rounded-lg transition duration-300 cursor-pointer">
                                             Gallery
                                         </ElementLink>

@@ -2,7 +2,7 @@ import React from 'react'
 
 const reviewsData = [
     {
-        "heading": "Amit Sharma",
+        "heading": "Sanu Kumar",
         "paragraph": "The Taj Mahal heritage walk was an unforgettable experience. Our guide was knowledgeable, and the history came alive!",
         "travelled": {
             "icon": "fa-landmark",
@@ -11,7 +11,7 @@ const reviewsData = [
         }
     },
     {
-        "heading": "Priya Verma",
+        "heading": "Riki Banik",
         "paragraph": "Exploring the Indian Museum was a deep dive into history. So many fascinating artifacts and well-preserved exhibits!",
         "travelled": {
             "icon": "fa-calendar-alt",
@@ -20,7 +20,7 @@ const reviewsData = [
         }
     },
     {
-        "heading": "Rahul Nair",
+        "heading": "Shivam Yadav",
         "paragraph": "The Rajasthan Desert Safari was an adventure of a lifetime. The camel ride and starry night were just magical!",
         "travelled": {
             "icon": "fa-mountain",
@@ -49,7 +49,7 @@ const Reviews = () => {
                             <i className="fas fa-star"></i>
                         </div>
                         <span className="text-2xl font-bold text-gray-900 dark:text-white">4.5</span>
-                        <span className="text-gray-600 dark:text-gray-300">(1,185 reviews)</span>
+                        <span className="text-gray-600 dark:text-gray-300">(3 reviews)</span>
                     </div>
                     <div className="flex space-x-4">
                         <span className="px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-semibold">

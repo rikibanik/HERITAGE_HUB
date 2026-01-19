@@ -25,6 +25,13 @@ export default function MuseumPage() {
     const { data: MuseumData } = useGetMuseumQuery(MuseumId);
     console.log(MuseumData);
     const [confirmOrder, setConfirmOrder] = useState(false);
+    const [isBookingOpen, setIsBookingOpen] = useState(false);
+    const [isLoginPopupOpen, setIsLoginPopupOpen] = useState(false);
+
+    const handleBookNow = () => {
+        if (resData && resData.email) setIsBookingOpen(true);
+        else setIsLoginPopupOpen(true);
+    };
 
     useEffect(() => {
         dispatch(setMuseumId(id));
@@ -36,17 +43,11 @@ export default function MuseumPage() {
                 <main className='min-w-[320px]'>
                     <Navbar />
 
-                    <Description />
+                    <Description onBookNow={handleBookNow} />
                     {MuseumData &&
                         <>
                             <Element name='visitinginfo'>
-                                <VisitingInfo />
-                            </Element>
-                            <Element name='booking'>
-                                <hr className="border-t border-gray-300 dark:border-gray-700" />
-                                {resData && resData.email ?
-                                    <Booking />
-                                    : <LogoutBooking />}
+                                <VisitingInfo onBookNow={handleBookNow} />
                             </Element>
                             <Element name='gallery'>
                                 <hr className="border-t border-gray-300 dark:border-gray-700" />
@@ -58,6 +59,9 @@ export default function MuseumPage() {
                             <Footer />
                         </>
                     }
+
+                    <Booking isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
+                    <LogoutBooking isOpen={isLoginPopupOpen} onClose={() => setIsLoginPopupOpen(false)} />
                 </main>
             </ContextConfirmOrder.Provider>
         </>

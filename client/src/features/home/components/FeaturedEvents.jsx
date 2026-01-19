@@ -3,24 +3,24 @@ import React from 'react'
 const events = [
   {
     tag: "HERITAGE",
-    tagColor: "bg-blue-400",
-    date: "10 Mar 2024",
+    tagColor: "bg-indigo-50 dark:bg-indigo-900",
+    date: `10 Mar ${new Date().getFullYear()}`,
     title: "Taj Mahal Heritage Walk",
     location: "Agra, India",
     price: "₹500",
   },
   {
     tag: "CULTURE",
-    tagColor: "bg-green-400",
-    date: "22 Apr 2024",
+    tagColor: "bg-purple-50 dark:bg-purple-900",
+    date: `22 Apr ${new Date().getFullYear()}`,
     title: "Indian Museum Exploration",
     location: "Kolkata, India",
     price: "₹300",
   },
   {
     tag: "ADVENTURE",
-    tagColor: "bg-yellow-400",
-    date: "5 May 2024",
+    tagColor: "bg-green-50 dark:bg-green-900",
+    date: `5 May ${new Date().getFullYear()}`,
     title: "Rajasthan Desert Safari",
     location: "Jaisalmer, India",
     price: "₹250",
@@ -45,7 +45,7 @@ const FeaturedEvents = () => {
             >
               <div className="relative">
                 <div className="aspect-w-16 aspect-h-9 bg-gray-300"></div>
-                <div className={`absolute top-4 right-4 ${event.tagColor} text-white px-3 py-1 rounded-full text-sm font-semibold`}>
+                <div className={`absolute top-4 right-4 ${event.tagColor} dark:text-white px-3 py-1 rounded-full text-sm font-semibold`}>
                   {event.tag}
                 </div>
               </div>
@@ -61,8 +61,8 @@ const FeaturedEvents = () => {
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-2xl font-bold text-indigo-600">{event.price}</span>
-                  <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg transition duration-300">
-                    Book Now
+                  <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg transition duration-300 cursor-not-allowed" disabled>
+                    Coming Soon...
                   </button>
                 </div>
               </div>

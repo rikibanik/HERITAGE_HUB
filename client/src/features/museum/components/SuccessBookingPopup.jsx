@@ -45,7 +45,7 @@ const SuccessBookingPopup = ({ availableSlots, selectedSlot, orderDetails }) => 
     return (
         <div
             onClick={() => setConfirmOrder(false)}
-            className="fixed inset-0 flex justify-center items-center bg-black/20 transition-colors z-50"
+            className="fixed inset-0 flex justify-center items-center bg-black/20 transition-colors z-[70]"
         >
             {isConfettiActive &&
                 <Confetti

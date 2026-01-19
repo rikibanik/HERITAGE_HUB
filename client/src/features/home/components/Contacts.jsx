@@ -1,15 +1,61 @@
-import React from 'react'
-import { Bounce, ToastContainer, toast } from 'react-toastify';
+import React, { useState } from 'react'
+import { toast } from 'react-toastify';
 
 const Contacts = () => {
 
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    subject: '',
+    message: '',
+  })
+
+  const updateField = (field) => (e) => {
+    setFormData((prev) => ({ ...prev, [field]: e.target.value }))
+  }
+
+  const getSubjectLabel = (value) => {
+    switch (value) {
+      case 'booking':
+        return 'Booking Issue'
+      case 'refund':
+        return 'Refund Request'
+      case 'technical':
+        return 'Technical Support'
+      case 'other':
+        return 'Other'
+      default:
+        return ''
+    }
+  }
+
   const handleSendMessage = (e) => {
     e.preventDefault();
-    toast.success('Message sent successfully!');
+
+    const to = 'heritagehub0923@gmail.com'
+    const subjectLabel = getSubjectLabel(formData.subject) || formData.subject
+
+    const mailSubject = `HeritageHub Contact: ${subjectLabel}`
+    const mailBody = [
+      `Name: ${formData.firstName} ${formData.lastName}`.trim(),
+      `Email: ${formData.email}`,
+      '',
+      'Message:',
+      formData.message,
+    ].join('\n')
+
+    const mailtoUrl = `mailto:${to}?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`
+
+    // Opens the user's default mail app (Gmail app, Outlook, etc.)
+    window.location.href = mailtoUrl
+    toast.success('Opening your email app…');
+
+    setFormData({ firstName: '', lastName: '', email: '', subject: '', message: '' })
   }
 
   return (
-      <section id="contact" className="py-16 bg-whiten dark:bg-gray-900">
+      <section id="contact" className="py-16 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             <div>
@@ -33,7 +79,7 @@ const Contacts = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1 dark:text-white">Phone Support</h3>
-                    <p className="text-gray-600 dark:text-gray-300">+91 123456789<br />Mon - Fri <br /> 9am - 6pm</p>
+                    <p className="text-gray-600 dark:text-gray-300">+91 8271221434<br />Mon - Fri <br /> 9am - 6pm</p>
                   </div>
                 </div>
 
@@ -43,7 +89,12 @@ const Contacts = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1 dark:text-white">Email Us</h3>
-                    <p className="text-gray-600 dark:text-gray-300">support@heritagehub.com<br />business@heritagehub.com</p>
+                    <a
+                      href="mailto:heritagehub0923@gmail.com"
+                      className="text-gray-600 dark:text-gray-300 hover:underline"
+                    >
+                      heritagehub0923@gmail.com
+                    </a>
                   </div>
                 </div>
               </div>
@@ -73,22 +124,45 @@ const Contacts = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">First Name</label>
-                    <input type="text" required className="w-full px-4 py-3 border dark:bg-gray-900 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent" />
+                    <input
+                      type="text"
+                      required
+                      value={formData.firstName}
+                      onChange={updateField('firstName')}
+                      className="w-full px-4 py-3 border dark:bg-gray-900 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                    />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Last Name</label>
-                    <input type="text" required className="w-full px-4 py-3 border dark:bg-gray-900 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent" />
+                    <input
+                      type="text"
+                      required
+                      value={formData.lastName}
+                      onChange={updateField('lastName')}
+                      className="w-full px-4 py-3 border dark:bg-gray-900 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                    />
                   </div>
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Email Address</label>
-                  <input type="email" required className="w-full px-4 py-3 border dark:bg-gray-900 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent" />
+                  <input
+                    type="email"
+                    required
+                    value={formData.email}
+                    onChange={updateField('email')}
+                    className="w-full px-4 py-3 border dark:bg-gray-900 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                  />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Subject</label>
-                  <select required className="w-full px-4 py-3 border dark:bg-gray-900 dark:text-gray-300 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent">
+                  <select
+                    required
+                    value={formData.subject}
+                    onChange={updateField('subject')}
+                    className="w-full px-4 py-3 border dark:bg-gray-900 dark:text-gray-300 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                  >
                     <option value="">Select a subject</option>
                     <option value="booking">Booking Issue</option>
                     <option value="refund">Refund Request</option>
@@ -99,7 +173,13 @@ const Contacts = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Message</label>
-                  <textarea required rows="4" className="w-full px-4 py-3 border dark:bg-gray-900 dark:text-white border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"></textarea>
+                  <textarea
+                    required
+                    rows="4"
+                    value={formData.message}
+                    onChange={updateField('message')}
+                    className="w-full px-4 py-3 border dark:bg-gray-900 dark:text-white border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                  ></textarea>
                 </div>
 
                 <button type="submit" className="w-full bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition duration-300">

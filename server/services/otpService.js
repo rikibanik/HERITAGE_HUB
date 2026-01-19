@@ -5,8 +5,8 @@ const bcrypt = require('bcrypt');
 
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
-    port: 587,
-    secure: false, 
+    port: 465,
+    secure: true, 
     auth: {
         user: process.env.HH_EMAIL,
         pass: process.env.HH_PASSWORD

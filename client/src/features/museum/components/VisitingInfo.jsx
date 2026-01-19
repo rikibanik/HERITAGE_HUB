@@ -6,7 +6,7 @@ import { useGetMuseumQuery } from '../museumApi';
 import { useSelector } from 'react-redux';
 import { selectMuseumId } from '../museumSlice';
 
-const VisitingInfo = () => {
+const VisitingInfo = ({ onBookNow }) => {
     const museumId = useSelector(selectMuseumId);
     const { data: MuseumData } = useGetMuseumQuery(museumId);
     const week = [
@@ -120,9 +120,13 @@ const VisitingInfo = () => {
                             </div>
 
                             <div className="mt-8 text-center">
-                                <ElementLink to="booking" smooth={true} duration={500} className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300 cursor-pointer">
+                                <button
+                                    type="button"
+                                    onClick={() => onBookNow && onBookNow()}
+                                    className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300 cursor-pointer"
+                                >
                                     Book Your Visit
-                                </ElementLink>
+                                </button>
                             </div>
                         </div>
                     </div>

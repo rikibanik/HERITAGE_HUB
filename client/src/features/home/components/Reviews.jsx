@@ -67,7 +67,7 @@ const Reviews = () => {
                     {reviewsData.map((data, index) => (
                         <div key={index} className="bg-white dark:bg-gray-700 rounded-xl p-6 hover:shadow-lg transition duration-300">
                             <div className="flex items-center mb-4">
-                                <img src="https://avatar.iran.liara.run/public" alt="Reviewer" className="w-12 h-12 rounded-full" />
+                                <img src='avatar.svg' alt="Reviewer" className="w-12 h-12 rounded-full" />
                                 <div className="ml-4">
                                     <h4 className="font-semibold text-gray-900 dark:text-white">{data.heading}</h4>
                                     <div className="text-yellow-400 flex">

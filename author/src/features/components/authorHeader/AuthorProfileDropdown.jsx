@@ -28,7 +28,7 @@ const AuthorProfileDropdown = ({ authorData }) => {
                 type="button"
                 onClick={toggleDropdown}
             >
-                <img src="https://avatar.iran.liara.run/public" alt="User Avatar" className="rounded-full border bg-gray-600 object-cover w-10 h-10" />
+                <img src='avatar.svg' alt="User Avatar" className="rounded-full border bg-gray-600 object-cover w-10 h-10" />
             </button>
             {isOpen && (
                 <div id="dropdownInformation" className=" z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 absolute right-0 dark:divide-gray-600">

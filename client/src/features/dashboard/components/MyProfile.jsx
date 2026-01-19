@@ -49,7 +49,7 @@ const MyProfile = () => {
                     <div className="border border-gray-200 shadow-lg transition duration-300 flex flex-col items-center justify-center p-6 w-2/5 min-w-[225px] rounded-xl">
                         {/* profile icon & username */}
                         <div className="flex flex-col items-center justify-center gap-2">
-                            <img src="https://avatar.iran.liara.run/public" alt="User Avatar" className="w-16 h-16 rounded-full border overflow-hidden bg-gray-600 object-cover" />
+                            <img src='avatar.svg' alt="User Avatar" className="w-16 h-16 rounded-full border overflow-hidden bg-gray-600 object-cover" />
                             <h3 className="text-center">username</h3>
                         </div>
                         {/* user details */}

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import { useRef } from 'react'
 import Search from './Search'
 
 const defaultMuseums = [
@@ -18,20 +18,23 @@ const Events = () => {
 
     return (
         <>
+            <section className="relative pt-32 pb-24 bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 overflow-hidden">
+                {/* Animated background elements */}
+                <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+                <div className="absolute top-0 -left-40 w-80 h-80 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+                <div className="absolute top-0 -right-40 w-80 h-80 bg-pink-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
 
-            <section className="relative pt-32 pb-24 bg-gradient-to-r from-indigo-600 to-purple-600 overflow-hidden">
-                <div className="absolute inset-0 bg-black bg-opacity-50"></div>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
                     <div className="text-center">
-                        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white mb-6 animate-fade-in">
+                        <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold text-white mb-6 animate-fade-in drop-shadow-lg">
                             Book Your Next <span className="bg-gradient-to-r from-yellow-300 to-orange-400 bg-clip-text text-transparent">Adventure</span>
                         </h1>
-                        <p className="text-xl md:text-2xl text-gray-200 mb-8 max-w-3xl mx-auto">
-                            Discover and book tickets for the most exciting adventure
+                        <p className="text-lg md:text-2xl text-gray-100 mb-10 max-w-3xl mx-auto leading-relaxed drop-shadow">
+                            Discover and book tickets for the most exciting heritage sites and museums
                         </p>
 
-                        {/* <!-- Search Box --> */}
-                        <div className="max-w-xl mx-auto rounded-xl shadow-xl mb-8">
+                        {/* Search Box */}
+                        <div className="max-w-2xl mx-auto rounded-2xl shadow-2xl mb-12 transform hover:scale-105 transition-transform duration-300">
                             <Search ref={searchRef} />
                         </div>
 
@@ -65,10 +68,10 @@ const Events = () => {
                     </div>
                 </div>
 
-                {/* <!-- Decorative Elements --> */}
+                {/* Wave divider */}
                 <div className="absolute bottom-0 left-0 w-full">
-                    <svg className="w-full h-16 text-gray-50 dark:text-gray-900" preserveAspectRatio="none" viewBox="0 0 1440 48">
-                        <path fill="currentColor" d="M0 48h1440V0C1440 0 1080 48 720 48C360 48 0 0 0 0v48z"></path>
+                    <svg className="w-full h-20 text-gray-50 dark:text-gray-900" preserveAspectRatio="none" viewBox="0 0 1440 120">
+                        <path fill="currentColor" d="M0,64L48,80C96,96,192,128,288,128C384,128,480,96,576,90.7C672,85,768,107,864,112C960,117,1056,107,1152,101.3C1248,96,1344,96,1392,96L1440,96L1440,120L1392,120C1344,120,1248,120,1152,120C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120L0,120Z"></path>
                     </svg>
                 </div>
             </section>

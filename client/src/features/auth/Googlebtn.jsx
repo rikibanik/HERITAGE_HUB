@@ -19,16 +19,18 @@ const Googlebtn = () => {
                         body: JSON.stringify({code: authResult['code']}),
                     }
                 );
-                if (response.status != 201) {
-                    console.log(response);
-                    throw new Error('Login failed!')
+                if (response.status === 201 || response.status === 200) {
+                    const data = await response.json();
+                    localStorage.setItem('token', data.token);
+                    navigate('/');
+                } else {
+                    const error = await response.json();
+                    throw new Error(error.message || 'Login failed!')
                 }
-
-                navigate('/');
                 
             }
         } catch (error) {
-            console.log(error);
+            console.log('Google login error:', error.message);
         }
         
     }

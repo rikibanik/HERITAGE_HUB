@@ -1,9 +1,20 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import Search from './Search'
 
-const Events = () => {
+const defaultMuseums = [
+    { _id: '1', name: 'Museum' },
+    { _id: '2', name: 'Victoria Memorial' },
+    { _id: '3', name: 'Hall' }
+];
 
-    const isDark = document.documentElement.classList.contains('dark');
+const Events = () => {
+    const searchRef = useRef(null);
+
+    const handleMuseumClick = (museum) => {
+        if (searchRef.current) {
+            searchRef.current.setMuseumQuery(museum.name);
+        }
+    };
 
     return (
         <>
@@ -21,7 +32,20 @@ const Events = () => {
 
                         {/* <!-- Search Box --> */}
                         <div className="max-w-xl mx-auto rounded-xl shadow-xl mb-8">
-                            <Search />
+                            <Search ref={searchRef} />
+                        </div>
+
+                        {/* <!-- Suggested Museums --> */}
+                        <div className="mb-6 flex gap-2 flex-wrap justify-center">
+                            {defaultMuseums.map((museum) => (
+                                <button
+                                    key={museum._id}
+                                    onClick={() => handleMuseumClick(museum)}
+                                    className="px-4 py-2 bg-indigo-100 dark:bg-indigo-700 text-indigo-700 dark:text-indigo-200 rounded-full text-sm font-medium hover:bg-indigo-200 dark:hover:bg-indigo-800 transition-colors"
+                                >
+                                    {museum.name}
+                                </button>
+                            ))}
                         </div>
 
                         {/* <!-- Quick Stats --> */}

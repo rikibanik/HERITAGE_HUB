@@ -42,6 +42,7 @@ const Footer = () => {
               <li><a href="#" className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition">About Us</a></li>
               <li><a href="#" className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition">Browse Events</a></li>
               <li><a href="#" className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition">Partner With Us</a></li>
+              <li><a href="https://heritagehub-author.vercel.app" target="_blank" className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition">HeritageHub Author</a></li>
             </ul>
           </div>
 

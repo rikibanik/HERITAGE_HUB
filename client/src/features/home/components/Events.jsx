@@ -3,7 +3,7 @@ import Search from './Search'
 
 const defaultMuseums = [
     { _id: '1', name: 'Museum' },
-    { _id: '2', name: 'Victoria Memorial' },
+    { _id: '2', name: 'Safari' },
     { _id: '3', name: 'Hall' }
 ];
 

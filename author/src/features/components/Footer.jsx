@@ -40,7 +40,7 @@ const Footer = () => {
                 <a href="#" className="hover:text-white transition duration-300">Partner With Us</a>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition duration-300">Blog</a>
+                <a href="https://www.heritagehub.site" target="_blank" className="hover:text-white transition duration-300">HeritageHub</a>
               </li>
             </ul>
           </div>

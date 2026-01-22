@@ -1,10 +1,16 @@
-// App.jsx
-
 import React from 'react';
 import Author from './features/Author';
 import AuthorLogin from './features/components/AuthorLogin';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ToastContainer, Bounce } from 'react-toastify';
+import Error from './features/components/Error';
+import Protected from './features/components/Protected';
+
+const routes = [
+  { path: '/', element: <Protected><Author /></Protected> },
+  { path: '/login', element: <AuthorLogin /> },
+  { path: "*", element: <Error /> },
+];
 
 const App = () => {
   return (
@@ -22,10 +28,11 @@ const App = () => {
         theme="light"
         transition={Bounce}
       />
-      
+
       <Routes>
-        <Route path="/" element={<Author />} />
-        <Route path="/login" element={<AuthorLogin />} />
+        {routes.map(({ path, element }) => (
+          <Route key={path} path={path} element={element} />
+        ))}
       </Routes>
     </BrowserRouter>
   );

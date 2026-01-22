@@ -36,7 +36,7 @@ const LogoutBooking = ({ isOpen = true, onClose = () => { } }) => {
             onClick={() => onClose()}
         >
             <div
-                className="relative w-full max-w-2xl mx-auto rounded-3xl overflow-hidden shadow-2xl bg-white dark:bg-gray-900 transition-all duration-300 max-h-[calc(100vh-5rem)]"
+                className="relative w-full border border-gray-600 max-w-2xl mx-auto rounded-3xl overflow-hidden shadow-2xl bg-white dark:bg-gray-900 transition-all duration-300 max-h-[calc(100vh-5rem)]"
                 onClick={(e) => e.stopPropagation()}
             >
                 <button

@@ -6,7 +6,7 @@ const SuccessBookingSkeleton = () => {
     );
 
     return (
-        <div className="fixed inset-0 flex justify-center items-center bg-black/20 transition-colors z-50">
+        <div className="fixed inset-0 flex justify-center items-center bg-black/20 transition-colors z-[70]">
             <div className="bg-white rounded-xl shadow p-4 mx-2 mt-[8vh] max-h-[85vh] overflow-y-scroll scrollbar-hidden transition-all relative w-full max-w-md">
                 <div className="text-center mb-4">
                     <div className="w-12 h-12 bg-gray-300 rounded-full mx-auto mb-4 shimmer">

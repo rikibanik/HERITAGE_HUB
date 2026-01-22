@@ -40,7 +40,7 @@ const MyProfile = () => {
         if (fname === resData.name.firstname && lname === resData.name.lastname) {
         }
         setEditField(false)
-        toast.success('Data saved successfully!');
+        // toast.success('Data saved successfully!');
     }
 
     return (       

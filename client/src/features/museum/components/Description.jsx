@@ -48,7 +48,14 @@ const Description = ({ onBookNow }) => {
                             </div>
                         </div>
                     </section>
-                ) : <div className='flex justify-center items-center h-[100vh]'><Loading type="spinningBubbles" color="blue" /></div>}
+                ) : (
+                    <div className='flex justify-center items-center h-screen bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900'>
+                        <div className='flex flex-col items-center gap-6'>
+                            <Loading type="spinningBubbles" color="blue" />
+                            <p className='text-white text-lg font-semibold animate-pulse'>Loading museum details...</p>
+                        </div>
+                    </div>
+                )}
         </>
     )
 }

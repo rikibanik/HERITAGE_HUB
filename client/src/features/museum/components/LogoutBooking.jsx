@@ -2,8 +2,15 @@ import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { BiLock } from 'react-icons/bi';
+import { selectMuseumId } from '../museumSlice';
+import { useSelector } from 'react-redux';
+import { useGetMuseumQuery } from '../museumApi';
 
 const LogoutBooking = ({ isOpen = true, onClose = () => { } }) => {
+    const museumId = useSelector(selectMuseumId);
+    const { data: museumData } = useGetMuseumQuery(museumId);
+
+
     useEffect(() => {
         if (!isOpen) return;
 
@@ -44,9 +51,9 @@ const LogoutBooking = ({ isOpen = true, onClose = () => { } }) => {
                 </button>
 
                 <img
-                    src="https://heritagehubimages.s3.us-east-2.amazonaws.com/uploads/f9747a4f-3a2e-4169-9e60-70f2895eb2b6"
+                    src={`${museumData.venue.imgLink}`}
                     alt="Login to book"
-                    className="w-full h-72 object-cover scale-100 hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover scale-100 hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-center items-center text-center px-8 py-12">
                     <BiLock className="mb-6 animate-bounce" size={64} color="#fff" />

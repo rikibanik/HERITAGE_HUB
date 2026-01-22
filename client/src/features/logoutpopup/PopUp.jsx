@@ -20,7 +20,7 @@ export default function PopUp({ type }) {
         <main className="App">
 
             {type === "MyPrfLgt" ?
-                <button onClick={() => setOpen(true)} className="flex-1 min-w-fit max-w-[5vw] bg-indigo-600 text-white px-2 py-1 rounded-lg hover:bg-indigo-700 transition duration-300">
+                <button onClick={() => setOpen(true)} className="flex-1 min-w-fit max-w-[5vw] bg-red-600 text-white px-2 py-1 rounded-lg hover:bg-red-700 transition duration-300">
                     Logout
                 </button> :
                 <button onClick={() => setOpen(true)} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white w-full text-start" >Log out
@@ -52,7 +52,7 @@ export default function PopUp({ type }) {
                             </>
                             :
                             <>
-                                <button onClick={handleLogout} className="flex-1 bg-indigo-600 text-white px-2 py-1 rounded-lg hover:bg-indigo-700 transition duration-300">
+                                <button onClick={handleLogout} className="flex-1 bg-red-600 text-white px-2 py-1 rounded-lg hover:bg-red-700 transition duration-300">
                                     Logout
                                 </button>
                                 <button

@@ -33,53 +33,78 @@ const UserDashBoard = () => {
   return (
     <>
       {resData && resData.email ?
-        <section id="user-dashboard" className="py-16 bg-gray-100 h-[100vh] min-w-[300px]">
+        <section id="user-dashboard" className="py-8 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 min-h-screen">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-              <div className="flex flex-col md:flex-row">
-                <div className="w-full md:w-64 bg-gray-800 p-6">
-                  <div className="flex items-center justify-center md:justify-start mb-8">
-                    <img src='/avatar.svg' alt="User Avatar" className="object-cover w-16 h-16 rounded-full overflow-hidden bg-gray-600" />
-                    <div className="ml-4 text-white w-1/2">
-                      <p className="font-bold">Hi! {resData.name.firstname}</p>
-                      <p className="text-gray-400 text-sm break-words ">{resData.email}</p>
+            <div className="bg-white dark:bg-gray-900 rounded-3xl shadow-2xl dark:shadow-2xl dark:shadow-black/50 overflow-hidden">
+              <div className="flex flex-col md:flex-row h-full">
+                {/* Sidebar */}
+                <div className="w-full md:w-72 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 p-8">
+                  {/* User Info */}
+                  <div className="flex items-center justify-center md:justify-start mb-10">
+                    <div className="relative">
+                      <img src='/avatar.svg' alt="User Avatar" className="object-cover w-20 h-20 rounded-full overflow-hidden bg-gradient-to-br from-indigo-400 to-purple-600 border-4 border-indigo-500 shadow-lg" />
+                    </div>
+                    <div className="ml-4 text-white md:block hidden">
+                      <p className="font-bold text-lg">{resData.name.firstname}</p>
+                      <p className="text-gray-400 text-sm break-words line-clamp-2">{resData.email}</p>
                     </div>
                   </div>
 
-                  <nav className="min-w-[250px] space-y-2">
+                  {/* Navigation */}
+                  <nav className="space-y-3 mb-8">
                     {DashNav.map((items, index) => {
                       return (
-                        <button key={index} onClick={() => setActiveComponent(items.active)} className={`flex items-center text-white ${activeComponent === items.active && "bg-gray-700"} hover:bg-gray-700 px-4 py-2 rounded-lg gap-2`}>
-                          <i className={`${items.icon} w-6 flex justify-center items-center`}></i>
+                        <button 
+                          key={index} 
+                          onClick={() => setActiveComponent(items.active)} 
+                          className={`w-full flex items-center gap-4 px-5 py-3 rounded-xl transition duration-300 ease-out font-medium ${
+                            activeComponent === items.active 
+                              ? "bg-gradient-to-r from-indigo-600 to-indigo-500 text-white shadow-lg shadow-indigo-500/50" 
+                              : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                          }`}
+                        >
+                          <i className={`${items.icon} w-5 text-center`}></i>
                           <span>{items.name}</span>
+                          {activeComponent === items.active && <i className="fas fa-arrow-right ml-auto text-indigo-300"></i>}
                         </button>
                       )
                     })}
-                    <button onClick={() => navigate(-1)} className="flex items-center text-gray-300 hover:bg-gray-600 px-4 py-2 rounded-lg transition duration-300 gap-2 w-fit">
-                      <i className="fas fa-home w-6 flex justify-center items-center"></i>
+                  </nav>
+
+                  {/* Back Button */}
+                  <div className="border-t border-gray-700 pt-6">
+                    <button 
+                      onClick={() => navigate(-1)} 
+                      className="w-full flex items-center gap-4 text-gray-300 hover:text-white px-5 py-3 rounded-xl transition duration-300 hover:bg-gray-700/50 font-medium"
+                    >
+                      <i className="fas fa-arrow-left w-5 text-center"></i>
                       <span>Back To Home</span>
                     </button>
-                  </nav>
+                  </div>
                 </div>
-                {
-                  (() => {
-                    switch (activeComponent) {
-                      case 'history':
-                        return <PurchaseHistory />;
-                      case 'profile':
-                        return <MyProfile />;
-                      case 'tickets':
-                        return <MyTickets />;
-                      default:
-                        return <MyProfile />;
-                    }
-                  })()
-                }
+
+                {/* Content Area */}
+                <div className="flex-1 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 overflow-y-auto">
+                  {
+                    (() => {
+                      switch (activeComponent) {
+                        case 'history':
+                          return <PurchaseHistory />;
+                        case 'profile':
+                          return <MyProfile />;
+                        case 'tickets':
+                          return <MyTickets />;
+                        default:
+                          return <MyProfile />;
+                      }
+                    })()
+                  }
+                </div>
               </div>
             </div>
           </div>
         </section> :
-        <div className='w-[100vw] h-[100vh] flex justify-center items-center'>
+        <div className='w-[100vw] h-[100vh] flex justify-center items-center bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800'>
           <Loading type="spinningBubbles" color="blue" />
         </div>
       }

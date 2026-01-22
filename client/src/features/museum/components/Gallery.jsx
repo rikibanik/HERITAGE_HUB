@@ -21,8 +21,8 @@ const Gallery = () => {
             <img src={`${MuseumData.venue.imgLink}`} alt="Sarnath Museum" className="w-full h-64 object-cover transform transition-transform duration-500 group-hover:scale-110" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <div className="absolute bottom-0 p-6">
-                <h3 className="text-white text-xl font-bold">Museum Building</h3>
-                <p className="text-neutral-200">Historical Architecture</p>
+                <h3 className="text-white text-xl font-bold">{MuseumData.venue.name}</h3>
+                <p className="text-neutral-200">{MuseumData.venue.typeofVenue}</p>
               </div>
             </div>
           </div>

@@ -1,6 +1,13 @@
 import React from 'react'
+import { useGetMuseumQuery } from '../museumApi';
+import { selectMuseumId } from '../museumSlice';
+import { useSelector } from 'react-redux';
 
 const Gallery = () => {
+
+  const museumId = useSelector(selectMuseumId);
+  const { data: MuseumData } = useGetMuseumQuery(museumId);
+
   return (
     <section id="Gallery" className="py-20 bg-white dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -11,7 +18,7 @@ const Gallery = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div className="group relative overflow-hidden rounded-lg shadow-lg Up">
-            <img src="https://heritagehubimages.s3.us-east-2.amazonaws.com/uploads/f9747a4f-3a2e-4169-9e60-70f2895eb2b6" alt="Sarnath Museum" className="w-full h-64 object-cover transform transition-transform duration-500 group-hover:scale-110" />
+            <img src={`${MuseumData.venue.imgLink}`} alt="Sarnath Museum" className="w-full h-64 object-cover transform transition-transform duration-500 group-hover:scale-110" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <div className="absolute bottom-0 p-6">
                 <h3 className="text-white text-xl font-bold">Museum Building</h3>

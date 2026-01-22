@@ -39,7 +39,7 @@ const UserDashBoard = () => {
               <div className="flex flex-col md:flex-row">
                 <div className="w-full md:w-64 bg-gray-800 p-6">
                   <div className="flex items-center justify-center md:justify-start mb-8">
-                    <img src='avatar.svg' alt="User Avatar" className="object-cover w-16 h-16 rounded-full overflow-hidden bg-gray-600" />
+                    <img src='/avatar.svg' alt="User Avatar" className="object-cover w-16 h-16 rounded-full overflow-hidden bg-gray-600" />
                     <div className="ml-4 text-white w-1/2">
                       <p className="font-bold">Hi! {resData.name.firstname}</p>
                       <p className="text-gray-400 text-sm break-words ">{resData.email}</p>

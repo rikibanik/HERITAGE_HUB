@@ -38,7 +38,7 @@ module.exports.findByKeyword = async (keyword) => {
         return venue;
        
     }catch(err){
-        return {error: err.message};
+        throw err;
     }
 
 } 

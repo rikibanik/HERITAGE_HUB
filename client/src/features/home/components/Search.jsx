@@ -63,8 +63,8 @@ const Search = forwardRef((props, ref) => {
 
     const handleOnChange = (searchData) => {
         if (searchData && searchData._id) {
-            const { _id, name } = searchData;
-            navigate(`/museum?name=${encodeURIComponent(name)}&id=${encodeURIComponent(_id)}`);
+            const { _id } = searchData;
+            navigate(`/museum/${encodeURIComponent(_id)}`);
             setInputValue("");
             setShowSuggestions(false);
         }

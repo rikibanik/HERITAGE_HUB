@@ -9,18 +9,26 @@ import { useState } from 'react'
 import RegisterDefault from './features/auth/register/RegisterDefault'
 import LoginDefault from './features/auth/login/LoginDefault'
 import { ToastContainer, Bounce } from 'react-toastify'
+import Protected from './features/auth/Protected'
+import Error from './features/home/Error'
 
 function App() {
+  const [userInfo, setUserInfo] = useState({
+    name: { firstname: "", lastname: "" },
+    email: "",
+    password: "",
+    confirmPassword: "",
+    otpStatus: false,
+  })
 
-  const [userInfo, setUserInfo] = useState(
-    {
-      name: { firstname: "", lastname: "" },
-      email: "",
-      password: "",
-      confirmPassword: "",
-      otpStatus: false,
-    }
-  )
+  const routes = [
+    { path: "/", element: <Home /> },
+    { path: "/dashboard", element: <Protected><UserDashBoard /></Protected> },
+    { path: "/login", element: <LoginDefault /> },
+    { path: "/register", element: <RegisterDefault /> },
+    { path: "/museum/:id", element: <MuseumPage /> },
+    { path: "*", element: <Error /> },
+  ]
 
   return (
     <>
@@ -41,14 +49,9 @@ function App() {
               transition={Bounce}
             />
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/dashboard" element={<UserDashBoard />} />
-
-              <Route path="/login" element={<LoginDefault />} />
-              <Route path='/register' element={<RegisterDefault />} />
-
-
-              <Route path="/museum" element={<MuseumPage />} />
+              {routes.map((route) => (
+                <Route key={route.path} path={route.path} element={route.element} />
+              ))}
             </Routes>
           </ContextUserInfo.Provider>
         </GoogleOAuthProvider>

@@ -102,7 +102,6 @@ module.exports.getVenue = async (req,res)=>{
         const venue=  await venueService.getVenuebyId(venueId)
         if(!venue){
             throw new Error("Doesnot exist");
-            
         }
         
         res.status(201).json({venue})

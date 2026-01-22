@@ -23,7 +23,7 @@ const Theme = () => {
     };
 
     return (
-        <img onClick={toggleTheme} className='cursor-pointer' src={`${isDark ? "lightMode.png" : "darkMode.png"}`} width={28} height={28} alt="darkMode" />
+        <img onClick={toggleTheme} className='cursor-pointer' src={`${isDark ? "/lightMode.png" : "/darkMode.png"}`} width={28} height={28} alt="darkMode" />
     );
 };
 
